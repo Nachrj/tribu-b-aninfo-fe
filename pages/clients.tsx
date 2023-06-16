@@ -1,4 +1,4 @@
-import {Cliente} from "@/pages/types";
+import {Client} from "@/pages/types";
 import {useEffect, useState} from "react";
 import ClientGridRow from "@/components/clientGridRow";
 

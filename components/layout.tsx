@@ -10,12 +10,16 @@ export default function Layout({ children }: { children: any }) {
       title: "Homepage",
     },
     {
-      href: "/clientes",
-      title: "Clientes",
+      href: "/clients",
+      title: "Clients",
     },
     {
-      href: "/usuarios",
-      title: "Usuarios",
+      href: "/users",
+      title: "Users",
+    },
+    {
+      href: "/products",
+      title: "Products",
     }
   ]
 
@@ -24,7 +28,7 @@ export default function Layout({ children }: { children: any }) {
       <header className="bg-black sticky top-0 h-14 flex justify-center items-center font-semibold uppercase text-white">
         Ejemplo pantalla
       </header>
-      <div className="flex flex-col md:flex-row flex-1">
+      <div className="flex flex-col md:flex-row flex-1 bg-black">
         <aside className="bg-grey-100 w-full md:w-60">
           <nav>
             <ul>
