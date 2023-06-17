@@ -37,7 +37,7 @@ export default function Tickets() {
         {
             id:4,
             titulo: "TITU_4",
-            estado: "IN_PROGRESS",
+            estado: "IN PROGRESS",
             sla: "28/6/23",
             severidad: 1,
         }
