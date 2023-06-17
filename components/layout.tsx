@@ -6,22 +6,18 @@ import { ISidebarItem } from "./types"
 export default function Layout({ children }: { children: any }) {
   const menuItems: ISidebarItem[] = [
     {
-      href: "/",
-      title: "Homepage",
+      href: "/proyectos",
+      title: "Proyectos",
     },
     {
-      href: "/clients",
-      title: "Clients",
+      href: "/soporte",
+      title: "Soporte",
     },
     {
-      href: "/users",
-      title: "Users",
-    },
-    {
-      href: "/products",
-      title: "Products",
+      href: "/recursos",
+      title: "Recursos",
     }
-  ]
+  ] 
 
   return (
     <div className="min-h-screen flex flex-col bg-white">

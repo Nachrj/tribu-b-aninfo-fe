@@ -2,6 +2,7 @@ import {Product} from "@/pages/types";
 import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
+import { useRouter } from 'next/router';
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -10,6 +11,7 @@ function HeaderItem({ title }: { title: string }) {
 export default function Tickets() {
     // const [list, setList] = useState([])
 
+    
     const list = [
         {
             id:1,
@@ -45,11 +47,18 @@ export default function Tickets() {
         console.log('Fila clickeada:', Ticket);
       };
 
+    const router = useRouter();
+    const { product_name, product_version } = router.query;
+
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
                 <div className="mb-4">
-                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets de la version: 2.0  Producto: XXX</h1>
+                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
+                    <div className="justify-between flex">
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version}</div>
+                    </div>
                 </div>
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -67,7 +76,10 @@ export default function Tickets() {
 
                                 <tbody>
                                 {list.map((ticket) => (
-                                    <TicketGridRow ticket={ticket} onClick={handleClickRow}/>
+                                    <TicketGridRow 
+                                                    key={ticket.id}
+                                                    ticket={ticket}
+                                                    onClick={handleClickRow}/>
                                     ))}
                                 </tbody>
                             </table>

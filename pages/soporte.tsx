@@ -34,10 +34,8 @@ export default function Products() {
         }
     ];
 
-    const handleClickRow = (Product) => {
-        // Acción a realizar al hacer clic en la fila
-        console.log('Fila clickeada:', Product);
-        // Realiza la acción deseada, por ejemplo, mostrar información adicional o navegar a otra página
+    const handleClickRow = (product_name, product_version) => {
+        console.log("producto: %s version: %s", product_name, product_version);
       };
 
     return (
@@ -59,7 +57,10 @@ export default function Products() {
 
                                 <tbody>
                                 {list.map((product) => (
-                                    <ProductGridRow product={product} onClick={handleClickRow}/>
+                                    <ProductGridRow
+                                                    key={product.id}
+                                                    product={product}
+                                                    onClick={handleClickRow}/>
                                     ))}
                                 </tbody>
                             </table>
