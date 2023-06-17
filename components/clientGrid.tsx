@@ -4,7 +4,7 @@ function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
 }
 
-export default function ClientGrid(clients: Client[]) {
+export default function ClientGrid({clients}: {clients: Client[]}) {
 
     return (
         <>
@@ -28,11 +28,11 @@ export default function ClientGrid(clients: Client[]) {
                                     {clients.map((client) => (
                                                 <tr key={`${client.id}`}>
                                                 <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <div className="flex items-center">{client.id}</div>
+                                                    <div className="text-sm leading-5 text-gray-900">{client.id}</div>
                                                 </td>
                                 
                                                 <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <div className="flex items-center">{client.social_reason}</div>
+                                                    <div className="text-sm leading-5 text-gray-900">{client.social_reason}</div>
                                                 </td>
                                 
                                                 <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
