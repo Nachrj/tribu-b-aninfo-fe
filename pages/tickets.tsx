@@ -1,50 +1,55 @@
 import {Product} from "@/pages/types";
 import {useEffect, useState} from "react";
-import ProductGridRow from "@/components/productGridRow";
+import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
-
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
 }
 
-export default function Products() {
+export default function Tickets() {
     // const [list, setList] = useState([])
 
     const list = [
         {
             id:1,
-            name: "Software de gestión empresarial",
-            version: "4.0"
+            titulo: "TITU_1",
+            estado: "OPEN",
+            sla: "31/6/23",
+            severidad: 1,
         },
         {
             id:2,
-            name: "Plataforma de comercio electrónico",
-            version: "2.5"
+            titulo: "TITU_2",
+            estado: "OPEN",
+            sla: "25/6/23",
+            severidad: 1,
         },
         {
             id:3,
-            name: "Aplicación móvil de productividad",
-            version: "1.2"
+            titulo: "TITU_3",
+            estado: "CLOSE",
+            sla: "20/6/23",
+            severidad: 1,
         },
         {
             id:4,
-            name: "Sistema de gestión de proyectos",
-            version: "3.8"
+            titulo: "TITU_4",
+            estado: "IN_PROGRESS",
+            sla: "28/6/23",
+            severidad: 1,
         }
     ];
 
-    const handleClickRow = (Product) => {
-        // Acción a realizar al hacer clic en la fila
-        console.log('Fila clickeada:', Product);
-        // Realiza la acción deseada, por ejemplo, mostrar información adicional o navegar a otra página
+    const handleClickRow = (Ticket) => {
+        console.log('Fila clickeada:', Ticket);
       };
 
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
                 <div className="mb-4">
-                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Productos</h1>
+                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets de la version: 2.0  Producto: XXX</h1>
                 </div>
                 <div className="flex flex-col">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -52,14 +57,17 @@ export default function Products() {
                             <table className="min-w-full">
                                 <thead>
                                 <tr>
-                                    <HeaderItem title="Name" />
-                                    <HeaderItem title="Version" />
+                                    <HeaderItem title="ID" />
+                                    <HeaderItem title="Titulo" />
+                                    <HeaderItem title="Estado" />
+                                    <HeaderItem title="SLA" />
+                                    <HeaderItem title="Severidad" />
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                {list.map((product) => (
-                                    <ProductGridRow product={product} onClick={handleClickRow}/>
+                                {list.map((ticket) => (
+                                    <TicketGridRow ticket={ticket} onClick={handleClickRow}/>
                                     ))}
                                 </tbody>
                             </table>

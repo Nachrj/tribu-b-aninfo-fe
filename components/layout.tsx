@@ -25,10 +25,10 @@ export default function Layout({ children }: { children: any }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <header className="bg-black sticky top-0 h-14 flex justify-center items-center font-semibold uppercase text-white">
-        Ejemplo pantalla
+      <header style={{ backgroundColor: "purple", fontSize: "1.4em"}} className="sticky h-14 flex justify-center items-center font-semibold  text-white">
+        PSA
       </header>
-      <div className="flex flex-col md:flex-row flex-1 bg-black">
+      <div className="flex flex-col md:flex-row flex-1 bg-white">
         <aside className="bg-grey-100 w-full md:w-60">
           <nav>
             <ul>
