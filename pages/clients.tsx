@@ -7,21 +7,23 @@ function HeaderItem({ title }: { title: string }) {
 }
 
 export default function Clientes() {
-    const [list, setList] = useState([])
+    const [clients, setList] = useState([])
 
     useEffect(() => {
-        fetch("https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes")
-            .then((res) => {
-                console.log("res", res)
-                return res.json()
-            })
-            .then((data) => {
-                console.log("data", data)
-                setList(data)
-                console.log("List 1")
-                console.log(list)
-                console.log("List 2")
-            })
+        fetch("http://localhost:5001/v1/clients", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then(response => {
+            return response.json()
+          })
+          .then(data => {
+            const clients_data = clients as Client[];
+            console.log("clients", clients_data);
+            setList(data)
+          })
     }, [])
 
     return (
@@ -45,9 +47,9 @@ export default function Clientes() {
                                 </thead>
 
                                 <tbody>
-                                {list.map((cliente) => (
-                                    <ClientGridRow cliente={cliente} />
-                                ))}
+                                    {clients.map((cliente) => (
+                                        <ClientGridRow cliente={cliente} />
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
