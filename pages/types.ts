@@ -9,3 +9,10 @@ export interface Cliente {
   razon_social: string
   cuit: number
 }
+
+export interface ErrorInputProps {
+  name: string
+  description: string
+  client: string
+  cost: string
+}

@@ -2,6 +2,10 @@ import {Cliente} from "@/pages/types";
 import {useEffect, useState} from "react";
 import HeaderItem from "@/components/headerItem";
 import Table from "@/components/table";
+import { Box, Button, Container } from "@mui/material";
+import COLORS from "@/constants/colors";
+import Typography from '@mui/material/Typography';
+
 export default function Projects() {
     // examples for the table
     const [projects, setProjects] = useState([{id: 1, nombre: "Sistema de Home Banking", estado: "Iniciado", cliente: "HSBC"},{id: 2, nombre: "Gestión aranceles", estado: "Finalizado", cliente: "IPDP"}])
@@ -22,12 +26,28 @@ export default function Projects() {
     }, [])
 
     return (
-        <>
+        <Container component="main">
+          <Box sx={{ mt: 4 }}>
+            <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
+              <Typography variant="h3" component="h1">
+                Proyectos
+              </Typography>
+              <Button 
+                  type="submit"
+                  fullWidth
+                  style={{backgroundColor: COLORS.button, height: '50px'}}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, width: '10%' }} 
+                  href="./proyectos/crear">
+                    Crear
+              </Button>
+            </Box>
+            
             <Table 
-                title="Proyectos" 
-                headerItems={["id", "nombre", "estado", "cliente"]}
-                rowItems={projects}
-                />
-        </>
+              headerItems={["id", "nombre", "estado", "cliente"]}
+              rowItems={projects}
+            />
+          </Box>
+        </Container>
     )
 }
