@@ -9,13 +9,13 @@ export default function TicketGridRow({ ticket}) {
   const handleClick = () => { //ver que le vamos a pasar (si le pasamos algo)
     const ticket_id = ticket.id;
     const ticket_titulo = ticket.titulo;
-    const ticket_estado = ticket.estado;
+    const ticket_state = ticket.estado;//deberia ser state
     const ticket_sla = ticket.sla;
-    const ticket_severidad = ticket.severidad;
+    const ticket_severity = ticket.severity;
   
     // le vamos a pasar solo el id del ticket y en ticket view lo vamos a buscar al back        
 
-    router.push(`/ticketView?ticket_id=${ticket_id}&ticket_titulo=${ticket_titulo}&ticket_estado=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severidad=${ticket_severidad}`);
+    router.push(`/ticketView?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_state}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severity}`);
   };
 
 

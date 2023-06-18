@@ -45,7 +45,7 @@ export default function Tickets() {
 
     const handleClickRow = (Ticket) => {
         console.log('Fila clickeada:', Ticket);
-      };
+    };
 
     const router = useRouter();
     const { product_name, product_version } = router.query;
