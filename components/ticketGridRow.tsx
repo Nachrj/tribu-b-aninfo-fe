@@ -16,7 +16,7 @@ export default function TicketGridRow({ticket}: {ticket: Ticket}) {
   
     // le vamos a pasar solo el id del ticket y en ticket view lo vamos a buscar al back        
 
-    router.push(`/ticketView?ticket_id=${ticket_id}&ticket_titulo=${ticket_titulo}&ticket_estado=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severidad=${ticket_severidad}`);
+    router.push(`/ticketView?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
   };
 
 
