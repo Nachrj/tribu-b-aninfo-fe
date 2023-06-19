@@ -27,6 +27,7 @@ export default function Projects() {
                 title="Proyectos" 
                 headerItems={["id", "nombre", "estado", "cliente"]}
                 rowItems={projects}
+                linkTo="/proyectos"
                 />
         </>
     )

@@ -5,9 +5,10 @@ type TableProps<T> = {
     title: string,
     headerItems: string[],
     rowItems: T[],
+    linkTo?: string,
 }
 
-export default function Table<T>({ title, headerItems, rowItems }: TableProps<T>) {
+export default function Table<T>({ title, headerItems, rowItems, linkTo }: TableProps<T>) {
     return (
     <div className="container max-w-7xl mx-auto mt-8">
         <div className="mb-4">
@@ -27,7 +28,7 @@ export default function Table<T>({ title, headerItems, rowItems }: TableProps<T>
 
                         <tbody>
                         {rowItems.map((item, index) => (
-                            <TableRow key={index} item={item} items={headerItems} />
+                            <TableRow linkTo={linkTo} key={index} item={item} items={headerItems} />
                         ))}
                         </tbody>
                     </table>
