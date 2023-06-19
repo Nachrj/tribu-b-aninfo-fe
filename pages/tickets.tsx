@@ -43,13 +43,20 @@ export default function Tickets() {
         }
     ];
 
+    const router = useRouter();
+    const { product_name, product_version } = router.query;
+    const dic_product_version = {
+        product_version_ids: [product_version]
+    }
+
     useEffect(() => {
         fetch(`http://localhost:5001/v1/tickets`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
-            }
+            },
+            body: JSON.stringify(dic_product_version),
         })
           .then(response =>
             {
@@ -69,13 +76,6 @@ export default function Tickets() {
                 }
           )
     }, []);
-
-    const handleClickRow = (Ticket) => {
-        console.log('Fila clickeada:', Ticket);
-    };
-
-    const router = useRouter();
-    const { product_name, product_version } = router.query;
 
     return (
         <>
@@ -104,9 +104,8 @@ export default function Tickets() {
                                 <tbody>
                                 {tickets.map((ticket) => (
                                     <TicketGridRow 
-                                                    key={ticket.product_id}
-                                                    tickets={tickets}
-                                                    onClick={handleClickRow}/>
+                                                    key={ticket.product_version_id}
+                                                    tickets={tickets}/>
                                     ))}
                                 </tbody>
                             </table>
