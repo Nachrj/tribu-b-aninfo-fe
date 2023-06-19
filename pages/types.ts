@@ -24,15 +24,15 @@ export interface ProductVersion {
 }
 
 export interface Ticket {
-  title: string,
+  id: number,
+  SLA: string,
+  client_id: number,
   description: string,
   priority: number,
-  severity: number,
   product_version_id: number,
-  product_id: number,
-  resource_id: number,// TODO: Make this field be the resource name!
-  client_id: number,
+  resource_name: string,
+  severity: number,
   state: number,
-  sla: Date,
+  title: string
 }
 
