@@ -1,4 +1,4 @@
-import {Product} from "@/pages/types";
+import {Product, Ticket} from "@/pages/types";
 import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
@@ -9,7 +9,7 @@ function HeaderItem({ title }: { title: string }) {
 }
 
 export default function Tickets() {
-    // const [list, setList] = useState([])
+    const [tickets, setTickets] = useState<Ticket[]>([])
 
     
     const list = [
@@ -43,6 +43,33 @@ export default function Tickets() {
         }
     ];
 
+    useEffect(() => {
+        fetch(`http://localhost:5001/v1/tickets`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            }
+        })
+          .then(response =>
+            {
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+                return response.json();
+            })
+            .then((data) =>
+                {
+                    try {
+                        console.log(data)
+                        setTickets(data);
+                      } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                      }
+                }
+          )
+    }, []);
+
     const handleClickRow = (Ticket) => {
         console.log('Fila clickeada:', Ticket);
       };
@@ -75,10 +102,10 @@ export default function Tickets() {
                                 </thead>
 
                                 <tbody>
-                                {list.map((ticket) => (
+                                {tickets.map((ticket) => (
                                     <TicketGridRow 
-                                                    key={ticket.id}
-                                                    ticket={ticket}
+                                                    key={ticket.product_id}
+                                                    tickets={tickets}
                                                     onClick={handleClickRow}/>
                                     ))}
                                 </tbody>
