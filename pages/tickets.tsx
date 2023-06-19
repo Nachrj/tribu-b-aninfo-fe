@@ -68,8 +68,8 @@ export default function Tickets() {
             .then((data) =>
                 {
                     try {
-                        console.log(data)
-                        setTickets(data);
+                        console.log(data.result)
+                        setTickets(data.result);
                       } catch (error) {
                         console.error('Error parsing JSON:', error);
                       }
@@ -105,7 +105,7 @@ export default function Tickets() {
                                 {tickets.map((ticket) => (
                                     <TicketGridRow 
                                                     key={ticket.product_version_id}
-                                                    tickets={tickets}/>
+                                                    ticket={ticket}/>
                                     ))}
                                 </tbody>
                             </table>

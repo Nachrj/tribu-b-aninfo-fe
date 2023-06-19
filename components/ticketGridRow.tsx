@@ -8,10 +8,10 @@ export default function TicketGridRow({ticket}: {ticket: Ticket}) {
   const router = useRouter();
 
   const handleClick = (ticket: Ticket) => { //ver que le vamos a pasar (si le pasamos algo)
-    const ticket_id = 0;
+    const ticket_id = ticket.id;
     const ticket_titulo = ticket.title;
     const ticket_estado = ticket.state;
-    const ticket_sla = ticket.sla;
+    const ticket_sla = ticket.SLA;
     const ticket_severidad = ticket.severity;
   
     // le vamos a pasar solo el id del ticket y en ticket view lo vamos a buscar al back        
@@ -21,9 +21,9 @@ export default function TicketGridRow({ticket}: {ticket: Ticket}) {
 
 
   return (
-    <tr key={ticket.product_id} onClick={handleClick(ticket)}>
+    <tr key={ticket.id} onClick={handleClick(ticket)}>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="flex items-center">{ticket.product_id}</div>
+        <div className="flex items-center">{ticket.id}</div>
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -35,7 +35,7 @@ export default function TicketGridRow({ticket}: {ticket: Ticket}) {
       </td>
       
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="text-sm leading-5 text-gray-900">{ticket.sla.toISOString()}</div>
+        <div className="text-sm leading-5 text-gray-900">{ticket.SLA}</div>
       </td>
       
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
