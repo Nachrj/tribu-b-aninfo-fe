@@ -12,6 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
+
 export default function CreateProject() {
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
@@ -20,15 +21,36 @@ export default function CreateProject() {
     const [costError, setCostError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
-    const handleFormSubmit = (formData: FieldValues) => {
+    const validateForm = (formData: FieldValues) => {
       setNameError(!formData.projectName ? FORMERRORS.noName : ' ');
       setDescError(!formData.projectDescription ? FORMERRORS.noDescription : ' ');
-      setCostError(!formData.projectCost ? FORMERRORS.noCost : ' ');
       setClientError(!formData.projectClient ? FORMERRORS.noClient : ' ');
+      setCostError(!formData.projectCost ? FORMERRORS.noCost : ' ');
 
-      if (formData.projectName && formData.projectDescription && formData.projectCost && formData.projectClient) {
-        // Perform form submission
-        console.log('Form data is', formData);
+      if (formData.projectName?.length > MAXLENGTHS.name) {
+        setNameError(FORMERRORS.maxNameLength);
+      }
+
+      if (formData.projectDescription?.length > MAXLENGTHS.description) {
+        setDescError(FORMERRORS.maxDescriptionLength);
+      }
+
+      return (
+        nameError == ' ' &&
+        descError == ' ' &&
+        clientError == ' ' &&
+        costError == ' ' &&
+        formData.projectName &&
+        formData.projectDescription &&
+        formData.projectCost &&
+        formData.projectClient
+      );
+    };
+    
+    const handleFormSubmit = (formData: FieldValues) => {
+      if (validateForm(formData)) { 
+        console.log(formData);
+        // fetch
       }
     }
 

@@ -6,8 +6,8 @@ export const MAXLENGTHS = {
     description: MAXDESCRIPTIONLENGTH,
 }
 export const FORMERRORS = {
-    maxNameLength: `${MAXNAMELENGTH} caracteres mínimo`,
-    maxDescriptionLength: `${MAXDESCRIPTIONLENGTH} caracteres mínimo`,
+    maxNameLength: `${MAXNAMELENGTH} caracteres máximo`,
+    maxDescriptionLength: `${MAXDESCRIPTIONLENGTH} caracteres máximo`,
     noName: "Debe ingresar un nombre",
     noDescription: "Debe ingresar una descripción",
     noClient: "Debe ingresar el cliente",
