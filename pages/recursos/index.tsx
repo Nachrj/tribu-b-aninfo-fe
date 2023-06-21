@@ -1,7 +1,7 @@
-import {Cliente} from "@/pages/types";
 import {useEffect, useState} from "react";
-import HeaderItem from "@/components/headerItem";
-import Table from "@/components/table";
+import TableResources from "@/components/tableResources";
+import styles from "@/components/tableResources.module.css"
+import ModalResources from "@/components/modalResources";
 export default function Resources() {
     
     const projects = [
@@ -14,6 +14,10 @@ export default function Resources() {
     const handlerLoadTasks = (event: any) => {
       setTasks(event.target.value);
     };
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+    
 
     useEffect(() => {
         // fetch("")
@@ -45,11 +49,39 @@ export default function Resources() {
 
             </div>
 
-            <Table 
-                title="Marcos Rivero" 
-                headerItems={["id", "tarea", "fecha", "horas"]}
-                rowItems={projects[tasks].tasks}
-            />
+            {/* <TableResources rows={projects[tasks].tasks} editRow={() => {handleEditRow}}/> */}
+
+            <div className={styles.tablewrapper}>
+              <table className={styles.table}>
+                  <thead>
+                      <tr>
+                          <th>id</th>
+                          <th>Tarea</th>
+                          <th>Fecha</th>
+                          <th>Horas</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {
+                        projects[tasks].tasks.map((row: any, idx: any) => {
+                          return <tr key={idx}>
+                              <td>{row.id}</td>
+                              <td>{row.tarea}</td>
+                              <td>{row.fecha}</td>
+                              <td>{row.horas}</td>
+                              <td>
+                                  <button onClick={() => setModalOpen(true)}>editar</button>
+                              </td>
+                          </tr>
+                        })
+                      }
+                  </tbody>
+              </table>
+            </div>
+
+            {/* <button onClick={() => setModalOpen(true)}>Open</button> */}
+            {modalOpen && <ModalResources closeModal={() => {setModalOpen(false)}}/>}
         </>
     )
 }
