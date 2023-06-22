@@ -26,28 +26,29 @@ export default function Projects() {
     }, [])
 
     return (
-        <Container component="main">
-          <Box sx={{ mt: 4 }}>
-            <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
-              <Typography variant="h3" component="h1">
-                Proyectos
-              </Typography>
-              <Button 
-                  type="submit"
-                  fullWidth
-                  style={{backgroundColor: COLORS.button, height: '50px'}}
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2, width: '10%' }} 
-                  href="./proyectos/crear">
-                    Crear
-              </Button>
-            </Box>
-            
-            <Table 
-              headerItems={["id", "nombre", "estado", "cliente"]}
-              rowItems={projects}
-            />
+      <Container component="main">
+        <Box sx={{ mt: 4 }}>
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
+            <Typography variant="h3" component="h1">
+              Proyectos
+            </Typography>
+            <Button 
+                type="submit"
+                fullWidth
+                style={{backgroundColor: COLORS.button, height: '50px'}}
+                variant="contained"
+                sx={{ mt: 3, mb: 2, width: '10%' }} 
+                href="./proyectos/crear">
+                  Crear
+            </Button>
           </Box>
-        </Container>
-    )
+          
+          <Table 
+            headerItems={["id", "nombre", "estado", "cliente"]}
+            rowItems={projects}
+            linkTo="/proyectos"
+          />
+        </Box>
+      </Container>
+  )
 }
