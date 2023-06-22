@@ -1,10 +1,10 @@
 import { useState } from "react"
 import styles from "./modalResources.module.css"
 
-export default function ModalResources({closeModal, onSubmit}: any) {
+export default function ModalResources({closeModal, onSubmit, defaultValue}: any) {
   const[formState, setFormState] = useState({
-    date: "",
-    hours: "1"
+    date: defaultValue.fecha,
+    hours: defaultValue.horas
   });
 
   const handleChange = (e: any) => {
@@ -36,8 +36,8 @@ export default function ModalResources({closeModal, onSubmit}: any) {
         <input type="date" id="date-select" name="date" value={formState.date} onChange={handleChange}></input>
       </form>
       <div className={styles.modalbuttons}>
-        <button type="submit" className={styles.btnaceptar} onClick={handleSubmit}>Aceptar</button>
-        <button className={styles.btncancelar} onClick={closeModal}>Cancelar</button>
+        <button type="submit" className={styles.btn_aceptar} onClick={handleSubmit}>Aceptar</button>
+        <button className={styles.btn_cancelar} onClick={closeModal}>Cancelar</button>
       </div>
     </div>
   </div>

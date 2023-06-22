@@ -44,9 +44,13 @@ export default function Resources() {
     }, [])
 
     return (
-        <>
+        <>  
+            <br />
+            <h2 className="text-3xl font-bold decoration-gray-400">Marcos Rivero</h2>
+            <br />
             <div>
-
+              <label htmlFor="selProject">Proyecto: </label>
+              
               <select name="projects" id="selProject" onClick={handlerLoadTasks}>
                 
                 {
@@ -63,6 +67,7 @@ export default function Resources() {
             {modalOpen && <ModalResources
                             closeModal={() => {setModalOpen(false)}}
                             onSubmit={handleSubmit}
+                            defaultValue={projects[tasks].tasks[rowToEdit]}
                           />
             }
         </>
