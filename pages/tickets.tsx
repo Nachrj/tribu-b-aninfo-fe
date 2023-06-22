@@ -11,38 +11,6 @@ function HeaderItem({ title }: { title: string }) {
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
 
-    
-    const list = [
-        {
-            id:1,
-            titulo: "TITU_1",
-            estado: "OPEN",
-            sla: "31/6/23",
-            severidad: 1,
-        },
-        {
-            id:2,
-            titulo: "TITU_2",
-            estado: "OPEN",
-            sla: "25/6/23",
-            severidad: 1,
-        },
-        {
-            id:3,
-            titulo: "TITU_3",
-            estado: "CLOSE",
-            sla: "20/6/23",
-            severidad: 1,
-        },
-        {
-            id:4,
-            titulo: "TITU_4",
-            estado: "IN PROGRESS",
-            sla: "28/6/23",
-            severidad: 1,
-        }
-    ];
-
     const router = useRouter();
     const { product_name, product_version } = router.query;
     const dic_product_version = {
