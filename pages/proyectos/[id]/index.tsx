@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { Grid, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import Table from '@/components/table';
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import COLORS from '@/constants/colors';
 
 const PROJECT = {
@@ -24,10 +24,16 @@ export default function ProjectsTasks() {
     return (
         <div style={{ padding: "4em" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
-                <h1 className="text-3xl font-bold decoration-gray-400">{PROJECT.nombre}</h1>
-                <IconButton style={{ marginLeft: "1em", backgroundColor: "purple" }} onClick={() => router.push(`/proyectos/${id}/editar`)}>
-                    <EditIcon />
-                </IconButton>
+                <h1 className="text-3xl font-bold decoration-gray-400 pr-10">{PROJECT.nombre}</h1>
+                <Button 
+                    type="submit"
+                    fullWidth
+                    style={{backgroundColor: COLORS.button, height: '50px'}}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, width: '12%' }} 
+                    href={`./proyectos/${id}/crear`}>
+                    Editar proyecto
+                </Button>
             </div>
             <h3 className="text-2xl decoration-gray-400" style={{ marginTop: "1vw", marginBottom: ".5vw" }}>Cliente: {PROJECT.cliente}</h3>
             <h3 className="text-2xl decoration-gray-400" style={{ marginBottom: "1vw" }}>{PROJECT.estado}</h3>
@@ -39,7 +45,7 @@ export default function ProjectsTasks() {
                     style={{backgroundColor: COLORS.button, height: '50px'}}
                     variant="contained"
                     sx={{ mt: 3, mb: 2, width: '10%' }} 
-                    href="./proyectos/crear">
+                    href={`./${id}/crear`}>
                     Crear tarea
                 </Button>
             </Box>
