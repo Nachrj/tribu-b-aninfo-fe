@@ -21,7 +21,7 @@ export default function TableResources({rows, editRow}:any) {
                         <td>{row.fecha}</td>
                         <td>{row.horas}</td>
                         <td>
-                            <button onClick={editRow}>editar</button>
+                            <button onClick={() => editRow(idx)}>editar</button>
                         </td>
                     </tr>
                    })

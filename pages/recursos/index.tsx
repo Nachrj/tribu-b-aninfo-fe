@@ -1,13 +1,12 @@
 import {useEffect, useState} from "react";
 import TableResources from "@/components/tableResources";
-import styles from "@/components/tableResources.module.css"
 import ModalResources from "@/components/modalResources";
 export default function Resources() {
     
-    const projects = [
-      { "name": "Sistema de Home Banking", "tasks": [{id: 1, tarea: "Hacer MDD", fecha: "19/06/2023", horas: "4"}, {id: 3, tarea: "Iniciar frontend", fecha: "20/06/2023", horas: "6"}]},
-      { "name": "Gestión aranceles", "tasks": [{id: 2, tarea: "Iniciar backend", fecha: "20/06/2023", horas: "5"}, {id: 5, tarea: "Hacer wireframe", fecha: "20/06/2023", horas: "2"}]}
-    ];
+    const [projects, setProjects] = useState([
+      { "name": "Sistema de Home Banking", "tasks": [{id: 1, tarea: "Hacer MDD", fecha: "2023-06-19", horas: "4"}, {id: 3, tarea: "Iniciar frontend", fecha: "2023-06-20", horas: "6"}]},
+      { "name": "Gestión aranceles", "tasks": [{id: 2, tarea: "Iniciar backend", fecha: "2023-06-20", horas: "5"}, {id: 5, tarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2"}]}
+    ]);
 
     const [tasks, setTasks] = useState(0);
 
@@ -17,7 +16,17 @@ export default function Resources() {
 
     const [modalOpen, setModalOpen] = useState(false);
 
-    
+    const [rowToEdit, setRowToEdit] = useState(0);
+
+    const handleEditRow = (idx: any) => {
+      setRowToEdit(idx);
+      setModalOpen(true);
+    }
+
+    const handleSubmit = (formState: any) => {
+      projects[tasks].tasks[rowToEdit].horas = formState.hours;
+      projects[tasks].tasks[rowToEdit].fecha = formState.date;
+    }
 
     useEffect(() => {
         // fetch("")
@@ -49,39 +58,13 @@ export default function Resources() {
 
             </div>
 
-            {/* <TableResources rows={projects[tasks].tasks} editRow={() => {handleEditRow}}/> */}
+            <TableResources rows={projects[tasks].tasks} editRow={handleEditRow}/>
 
-            <div className={styles.tablewrapper}>
-              <table className={styles.table}>
-                  <thead>
-                      <tr>
-                          <th>id</th>
-                          <th>Tarea</th>
-                          <th>Fecha</th>
-                          <th>Horas</th>
-                          <th>Actions</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {
-                        projects[tasks].tasks.map((row: any, idx: any) => {
-                          return <tr key={idx}>
-                              <td>{row.id}</td>
-                              <td>{row.tarea}</td>
-                              <td>{row.fecha}</td>
-                              <td>{row.horas}</td>
-                              <td>
-                                  <button onClick={() => setModalOpen(true)}>editar</button>
-                              </td>
-                          </tr>
-                        })
-                      }
-                  </tbody>
-              </table>
-            </div>
-
-            {/* <button onClick={() => setModalOpen(true)}>Open</button> */}
-            {modalOpen && <ModalResources closeModal={() => {setModalOpen(false)}}/>}
+            {modalOpen && <ModalResources
+                            closeModal={() => {setModalOpen(false)}}
+                            onSubmit={handleSubmit}
+                          />
+            }
         </>
     )
 }
