@@ -23,8 +23,8 @@ export default function TicketView() {
     const onSave = () => {
         
         const body_ticket = {
-            client_id: ticketData?.client_id || 0,
-            description: ticketData?.description || "",
+            client_id: ticketData?.client_id,
+            description: ticketData?.description ,
             priority: ticketData?.priority,
             product_version_id: ticketData?.product_version_id,
             resource_name: ticketData?.resource_name || "",
@@ -33,16 +33,7 @@ export default function TicketView() {
             ticket_id: ticketData?.id,
             title: ticketData?.title
         };
-        // 'ticket_id': fields.Integer(required=True),
-        // 'title': fields.Str(),
-        //  'description': fields.Str(),
-        //  'priority': fields.Integer(),
-        //  'severity': fields.Integer(),
-        //  'product_version_id': fields.Integer(),
-        //  'resource_name': fields.String(),
-        //  'client_id': fields.Integer(),
-        //  'state': fields.Integer(),
-        //  }, location=('json'))
+
         fetch(`${BASE_URL}/v1/ticket`, {
             method: "PUT",
             headers: {
@@ -112,7 +103,7 @@ export default function TicketView() {
                                 <Input label="SLA" value={ticketData?.SLA}/>
                                 <Select label="Severidad" value={ticketData?.severity} options={severities_options}/>
                                 <Select label="Prioridad" value={ticketData?.priority} options={severities_options}/>
-                                <Input label="Resource" value={ticketData?.resource_name} options={severities_options}/>
+                                <Select label="Resource" value={ticketData?.resource_name} options={severities_options}/>
                             </div>
                             <div className="mx-12">
                                 <DescriptionInput label="Descripcion" value={ticketData?.description}/>
