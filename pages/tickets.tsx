@@ -16,29 +16,31 @@ export default function Tickets() {
     }
 
     useEffect(() => {
-        fetch(`${BASE_URL}/v1/tickets`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(dic_product_version),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not OK');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            try {
-                console.log(data.result)
-                setTickets(data.result);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        });
-    }, []);
+        if (router.isReady) {
+            fetch(`${BASE_URL}/v1/tickets`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(dic_product_version),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                try {
+                    console.log(data.result)
+                    setTickets(data.result);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            });
+        }
+    }, [router.isReady]);
 
     return (
         <div className="container max-w-7xl m-full mt-8">

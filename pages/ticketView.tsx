@@ -9,7 +9,6 @@ import { BASE_URL } from "@/pages/types";
 
 export default function TicketView() {
     const [ticketData, setTicket] = useState<Ticket>();
-    const [loaded, setLoaded] = useState(false);
 
     const clickHandler = () => {
         // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
@@ -23,7 +22,7 @@ export default function TicketView() {
     const onSave = () => {
         
         const body_ticket = {
-            client_id: ticketData?.client_id,
+            client_id: ticketData?.client_id    ,
             description: ticketData?.description ,
             priority: ticketData?.priority,
             product_version_id: ticketData?.product_version_id,
@@ -77,7 +76,6 @@ export default function TicketView() {
             .then((data) => {
                 try {
                     setTicket(data.result);
-                    setLoaded(true);
                 } catch (error) {
                     console.error('Error parsing JSON:', error);
                 }
@@ -85,7 +83,6 @@ export default function TicketView() {
         }
     }, [router.isReady]);
 
-    if (!loaded) return null;
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
