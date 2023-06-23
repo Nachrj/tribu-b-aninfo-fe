@@ -1,7 +1,7 @@
 import { stringify } from 'querystring';
 import React, { useState } from 'react';
 
-const Select = ({label, options, value = 1}) => {
+const Select = ({label, options, value}) => {
   
   const [currentValue, setCurrentValue] = useState({value});
 

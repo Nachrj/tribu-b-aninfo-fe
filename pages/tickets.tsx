@@ -10,7 +10,7 @@ export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
 
     const router = useRouter();
-    const { product_name, product_version, product_version_name } = router.query;//deberiamos pasar solo el product_id e ir a buscar lo demas
+    const { product_name, product_version, product_version_name } = router.query;
     const dic_product_version = {
         product_version_ids: [product_version]
     }
@@ -51,7 +51,6 @@ export default function Tickets() {
       
         // le vamos a pasar solo el id del ticket y en ticket view lo vamos a buscar al back        
         router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
-        // router.push(`/ticketView?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
       };
 
     return (
