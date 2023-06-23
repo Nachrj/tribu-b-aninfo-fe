@@ -1,13 +1,10 @@
-import {Product, Ticket} from "@/pages/types";
+import {Ticket} from "@/pages/types";
 import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
 import { BASE_URL } from "@/pages/types";
-
-function HeaderItem({ title }: { title: string }) {
-    return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
-}
+import HeaderItem from "@/components/HeaderItem";
 
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
@@ -44,41 +41,39 @@ export default function Tickets() {
     }, []);
 
     return (
-        <>
-            <div className="container max-w-7xl mx-auto mt-8">
-                <div className="mb-4">
-                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
-                    <div className="justify-between flex">
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version_name}</div>
-                    </div>
+        <div className="container max-w-7xl m-full mt-8">
+            <div className="mb-4">
+                <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
+                <div className="justify-between flex">
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version_name}</div>
                 </div>
-                <div className="flex flex-col">
-                    <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                        <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg text-black">
-                            <table className="min-w-full">
-                                <thead>
-                                <tr>
-                                    <HeaderItem title="ID" />
-                                    <HeaderItem title="Titulo" />
-                                    <HeaderItem title="Estado" />
-                                    <HeaderItem title="SLA" />
-                                    <HeaderItem title="Severidad" />
-                                </tr>
-                                </thead>
+            </div>
+            <div className="flex flex-col">
+                <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 w-full">
+                    <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg text-black">
+                        <table className="min-w-full">
+                            <thead>
+                            <tr>
+                                <HeaderItem title="ID" />
+                                <HeaderItem title="Titulo" />
+                                <HeaderItem title="Estado" />
+                                <HeaderItem title="SLA" />
+                                <HeaderItem title="Severidad" />
+                            </tr>
+                            </thead>
 
-                                <tbody>
-                                {tickets.map((ticket) => (
-                                    <TicketGridRow 
-                                                    key={ticket.product_version_id}
-                                                    ticket={ticket}/>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                            <tbody>
+                            {tickets.map((ticket) => (
+                                <TicketGridRow 
+                                                key={ticket.product_version_id}
+                                                ticket={ticket}/>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }

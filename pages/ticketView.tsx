@@ -1,4 +1,4 @@
-import {Product, Ticket} from "@/pages/types";
+import {Ticket} from "@/pages/types";
 import {useEffect, useState} from "react";
 import React from 'react';
 import { useRouter } from 'next/router';
