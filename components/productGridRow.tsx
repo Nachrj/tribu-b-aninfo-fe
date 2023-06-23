@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Product } from '@/pages/types';
 
 
-export default function ProductGridRow({ product, onClick }: {product: Product, onClick: any }) {
+export default function ProductGridRow({ product }: {product: Product }) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -15,7 +15,7 @@ export default function ProductGridRow({ product, onClick }: {product: Product, 
   };
   
   return (
-    <tr key={product.id} onClick={handleClick}>
+    <tr key={product.id} onClick={handleClick} className='cursor-pointer'>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex items-center">{product.name}</div>
       </td>

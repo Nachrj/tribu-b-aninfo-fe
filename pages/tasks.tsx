@@ -79,7 +79,7 @@ export default function Tasks() {
                                 <tbody>
                                 {list.map((task) => (
                                     <TasksGridRow 
-                                                    key={task.id}
+                                                    key={task?.id}
                                                     task={task}/>
                                                     // onClick={handleClickRow}/>
                                     ))}
