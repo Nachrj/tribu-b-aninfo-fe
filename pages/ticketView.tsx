@@ -17,7 +17,56 @@ export default function TicketView() {
 
     const clickHandler = () => {
         // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
-        router.push(`/tasks?ticket_id=${ticket_id}&ticket_title=${ticket_title}`);
+        router.push(`/tasks?ticket_id=${ticket_id}&ticket_title=${ticketData?.title}`);
+    };
+    
+    const onBack = () => {
+        // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
+        router.back();
+    };
+
+    
+    const onSave = () => {
+        
+        const body_ticket = {
+            client_id: ticketData?.client_id,
+            description: ticketData?.description,
+            priority: ticketData?.priority,
+            product_version_id: ticketData?.product_version_id,
+            resource_name: ticketData?.resource_name,
+            severity: ticketData?.severity,
+            state: ticketData?.state,
+            ticket_id: ticketData?.id,
+            title: ticketData?.title
+        }
+
+        // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
+        fetch(`http://localhost:5001/v1/ticket`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(body_ticket),
+        })
+          .then(response =>
+            {
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+                return response.json();
+            })
+            .then((data) =>
+                {
+                    try {
+                        console.log(data.result)
+                        // setTicket(data.result);
+                      } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                      }
+                }
+          )
+        router.back();
     };
 
     const router = useRouter();
@@ -51,8 +100,7 @@ export default function TicketView() {
                 }
           )
     }, []);
-
-    // ticket_data.title, ticket_data.state, ticket_data.sla, ticket_data.severity 
+    console.log(ticketData);
 
     return (
         <>
@@ -69,8 +117,8 @@ export default function TicketView() {
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
                                 <Select label="Estado" value={ticketData?.state} options={states}/>
                                 <Input label="SLA" value={ticketData?.SLA}/>
-                                <Select label="Severidad" value={ticketData?.severity} options={severities_options}/>
-                                <Select label="Prioridad" value={ticketData?.priority} options={severities_options}/>
+                                <Select label="Severidad" value={ticketData.severity} options={severities_options}/>
+                                <Select label="Prioridad" value={ticketData.priority} options={severities_options}/>
                                 <Input label="Resource" value={ticketData?.resource_name} options={severities_options}/>
                             </div>
                             <div className="mx-12">
@@ -81,8 +129,8 @@ export default function TicketView() {
                     <div className="flex justify-between pt-5">
                         <button className="flex font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-blue-600 hover:bg-blue-700" onClick={clickHandler}>Ticket Tasks</button>
                         <div className="flex justify-end">
-                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-black-800 text-black bg- mr-5 bg-red-500 hover:bg-red-700">Cancel</button>
-                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-green-500 hover:bg-green-700">Save</button>
+                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-black-800 text-black bg- mr-5 bg-red-500 hover:bg-red-700"onClick={onBack}>Cancel</button>
+                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-green-500 hover:bg-green-700" onClick={onSave}>Save</button>
                         </div>
                     </div>
                 </div>

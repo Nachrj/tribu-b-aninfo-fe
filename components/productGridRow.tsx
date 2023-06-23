@@ -9,8 +9,9 @@ export default function ProductGridRow({ product, onClick }: {product: Product, 
   const handleClick = () => {
     const product_name = product.name;
     const product_version = product.version_id;
+    const product_version_name = product.version_name;
 
-    router.push(`/tickets?product_name=${product_name}&product_version=${product_version}`);
+    router.push(`/tickets?product_name=${product_name}&product_version=${product_version}&product_version_name=${product_version_name}`);
   };
   
   return (

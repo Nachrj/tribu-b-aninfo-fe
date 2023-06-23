@@ -12,7 +12,7 @@ export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
 
     const router = useRouter();
-    const { product_name, product_version } = router.query;
+    const { product_name, product_version, product_version_name } = router.query;
     const dic_product_version = {
         product_version_ids: [product_version]
     }
@@ -52,7 +52,7 @@ export default function Tickets() {
                     <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
                     <div className="justify-between flex">
                         <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version_name}</div>
                     </div>
                 </div>
                 <div className="flex flex-col">
