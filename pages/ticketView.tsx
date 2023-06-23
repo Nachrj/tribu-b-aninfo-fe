@@ -97,11 +97,7 @@ export default function TicketView() {
                 }
           )
     }, []);
-<<<<<<< HEAD
-    console.log(ticketData);
-=======
->>>>>>> 92796637e584ccf182047c488d769f77dfd3e3c5
-
+    
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
