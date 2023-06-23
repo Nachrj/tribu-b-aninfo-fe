@@ -17,7 +17,7 @@ export default function TicketView() {
 
     const clickHandler = () => {
         // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
-        router.push(`/tasks?ticket_id=${ticket_id}&ticket_title=${ticket_title}`);
+        router.push(`/tasks?ticket_id=${ticket_id}`);
     };
 
     const router = useRouter();
@@ -28,10 +28,6 @@ export default function TicketView() {
     useEffect(() => {
         fetch(`http://localhost:5001/v1/ticket?ticket_id=${ticket_id}`, {
             method: "GET",
-            // headers: {
-            //     "Content-Type": "application/json",
-            //     Accept: "application/json",
-            // },
         })
           .then(response =>
             {
@@ -51,8 +47,6 @@ export default function TicketView() {
                 }
           )
     }, []);
-
-    // ticket_data.title, ticket_data.state, ticket_data.sla, ticket_data.severity 
 
     return (
         <>
@@ -90,21 +84,3 @@ export default function TicketView() {
         </>
     );
 }
-
-
-/* 
-CREATE TABLE "ticket" (
-    "id" SERIAL NOT NULL,
-    "title" VARCHAR(100) NOT NULL,
-    "description" VARCHAR(1000) NOT NULL,
-    "state" INTEGER NOT NULL,
-    "SLA" TIMESTAMP NOT NULL,
-    "priority" INTEGER NOT NULL,
-    "severity" INTEGER NOT NULL,
-    "resource_id" INTEGER NOT NULL,      ver si cambiamos por el nombre del recurso
-    "client_id" INTEGER NOT NULL,
-    "created_date" TIMESTAMP NOT NULL,
-    "updated_date" TIMESTAMP NOT NULL,
-    PRIMARY KEY ("id")
-);
-*/
