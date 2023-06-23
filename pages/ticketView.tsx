@@ -5,27 +5,25 @@ import { useRouter } from 'next/router';
 import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
+import { BASE_URL } from "@/pages/types";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
 }
 const DESCRIP_EJEMPLO =" Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem voluptatum expedita numquam ut aliquam nobis at facilis itaque obcaecati, et eius cupiditate aperiam cum inventore. Et quae dolor magnam obca"
 
-
 export default function TicketView() {
     const [ticketData, setTicket] = useState<Ticket>();
+    const [loaded, setLoaded] = useState(false);
 
     const clickHandler = () => {
         // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
-
-        router.push(`/tasks?ticket_id=${ticket_id}&ticket_title=${ticketData?.title}`);
+        router.push(`/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
     };
     
     const onBack = () => {
-        // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
         router.back();
     };
-
     
     const onSave = () => {
         
@@ -41,8 +39,7 @@ export default function TicketView() {
             title: ticketData?.title
         }
 
-        // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
-        fetch(`http://localhost:5001/v1/ticket`, {
+        fetch(`${BASE_URL}/v1/ticket`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -50,61 +47,58 @@ export default function TicketView() {
             },
             body: JSON.stringify(body_ticket),
         })
-          .then(response =>
-            {
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
-                }
-                return response.json();
-            })
-            .then((data) =>
-                {
-                    try {
-                        console.log(data.result)
-                        // setTicket(data.result);
-                      } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                      }
-                }
-          )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            try {
+                // setTicket(data.result);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        });
         router.back();
     };
 
     const router = useRouter();
-    const {ticket_id} = router.query;
     const states = ["OPEN", "NEW", "CLOSE", "IN PROGRESS"];
     const severities_options = [1,2,3,4];
-
+    
     useEffect(() => {
-        fetch(`http://localhost:5001/v1/ticket?ticket_id=${ticket_id}`, {
-            method: "GET",
-        })
-          .then(response =>
-            {
+        if (router.isReady) {
+            
+            const {ticket_id} = router.query;
+            fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
+                method: "GET",
+            })
+            .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not OK');
                 }
                 return response.json();
             })
-            .then((data) =>
-                {
-                    try {
-                        console.log(data.result)
-                        setTicket(data.result);
-                      } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                      }
+            .then((data) => {
+                try {
+                    setTicket(data.result);
+                    setLoaded(true);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
                 }
-          )
-    }, []);
-    
+            });
+        }
+    }, [router.isReady]);
+
+    if (!loaded) return null;
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
                  <div className="mb-4">
                     <div className="justify-between flex">
                         <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Ticket: {ticketData?.title}</div>
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-black"> ID: {ticket_id}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-black"> ID: {ticketData?.id}</div>
                     </div>
                 </div>
                 <div className="flex flex-col pr-40">

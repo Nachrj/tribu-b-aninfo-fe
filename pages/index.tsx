@@ -1,13 +1,14 @@
 import Image from "next/image"
 import { Inter } from "next/font/google"
 import { useEffect } from "react"
+import { BASE_URL } from "./types"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
 
   useEffect(() => {
-    fetch("http://localhost:5001/v1/clients", {
+    fetch(`${BASE_URL}/v1/clients`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

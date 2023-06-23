@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
+import { BASE_URL } from "@/pages/types";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -18,7 +19,7 @@ export default function Tickets() {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5001/v1/tickets`, {
+        fetch(`${BASE_URL}/v1/tickets`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -26,23 +27,20 @@ export default function Tickets() {
             },
             body: JSON.stringify(dic_product_version),
         })
-          .then(response =>
-            {
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
-                }
-                return response.json();
-            })
-            .then((data) =>
-                {
-                    try {
-                        console.log(data.result)
-                        setTickets(data.result);
-                      } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                      }
-                }
-          )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            try {
+                console.log(data.result)
+                setTickets(data.result);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        });
     }, []);
 
     return (

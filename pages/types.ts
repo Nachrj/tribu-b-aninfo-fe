@@ -36,3 +36,6 @@ export interface Ticket {
   title: string
 }
 
+// esto se deberia configurar con variables de entorno, pero fue
+export const BASE_URL = "http://localhost:5001";
+// export const BASE_URL = "https://psa-soporte.onrender.com";

@@ -9,8 +9,6 @@ function HeaderItem({ title }: { title: string }) {
 }
 
 export default function Tasks() {
-    // const [list, setList] = useState([])
-
     
     const list = [
         {
@@ -92,5 +90,5 @@ export default function Tasks() {
                 </div>
             </div>
         </>
-    )
+    );
 }

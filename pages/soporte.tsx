@@ -2,7 +2,7 @@ import {Product, ProductVersion} from "@/pages/types";
 import {useEffect, useState} from "react";
 import ProductGridRow from "@/components/productGridRow";
 import React from 'react';
-
+import { BASE_URL } from "@/pages/types";
 
 function HeaderItem({ title }: { title: string }) {
     return <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50">{title}</th>
@@ -13,28 +13,26 @@ export default function Products() {
     const [products, setProducts] = useState<Product[]>([])
 
     useEffect(() => {
-          fetch('http://localhost:5001/v1/products')
-          .then(response =>
-            {
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
-                }
-                return response.json();
-            })
-            .then((data) =>
-                {
-                    try {
-                        setProducts(data.result);
-                      } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                      }
-                }
-          )
+        fetch(`${BASE_URL}/v1/products`)
+        .then(response =>
+        {
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            try {
+                setProducts(data.result);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        });
     }, []);
 
     const handleClickRow = (product_name: any, product_version: any) => {
         console.log("producto: %s version: %s", product_name, product_version);
-      };
+    };
 
     return (
         <>
@@ -67,5 +65,5 @@ export default function Products() {
                 </div>
             </div>
         </>
-    )
+    );
 }
