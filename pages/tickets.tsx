@@ -5,6 +5,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { BASE_URL } from "@/pages/constants";
 import HeaderItem from "@/components/HeaderItem";
+import GoBack from '@/components/goBackIcon';
 
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
@@ -42,7 +43,7 @@ export default function Tickets() {
         }
     }, [router.isReady]);
 
-    const handleClick = (ticket: Ticket) => { //ver que le vamos a pasar (si le pasamos algo)
+    const handleClick = () => {
     
         router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
       };
@@ -50,9 +51,10 @@ export default function Tickets() {
     return (
         <div className="container max-w-7xl m-full mt-8">
             <div className="mb-4">
+                <GoBack/>
                 <div className="flex justify-between">
                     <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
-                    <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-blue-500 hover:bg-blue-700 mx-40" onClick={handleClick}>Create</button>
+                    <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-blue-500 hover:bg-blue-700 mx-40" onClick={handleClick}>Crear</button>
                 </div>
                 <div className="justify-between flex">
                     <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
@@ -70,6 +72,7 @@ export default function Tickets() {
                                 <HeaderItem title="Estado" />
                                 <HeaderItem title="SLA" />
                                 <HeaderItem title="Severidad" />
+                                <HeaderItem title="" />
                             </tr>
                             </thead>
 

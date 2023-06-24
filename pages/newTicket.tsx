@@ -7,6 +7,7 @@ import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
 import { BASE_URL, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
 import PopUpERROR from "@/components/popUpERROR";
+import GoBack from '@/components/goBackIcon';
 
 export default function CreateTicket() {
     const [title, setTitle] = useState("");
@@ -17,11 +18,6 @@ export default function CreateTicket() {
     const [resource, setResource] = useState("");
     const [errors, setErrors] = useState([]);
 
-    // const clickHandler = () => {
-    //     // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back
-    //     router.push(`/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
-    // };
-
     const router = useRouter();
     const {product_version, product_version_name, product_name} = router.query;
     const onBack = () => {
@@ -30,35 +26,23 @@ export default function CreateTicket() {
 
     const assert_values = (client, description, priority, resource, severity, title) =>{
         let errors = [];
-        let passed = true;
         if (!client) {
-            errors.push("Te falta el cliente forro");
-            passed = false;
+            errors.push("Falta ingresar el cliente.");
         }
-            
         if (!description){
-            errors.push("Te falta la description pedazo de pelado mogolico");
-            passed = false;
+            errors.push("Falta ingresar la descripción.");
         }
-            
         if (!priority) {
-            errors.push("Te falta la priority forro");
-            passed = false;
+            errors.push("Falta ingresar la prioridad.");
         }
-        
         if (!resource){
-            passed = false;
-            errors.push("Te falta el resource forro");
+            errors.push("Falta ingresar el recurso.");
         }
-            
         if (!severity){
-            errors.push("Te falta la severidad forro");
-            passed = false;   
+            errors.push("Falta ingresar la severidad.");
         }
-
         if (!title){
-            errors.push("Te falta el titulo forro");
-            passed = false;
+            errors.push("Falta ingresar el título.");
         }
         return errors;
     }
@@ -68,7 +52,6 @@ export default function CreateTicket() {
         const errors = assert_values(client, description, priority, resource, severity, title); 
         if (errors.length !== 0) {
             setErrors(errors);
-            console.log("ERRORES LA PUTA MADRE", errors);
             return;
         }
 
@@ -105,32 +88,6 @@ export default function CreateTicket() {
         router.back();
     };
 
-    // const severities_options = [1,2,3,4];
-
-
-    // useEffect(() => {
-
-    //     if (router.isReady) {
-    //         const {ticket_id} = router.query;
-    //         fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
-    //             method: "GET",
-    //         })
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not OK');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             try {
-    //                 setTicket(data.result);
-    //             } catch (error) {
-    //                 console.error('Error parsing JSON:', error);
-    //             }
-    //         });
-    //     }
-    // }, [router.isReady]);
-
     const handleClosePopUp = () => {
         setErrors([]);
     };
@@ -138,6 +95,7 @@ export default function CreateTicket() {
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
+                <GoBack/>
                  <div className="mb-4">
                         <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Create New Ticket</div>
                         <div className="justify-between flex">
@@ -169,7 +127,7 @@ export default function CreateTicket() {
                         </div>
                     </div>
                 </div>
-                <PopUpERROR show={errors.length !== 0} title={"UN TITULO RE COPADO"} items={errors} onClick={handleClosePopUp}/>
+                <PopUpERROR show={errors.length !== 0} title={"ERROR"} items={errors} onClick={handleClosePopUp}/>
             </div>
         </>
     );

@@ -3,6 +3,7 @@ import TasksGridRow from "@/components/tasksGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
 import HeaderItem from "@/components/HeaderItem";
+import GoBack from '@/components/goBackIcon';
 
 export default function Tasks() {
     
@@ -54,6 +55,7 @@ export default function Tasks() {
                 </div>
             </div>
             <div className="flex flex-col">
+                <GoBack/>
                 <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 w-full">
                     <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg text-black">
                         <table className="min-w-full">

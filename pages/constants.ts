@@ -72,3 +72,25 @@ export const TICKET_PRIORITY = [
         label: "4"
     }
 ];
+// export const TICKET_PRIORITY = [
+//     {
+//         key: 0,
+//         label: 'select priority'
+//     },
+//     {
+//         key: 1,
+//         label: 'ALTA'
+//     },
+//     {
+//         key: 2,
+//         label: "MEDIA"
+//     },
+//     {
+//         key: 3,
+//         label: "BAJA"
+//     },
+//     {
+//         key: 4,
+//         label: "4"
+//     }
+// ];

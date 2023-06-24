@@ -10,7 +10,7 @@ const Select = ({label, options, value, onChange}) => {
     onChange(event.target.value);
   };
   
-  useEffect(() => {
+  useEffect(() => {  
     setCurrentValue(value);
   }, [value]);
 
