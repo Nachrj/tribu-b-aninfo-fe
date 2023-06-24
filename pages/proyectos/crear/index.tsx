@@ -4,28 +4,35 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import COLORS from '@/constants/colors';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
+import { InputLabel, MenuItem, Select } from '@mui/material';
+
+type Resource = {
+  legajo: string,
+  Nombre: string,
+  Apellido: string,
+}
 
 export default function CreateProject() {
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
-    const [clientError, setClientError] = useState(" ");
-    const [costError, setCostError] = useState(" ");
+    const [leaderError, setLeaderError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-
+    const [selectedLeader, setSelectedLeader] = useState<Resource | undefined>(undefined);
+    const [resources, setResources] = useState<Resource[]>([{legajo: '1', Nombre: 'Juan', Apellido: 'Perez'}, {legajo: '2', Nombre: 'Pedro', Apellido: 'Gomez'}]);
+    
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.projectName ? FORMERRORS.noName : ' ');
       setDescError(!formData.projectDescription ? FORMERRORS.noDescription : ' ');
-      setClientError(!formData.projectClient ? FORMERRORS.noClient : ' ');
-      setCostError(!formData.projectCost ? FORMERRORS.noCost : ' ');
 
       if (formData.projectName?.length > MAXLENGTHS.name) {
         setNameError(FORMERRORS.maxNameLength);
@@ -38,8 +45,6 @@ export default function CreateProject() {
       return (
         nameError == ' ' &&
         descError == ' ' &&
-        clientError == ' ' &&
-        costError == ' ' &&
         formData.projectName &&
         formData.projectDescription &&
         formData.projectCost &&
@@ -49,10 +54,53 @@ export default function CreateProject() {
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        console.log(formData);
-        // fetch
+      //   fetch("http://localhost:8080/projects", {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     name: formData.projectName,
+      //     description: formData.projectDescription,
+      //     state: 'NotStarted',
+      //     startDate: new Date(),
+      //     endDate: selectedDate,
+      //   })
+      // })
+      // .then((res) => {
+      //     console.log("res", res)
+      //     return res.json()
+      // })
+      // .then((data) => {
+      //     console.log("Project created: ", data)
+      // })
+      // }
+      console.log('fetching');
       }
     }
+
+    /*useEffect(() => {
+      console.log('aa');
+      fetch("https://recursos-squad12.onrender.com/recursos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+          .then((res) => {
+              console.log("res", res)
+              return res.json()
+          })
+          .then((data) => {
+              console.log("Got data from resources: ", data)
+              setResources(data)
+          })
+    }, [])*/
+
+    const handleChangeLeader = (newLeaderValue: string) => {
+      const selectedResource = resources.find((resource) => resource.legajo === newLeaderValue);
+      setSelectedLeader(selectedResource);
+    };
 
     return (
         <Container component="main">
@@ -94,29 +142,22 @@ export default function CreateProject() {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField
-                        error={descError && descError != " " ? true : false}
-                        fullWidth
-                        id="projectClient"
-                        label="Cliente"
-                        autoFocus
-                        helperText={clientError}
-                        {...register('projectClient')}
-                    />
+                  <InputLabel id='project-leader-select-label'>Lider</InputLabel>
+                  <Select
+                    labelId='project-leader-select-label'
+                    id='project-leader-select'
+                    fullWidth
+                    value={selectedLeader?.Nombre}
+                    label='lider'
+                    onChange={(event) => handleChangeLeader(event.target.value)}
+                  >
+                    {resources.map((resource) => (
+                      <MenuItem key={resource.legajo} value={resource.legajo}>{resource.Nombre} {resource.Apellido}</MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>{leaderError}</FormHelperText>
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        error={costError && costError != " " ? true : false}
-                        fullWidth
-                        id="projectCost"
-                        label="Costo"
-                        autoFocus
-                        type="number"
-                        helperText={costError}
-                        {...register('projectCost')}
-                    />
-                </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <LocalizationProvider 
                     dateAdapter={AdapterDateFns}>
                     <DatePicker
