@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Grid, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -18,13 +19,32 @@ const PROJECT = {
 }
 
 export default function ProjectsTasks() {
+    const [project, setProject] = useState(PROJECT)
     const router = useRouter()
     const id = router.query.id
+
+    useEffect(() => {
+        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+            .then((res) => {
+                console.log("res", res)
+                return res.json()
+            })
+            .then((data) => {
+                console.log("Got data from projects id: ", data)
+                setProject(data)
+            })
+      }, [])
+  
 
     return (
         <div style={{ padding: "4em" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
-                <h1 className="text-3xl font-bold decoration-gray-400 pr-10">{PROJECT.nombre}</h1>
+                <h1 className="text-3xl font-bold decoration-gray-400 pr-10">{project.name}</h1>
                 <Button 
                     type="submit"
                     fullWidth
@@ -35,9 +55,8 @@ export default function ProjectsTasks() {
                     Editar proyecto
                 </Button>
             </div>
-            <h3 className="text-2xl decoration-gray-400" style={{ marginTop: "1vw", marginBottom: ".5vw" }}>Cliente: {PROJECT.cliente}</h3>
-            <h3 className="text-2xl decoration-gray-400" style={{ marginBottom: "1vw" }}>{PROJECT.estado}</h3>
-            <span className="decoration-gray-400">{PROJECT.description}</span>
+            <h3 className="text-2xl decoration-gray-400" style={{ marginBottom: "1vw" }}>{project.state}</h3>
+            <span className="decoration-gray-400">{project.description}</span>
             <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
                 <Button 
                     type="submit"
