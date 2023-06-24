@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-const DescriptionInput = ({ label, value = '' }) => {
+const DescriptionInput = ({ label, value = '', onChange }) => {
+  const [inputValue, setInputValue] = useState(value);
 
   const handleChange = (event) => {
       setInputValue(event.target.value);
+      onChange(event.target.value);
   };  
-  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     setInputValue(value);
   }, [value]);
 
+  
 
   return (
     <div className="mb-4">
@@ -19,7 +21,6 @@ const DescriptionInput = ({ label, value = '' }) => {
         value={inputValue}
         className="resize-none   overflow-hidden w-full block py-4 border rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black" onChange={handleChange}
       />
-      
     </div>
   );
 };

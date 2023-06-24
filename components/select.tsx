@@ -1,13 +1,19 @@
 import { stringify } from 'querystring';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Select = ({label, options, value}) => {
+const Select = ({label, options, value, onChange}) => {
   
   const [currentValue, setCurrentValue] = useState({value});
 
   const handleChange = (event) => {
     setCurrentValue(event.target.value);
+    onChange(event.target.value);
   };
+  
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
 
   return ( 
     <div className="mb-4">
@@ -15,7 +21,7 @@ const Select = ({label, options, value}) => {
       <select value={currentValue} id="simple" name="simple" className="w-min px-6 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-800" onChange={handleChange}>
         
         {options.map((option) => (
-          <option key={option} value={option}>{option}</option>
+          <option key={option.key} value={option.key}>{option.label}</option>
         ))
         }
       </select>
@@ -24,11 +30,3 @@ const Select = ({label, options, value}) => {
 };
 
 export default Select;
-
-/*
-<select id="simple" name="simple">
-  <option>Estado1</option>
-  <option selected>Estado2</option>
-  <option>Estado3</option>
-</select>
-*/

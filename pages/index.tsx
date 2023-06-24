@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Inter } from "next/font/google"
 import { useEffect } from "react"
-import { BASE_URL } from "./types"
+import { BASE_URL } from "./constants"
 
 const inter = Inter({ subsets: ["latin"] })
 

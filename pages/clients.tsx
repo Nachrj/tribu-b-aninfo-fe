@@ -1,7 +1,7 @@
 import ClientGrid from "@/components/clientGrid";
 import {useEffect, useState} from "react";
 import { Client } from "./types";
-import { BASE_URL } from "./types";
+import { BASE_URL } from "./constants;
 
 export default function Clients() {
     const [clients, setClients] = useState<Client[]>([])

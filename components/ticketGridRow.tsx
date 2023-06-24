@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Ticket } from '@/pages/types';
-
+import { TICKET_STATE } from '@/pages/constants';
 
 export default function TicketGridRow({ticket}: {ticket: Ticket}) {
 
@@ -31,7 +31,7 @@ export default function TicketGridRow({ticket}: {ticket: Ticket}) {
       </td>
       
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="text-sm leading-5 text-gray-900">{ticket.state}</div>
+        <div className="text-sm leading-5 text-gray-900">{TICKET_STATE[ticket.state]}</div>
       </td>
       
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

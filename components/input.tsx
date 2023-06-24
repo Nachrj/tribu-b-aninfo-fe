@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-const Input = ({ label, value = '' , modify = true}) => {
+const Input = ({ label, value = '' , modify = true, onChange}) => {
+  const [inputValue, setInputValue] = useState('');
   
   const handleChange = (event) => {
     if(modify)
       setInputValue(event.target.value);
+      onChange(event.target.value);
   };  
-  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     setInputValue(value);

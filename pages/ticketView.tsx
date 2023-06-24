@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
-import { BASE_URL } from "@/pages/types";
+import { BASE_URL, STATES_OPTIONS, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
 
 export default function TicketView() {
     const [ticketData, setTicket] = useState<Ticket>();
@@ -57,9 +57,7 @@ export default function TicketView() {
     };
 
     const router = useRouter();
-    const states = ["OPEN", "NEW", "CLOSE", "IN PROGRESS"];
-    const severities_options = [1,2,3,4];
-    
+
     useEffect(() => {
 
         if (router.isReady) {
@@ -96,10 +94,10 @@ export default function TicketView() {
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Select label="Estado" value={ticketData?.state} options={states}/>
+                                <Select label="Estado" value={ticketData?.state} options={STATES_OPTIONS}/>
                                 <Input label="SLA" value={ticketData?.SLA} modify={false}/>
-                                <Select label="Severidad" value={ticketData?.severity} options={severities_options}/>
-                                <Select label="Prioridad" value={ticketData?.priority} options={severities_options}/>
+                                <Select label="Severidad" value={ticketData?.severity} options={TICKET_SEVERITY}/>
+                                <Select label="Prioridad" value={ticketData?.priority} options={TICKET_PRIORITY}/>
                                 <Input label="Resource" value={ticketData?.resource_name}/>
                             </div>
                             <div className="mx-12">

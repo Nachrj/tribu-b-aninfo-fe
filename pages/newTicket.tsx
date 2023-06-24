@@ -5,32 +5,81 @@ import { useRouter } from 'next/router';
 import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
-import { BASE_URL } from "@/pages/types";
+import { BASE_URL, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
+import PopUpERROR from "@/components/popUpERROR";
 
-export default function TicketView() {
-    // const [productData, setTicket] = useState<Ticket>();
+export default function CreateTicket() {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [severity, setSeverity] = useState(0);
+    const [priority, setPriority] = useState(0);
+    const [client, setClient] = useState(0);
+    const [resource, setResource] = useState("");
+    const [errors, setErrors] = useState([]);
 
     // const clickHandler = () => {
-    //     // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
+    //     // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back
     //     router.push(`/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
     // };
-    
+
+    const router = useRouter();
+    const {product_version, product_version_name, product_name} = router.query;
     const onBack = () => {
         router.back();
     };
-    
-    const onSave = () => {
+
+    const assert_values = (client, description, priority, resource, severity, title) =>{
+        let errors = [];
+        let passed = true;
+        if (!client) {
+            errors.push("Te falta el cliente forro");
+            passed = false;
+        }
+            
+        if (!description){
+            errors.push("Te falta la description pedazo de pelado mogolico");
+            passed = false;
+        }
+            
+        if (!priority) {
+            errors.push("Te falta la priority forro");
+            passed = false;
+        }
         
+        if (!resource){
+            passed = false;
+            errors.push("Te falta el resource forro");
+        }
+            
+        if (!severity){
+            errors.push("Te falta la severidad forro");
+            passed = false;   
+        }
+
+        if (!title){
+            errors.push("Te falta el titulo forro");
+            passed = false;
+        }
+        return errors;
+    }
+
+    const onSave = () => {
+
+        const errors = assert_values(client, description, priority, resource, severity, title); 
+        if (errors.length !== 0) {
+            setErrors(errors);
+            console.log("ERRORES LA PUTA MADRE", errors);
+            return;
+        }
+
         const body_ticket = {
-            client_id: ticketData?.client_id    ,
-            description: ticketData?.description ,
-            priority: ticketData?.priority,
-            product_version_id: ticketData?.product_version_id,
-            resource_name: ticketData?.resource_name || "",
-            severity: ticketData?.severity,
-            state: ticketData?.state,
-            ticket_id: ticketData?.id,
-            title: ticketData?.title
+            client_id: client,
+            description: description ,
+            priority: priority,
+            product_version_id: product_version,
+            resource_name: resource,
+            severity: severity,
+            title: title
         };
 
         fetch(`${BASE_URL}/v1/ticket`, {
@@ -48,7 +97,7 @@ export default function TicketView() {
         })
         .then((data) => {
             try {
-                // setTicket(data.result);
+                console.log(data);
             } catch (error) {
                 console.error('Error parsing JSON:', error);
             }
@@ -56,11 +105,9 @@ export default function TicketView() {
         router.back();
     };
 
-    const router = useRouter();
-    const {product_version, product_version_name, product_name} = router.query;
-    const states = ["OPEN", "NEW", "CLOSE", "IN PROGRESS"];
-    const severities_options = [1,2,3,4];
-    
+    // const severities_options = [1,2,3,4];
+
+
     // useEffect(() => {
 
     //     if (router.isReady) {
@@ -84,31 +131,34 @@ export default function TicketView() {
     //     }
     // }, [router.isReady]);
 
+    const handleClosePopUp = () => {
+        setErrors([]);
+    };
+
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
                  <div className="mb-4">
                         <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Create New Ticket</div>
                         <div className="justify-between flex">
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500"> Produto:{product_name}</div>
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version:{product_version_name}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500"> Produto: {product_name}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version_name}</div>
                     </div>
                 </div>
                 <div className="flex flex-col pr-40">
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Input label="Title" />
-                                <Input label="Resource" />
-                                <Input label="Client ID" />
+                                <Input label="Title" value={title} onChange={setTitle}/>
+                                <Input label="Resource" value={resource} onChange={setResource} />
+                                <Input label="Client ID" value={client} onChange={setClient} />
                             </div>
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                {/* <Select label="Estado"  options={states}/> */}
-                                <Select label="Severidad"  options={severities_options}/>
-                                <Select label="Prioridad"  options={severities_options}/>
+                                <Select label="Severidad"  options={TICKET_SEVERITY} value={severity} onChange={setSeverity}/>
+                                <Select label="Prioridad"  options={TICKET_PRIORITY} value={priority} onChange={setPriority}/>
                             </div>
                             <div className="mx-12">
-                                <DescriptionInput label="Descripcion" />
+                                <DescriptionInput label="Descripcion" value={description} onChange={setDescription}/>
                             </div>
                         </div>
                     </div>
@@ -119,6 +169,7 @@ export default function TicketView() {
                         </div>
                     </div>
                 </div>
+                <PopUpERROR show={errors.length !== 0} title={"UN TITULO RE COPADO"} items={errors} onClick={handleClosePopUp}/>
             </div>
         </>
     );

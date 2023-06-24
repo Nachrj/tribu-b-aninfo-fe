@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
-import { BASE_URL } from "@/pages/types";
+import { BASE_URL } from "@/pages/constants";
 import HeaderItem from "@/components/HeaderItem";
 
 export default function Tickets() {
@@ -43,13 +43,7 @@ export default function Tickets() {
     }, [router.isReady]);
 
     const handleClick = (ticket: Ticket) => { //ver que le vamos a pasar (si le pasamos algo)
-        const ticket_id = ticket.id;
-        const ticket_titulo = ticket.title;
-        const ticket_estado = ticket.state;
-        const ticket_sla = ticket.SLA;
-        const ticket_severidad = ticket.severity;
-      
-        // le vamos a pasar solo el id del ticket y en ticket view lo vamos a buscar al back        
+    
         router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
       };
 
