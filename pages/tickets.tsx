@@ -6,9 +6,21 @@ import { useRouter } from 'next/router';
 import { BASE_URL } from "@/pages/constants";
 import HeaderItem from "@/components/HeaderItem";
 import GoBack from '@/components/goBackIcon';
+import { useClientData } from "@/services/clients";
 
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
+
+    const clients = useClientData();
+
+    const updatedTickets = tickets.map((ticket) => {
+        const client = clients.find((client) => Number(client.id) === ticket.client_id);
+        return {
+          ...ticket,
+          social_reason: client ? client.social_reason : "N/A"
+        };
+      });
+      
 
     const router = useRouter();
     const { product_name, product_version, product_version_name } = router.query;
@@ -43,10 +55,9 @@ export default function Tickets() {
         }
     }, [router.isReady]);
 
-    const handleClick = () => {
-    
+    const handleClick = (ticket: Ticket) => {
         router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
-      };
+    };
 
     return (
         <div className="container max-w-7xl m-full mt-8">
@@ -72,6 +83,7 @@ export default function Tickets() {
                                 <HeaderItem title="Estado" />
                                 <HeaderItem title="SLA" />
                                 <HeaderItem title="Severidad" />
+                                <HeaderItem title="Cliente" />
                                 <HeaderItem title="" />
                             </tr>
                             </thead>
