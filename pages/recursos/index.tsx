@@ -23,6 +23,12 @@ export default function Resources() {
 
     const [rowToEdit, setRowToEdit] = useState(null);
 
+    const handleDeleteRow = (targetIndex: any) => {
+      projects[tasks].tasks.splice(targetIndex, 1);
+      setProjects([...projects]);
+
+    }
+
     const handleEditRow = (idx: any) => {
       setRowToEdit(idx);
       setModalOpen(true);
@@ -72,9 +78,10 @@ export default function Resources() {
 
             </div>
             <br />
-            <button onClick={() => setModalOpen(true)}>Agregar registro</button>
+            <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    onClick={() => setModalOpen(true)}>Agregar registro</button>
 
-            <TableResources rows={projects[tasks].tasks} editRow={handleEditRow}/>
+            <TableResources rows={projects[tasks].tasks} editRow={handleEditRow} deleteRow={handleDeleteRow}/>
 
             {modalOpen && <ModalResources
                             tareas={tareas[tasks]}
