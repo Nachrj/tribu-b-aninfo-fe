@@ -51,7 +51,7 @@ export default function CreateProject() {
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        fetch("http://localhost:8080/projects", {
+        fetch("https://aninfo-backend-proyectos.onrender.com/projects", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
