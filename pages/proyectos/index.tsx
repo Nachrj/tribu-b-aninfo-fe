@@ -8,21 +8,24 @@ import Typography from '@mui/material/Typography';
 
 export default function Projects() {
     // examples for the table
-    const [projects, setProjects] = useState([{id: 1, nombre: "Sistema de Home Banking", estado: "Iniciado", cliente: "HSBC"},{id: 2, nombre: "Gestión aranceles", estado: "Finalizado", cliente: "IPDP"}])
+    const [projects, setProjects] = useState([])
 
     useEffect(() => {
-        // fetch("https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes")
-        //     .then((res) => {
-        //         console.log("res", res)
-        //         return res.json()
-        //     })
-        //     .then((data) => {
-        //         console.log("data", data)
-        //         setList(data)
-        //         console.log("List 1")
-        //         console.log(list)
-        //         console.log("List 2")
-        //     })
+        fetch("https://aninfo-backend-proyectos.onrender.com/projects")
+            .then((res) => {
+                console.log("res", res)
+                return res.json()
+            })
+            .then((data) => {
+                console.log("Got projects: ", data)
+                setProjects(data.map((project: any) => {
+                    return {
+                        id: project.id,
+                        nombre: project.name,
+                        estado: project.state,
+                    }
+                }))
+            })
     }, [])
 
     return (
@@ -44,7 +47,7 @@ export default function Projects() {
           </Box>
           
           <Table 
-            headerItems={["id", "nombre", "estado", "cliente"]}
+            headerItems={["id", "nombre", "estado"]}
             rowItems={projects}
             linkTo="/proyectos"
           />
