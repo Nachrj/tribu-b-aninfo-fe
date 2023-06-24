@@ -5,26 +5,27 @@ import { TICKET_STATE } from '@/pages/constants';
 import DeleteButton from './DeleteIcon';
 import EditButton from './PencilIcon';
 import { useClientData } from '@/services/clients';
+import { BASE_URL } from '@/pages/constants';
 
-export default function TicketGridRow({ticket}: {ticket: Ticket}) {
+export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
 
   const router = useRouter();
 
   const clients = useClientData();
+  const ticket_id = ticket.id;
+  const ticket_titulo = ticket.title;
+  const ticket_estado = ticket.state;
+  const ticket_sla = ticket.SLA;
+  const ticket_severidad = ticket.severity;
   const handleEdit = (ticket: Ticket) => { //ver que le vamos a pasar (si le pasamos algo)
-
-    const ticket_id = ticket.id;
-    const ticket_titulo = ticket.title;
-    const ticket_estado = ticket.state;
-    const ticket_sla = ticket.SLA;
-    const ticket_severidad = ticket.severity;
 
     router.push(`/ticketModify?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
   };
 
-  const handleDelete = () => {
-    router.back();
-  };
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    onDelete(ticket.id);
+  }
 
   const clientSocialReason = (clientId: number): string => {
     const client = clients.find((client) => Number(client.id) === clientId);

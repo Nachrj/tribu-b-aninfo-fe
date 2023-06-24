@@ -7,9 +7,13 @@ import { BASE_URL } from "@/pages/constants";
 import HeaderItem from "@/components/HeaderItem";
 import GoBack from '@/components/goBackIcon';
 import { useClientData } from "@/services/clients";
+import PopUpConfirmAction from "@/components/popUpConfirmAction";
 
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
+    const [refresh, setRefresh] = useState(false);
+    const [deleteRow, setDeleteRow] = useState(false);
+    const [ticketToDelete, setTicketToDelete] = useState(0);
 
     const clients = useClientData();
 
@@ -19,7 +23,7 @@ export default function Tickets() {
           ...ticket,
           social_reason: client ? client.social_reason : "N/A"
         };
-      });
+    });
       
 
     const router = useRouter();
@@ -53,10 +57,37 @@ export default function Tickets() {
                 }
             });
         }
-    }, [router.isReady]);
+    }, [router.isReady, refresh]);
 
     const handleClick = (ticket: Ticket) => {
         router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
+    };
+
+    const handleDelete = (ticket_id) => {
+        setDeleteRow(true);
+        setTicketToDelete(ticket_id);
+    };
+
+    const handleAccept = (ticket_id) => {
+
+        fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
+            method: "DELETE",
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            try {
+                console.log(data.result)
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        });
+        setDeleteRow(false);
+        setRefresh(!refresh);
     };
 
     return (
@@ -65,11 +96,11 @@ export default function Tickets() {
                 <GoBack/>
                 <div className="flex justify-between">
                     <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
-                    <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-blue-500 hover:bg-blue-700 mx-40" onClick={handleClick}>Crear</button>
+                    <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-blue-500 hover:bg-blue-700 mx-20" onClick={handleClick}>Crear</button>
                 </div>
                 <div className="justify-between flex">
                     <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
-                    <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version_name}</div>
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit pr-20 text-gray-500"> Version: {product_version_name}</div>
                 </div>
             </div>
             <div className="flex flex-col">
@@ -85,6 +116,7 @@ export default function Tickets() {
                                 <HeaderItem title="Severidad" />
                                 <HeaderItem title="Cliente" />
                                 <HeaderItem title="" />
+                                <HeaderItem title="" />
                             </tr>
                             </thead>
 
@@ -92,13 +124,15 @@ export default function Tickets() {
                             {tickets.map((ticket) => (
                                 <TicketGridRow 
                                                 key={ticket.product_version_id}
-                                                ticket={ticket}/>
+                                                ticket={ticket}
+                                                onDelete={handleDelete}/>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+            <PopUpConfirmAction title={"TITULO"} show={deleteRow} onClickAcept={() => handleAccept(ticketToDelete)}/>
         </div>
     );
 }
