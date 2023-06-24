@@ -7,6 +7,7 @@ import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
 import { BASE_URL, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
 import PopUpERROR from "@/components/popUpERROR";
+import { useClientData } from "@/services/clients";
 
 export default function CreateTicket() {
     const [title, setTitle] = useState("");
@@ -17,10 +18,12 @@ export default function CreateTicket() {
     const [resource, setResource] = useState("");
     const [errors, setErrors] = useState([]);
 
-    // const clickHandler = () => {
-    //     // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back
-    //     router.push(`/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
-    // };
+    const clients = useClientData();
+
+    const selectClientOptions = clients.map((client) => ({
+        label: client.social_reason,
+        value: client.id,
+      }));
 
     const router = useRouter();
     const {product_version, product_version_name, product_name} = router.query;
@@ -141,7 +144,7 @@ export default function CreateTicket() {
                  <div className="mb-4">
                         <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Create New Ticket</div>
                         <div className="justify-between flex">
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500"> Produto: {product_name}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500"> Producto: {product_name}</div>
                         <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Version: {product_version_name}</div>
                     </div>
                 </div>
@@ -151,7 +154,7 @@ export default function CreateTicket() {
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
                                 <Input label="Title" value={title} onChange={setTitle}/>
                                 <Input label="Resource" value={resource} onChange={setResource} />
-                                <Input label="Client ID" value={client} onChange={setClient} />
+                                <Select label="Clientes" options={selectClientOptions} value={client} onChange={setClient}/>
                             </div>
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
                                 <Select label="Severidad"  options={TICKET_SEVERITY} value={severity} onChange={setSeverity}/>
