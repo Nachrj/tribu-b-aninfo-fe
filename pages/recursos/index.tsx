@@ -8,6 +8,11 @@ export default function Resources() {
       { "name": "Gestión aranceles", "tasks": [{id: 2, tarea: "Iniciar backend", fecha: "2023-06-20", horas: "5"}, {id: 5, tarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2"}]}
     ]);
 
+    const tareas = [
+      [{id: 1, tarea: "Hacer MDD"}, {id: 3, tarea: "Iniciar frontend"}],
+      [{id: 2, tarea: "Iniciar backend"}, {id: 5, tarea: "Hacer wireframe"}]
+    ];
+
     const [tasks, setTasks] = useState(0);
 
     const handlerLoadTasks = (event: any) => {
@@ -16,7 +21,7 @@ export default function Resources() {
 
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [rowToEdit, setRowToEdit] = useState(0);
+    const [rowToEdit, setRowToEdit] = useState(null);
 
     const handleEditRow = (idx: any) => {
       setRowToEdit(idx);
@@ -24,8 +29,13 @@ export default function Resources() {
     }
 
     const handleSubmit = (formState: any) => {
-      projects[tasks].tasks[rowToEdit].horas = formState.hours;
-      projects[tasks].tasks[rowToEdit].fecha = formState.date;
+      if (rowToEdit === null) {
+        projects[tasks].tasks.push(formState);
+      } else {
+        projects[tasks].tasks[rowToEdit].tarea = formState.tarea;
+        projects[tasks].tasks[rowToEdit].fecha = formState.fecha;
+        projects[tasks].tasks[rowToEdit].horas = formState.horas;
+      }
     }
 
     useEffect(() => {
@@ -61,13 +71,16 @@ export default function Resources() {
               </select>
 
             </div>
+            <br />
+            <button onClick={() => setModalOpen(true)}>Agregar registro</button>
 
             <TableResources rows={projects[tasks].tasks} editRow={handleEditRow}/>
 
             {modalOpen && <ModalResources
-                            closeModal={() => {setModalOpen(false)}}
+                            tareas={tareas[tasks]}
+                            closeModal={() => {setModalOpen(false); setRowToEdit(null)}}
                             onSubmit={handleSubmit}
-                            defaultValue={projects[tasks].tasks[rowToEdit]}
+                            defaultValue={rowToEdit !== null && projects[tasks].tasks[rowToEdit]}
                           />
             }
         </>

@@ -57,3 +57,11 @@
     margin-top: 0.6rem;
     margin-bottom: 0.1rem;
 }
+
+.error {
+    background-color: #f8d7da;
+    color: #df4759;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    margin-top: 1rem;
+}

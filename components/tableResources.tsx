@@ -5,7 +5,6 @@ export default function TableResources({rows, editRow}:any) {
         <table className={styles.table}>
             <thead>
                 <tr>
-                    <th>id</th>
                     <th>Tarea</th>
                     <th>Fecha</th>
                     <th>Horas</th>
@@ -16,7 +15,6 @@ export default function TableResources({rows, editRow}:any) {
                 {
                    rows.map((row: any, idx: any) => {
                     return <tr key={idx}>
-                        <td>{row.id}</td>
                         <td>{row.tarea}</td>
                         <td>{row.fecha}</td>
                         <td>{row.horas}</td>
