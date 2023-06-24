@@ -28,7 +28,7 @@ export default function CreateProject() {
     const [leaderError, setLeaderError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [selectedLeader, setSelectedLeader] = useState<Resource | undefined>(undefined);
-    const [resources, setResources] = useState<Resource[]>([{legajo: '1', Nombre: 'Juan', Apellido: 'Perez'}, {legajo: '2', Nombre: 'Pedro', Apellido: 'Gomez'}]);
+    const [resources, setResources] = useState<Resource[]>([]);
     
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.projectName ? FORMERRORS.noName : ' ');
@@ -46,41 +46,36 @@ export default function CreateProject() {
         nameError == ' ' &&
         descError == ' ' &&
         formData.projectName &&
-        formData.projectDescription &&
-        formData.projectCost &&
-        formData.projectClient
-      );
+        formData.projectDescription);
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-      //   fetch("http://localhost:8080/projects", {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     name: formData.projectName,
-      //     description: formData.projectDescription,
-      //     state: 'NotStarted',
-      //     startDate: new Date(),
-      //     endDate: selectedDate,
-      //   })
-      // })
-      // .then((res) => {
-      //     console.log("res", res)
-      //     return res.json()
-      // })
-      // .then((data) => {
-      //     console.log("Project created: ", data)
-      // })
-      // }
-      console.log('fetching');
+        fetch("http://localhost:8080/projects", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.projectName,
+          description: formData.projectDescription,
+          state: 'NotStarted',
+          startDate: new Date(),
+          endDate: selectedDate,
+          leaderId: selectedLeader?.legajo,
+        })
+      })
+      .then((res) => {
+          console.log("res", res)
+          return res.json()
+      })
+      .then((data) => {
+          console.log("Project created: ", data)
+      })
       }
     }
 
-    /*useEffect(() => {
-      console.log('aa');
+    useEffect(() => {
       fetch("https://recursos-squad12.onrender.com/recursos", {
         method: "GET",
         headers: {
@@ -95,7 +90,7 @@ export default function CreateProject() {
               console.log("Got data from resources: ", data)
               setResources(data)
           })
-    }, [])*/
+    }, [])
 
     const handleChangeLeader = (newLeaderValue: string) => {
       const selectedResource = resources.find((resource) => resource.legajo === newLeaderValue);
