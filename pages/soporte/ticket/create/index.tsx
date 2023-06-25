@@ -16,7 +16,7 @@ export default function CreateTicket() {
     const [description, setDescription] = useState("");
     const [severity, setSeverity] = useState(0);
     const [priority, setPriority] = useState(0);
-    const [client, setClient] = useState(0);
+    const [client, setClient] = useState("");
     const [resource, setResource] = useState("");
     const [errors, setErrors] = useState([]);
 
@@ -39,7 +39,7 @@ export default function CreateTicket() {
         router.back();
     };
 
-    const assertValues = (client: number, description: string, priority: number, resource: string, severity: number, title: string) =>{
+    const assertValues = (client: string, description: string, priority: number, resource: string, severity: number, title: string) =>{
         let errors = [];
         if (!client) {
             errors.push("Falta ingresar el cliente.");
@@ -69,9 +69,11 @@ export default function CreateTicket() {
             setErrors(errors);
             return;
         }
+        const foundClient = clients.find((c) => c.social_reason === client)
+        const mappedClient = foundClient ? foundClient.id : 0;
 
         const body_ticket = {
-            client_id: client,
+            client_id: mappedClient,
             description: description ,
             priority: priority,
             product_version_id: product_version,
