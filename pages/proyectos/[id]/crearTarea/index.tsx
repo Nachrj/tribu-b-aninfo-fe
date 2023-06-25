@@ -1,63 +1,64 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import FormHelperText from '@mui/material/FormHelperText';
-import Grid from '@mui/material/Grid';
+import { Container, Typography, Box, Button, TextField, Grid, Select, MenuItem } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import COLORS from '@/constants/colors';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
-import { InputLabel, MenuItem, Select } from '@mui/material';
-import { Resource } from '@/utils/types';
+import { useRouter } from 'next/router'
 
-export default function CreateProject() {
+const STATES = ["Finished", "NotStarted", "InProgress"]
+const PRIORITIES = ["Low", "Medium", "High"]
+
+export default function CreateTask() {
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
-    const [leaderError, setLeaderError] = useState(" ");
+    const [clientError, setClientError] = useState(" ");
+    const [costError, setCostError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-    const [selectedLeader, setSelectedLeader] = useState<Resource | undefined>(undefined);
-    const [resources, setResources] = useState<Resource[]>([]);
-    
-    const validateForm = (formData: FieldValues) => {
-      setNameError(!formData.projectName ? FORMERRORS.noName : ' ');
-      setDescError(!formData.projectDescription ? FORMERRORS.noDescription : ' ');
+    const [priority, setPriority] = useState<string | undefined>(" ");
+    const [state, setState] = useState<string | undefined>(" ");
 
-      if (formData.projectName?.length > MAXLENGTHS.name) {
+    const router = useRouter()
+    const id = router.query.id
+
+    const validateForm = (formData: FieldValues) => {
+      setNameError(!formData.taskName ? FORMERRORS.noName : ' ');
+      setDescError(!formData.taskDescription ? FORMERRORS.noDescription : ' ');
+      if (formData.taskName?.length > MAXLENGTHS.name) {
         setNameError(FORMERRORS.maxNameLength);
       }
 
-      if (formData.projectDescription?.length > MAXLENGTHS.description) {
+      if (formData.taskDescription?.length > MAXLENGTHS.description) {
         setDescError(FORMERRORS.maxDescriptionLength);
       }
 
       return (
         nameError == ' ' &&
         descError == ' ' &&
-        formData.projectName &&
-        formData.projectDescription);
+        clientError == ' ' &&
+        costError == ' ' &&
+        formData.taskName &&
+        formData.taskDescription
+        );
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        fetch("http://localhost:8080/projects", {
+        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: formData.projectName,
-          description: formData.projectDescription,
-          state: 'NotStarted',
-          startDate: new Date(),
-          endDate: selectedDate,
-          leaderId: selectedLeader?.legajo,
+          name: formData.taskName,
+          description: formData.taskDescription,
+          priority: priority,
+          state: state,
+          // startDate: new Date(),
         })
       })
       .then((res) => {
@@ -66,31 +67,10 @@ export default function CreateProject() {
       })
       .then((data) => {
           console.log("Project created: ", data)
+          router.push(`../${id}`)
       })
       }
     }
-
-    useEffect(() => {
-      fetch("https://recursos-squad12.onrender.com/recursos", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-          .then((res) => {
-              console.log("res", res)
-              return res.json()
-          })
-          .then((data) => {
-              console.log("Got data from resources: ", data)
-              setResources(data)
-          })
-    }, [])
-
-    const handleChangeLeader = (newLeaderValue: string) => {
-      const selectedResource = resources.find((resource) => resource.legajo === newLeaderValue);
-      setSelectedLeader(selectedResource);
-    };
 
     return (
         <Container component="main">
@@ -103,7 +83,7 @@ export default function CreateProject() {
             }}
           >
             <Typography variant="h3" component="h1">
-              Crear Proyecto
+              Crear Tarea
             </Typography>
             <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ mt: 4, width: '50%' }}>
               <Grid container spacing={3}>
@@ -112,42 +92,64 @@ export default function CreateProject() {
                         error={nameError && nameError != " " ? true : false}
                         helperText={nameError}
                         fullWidth
-                        id="projectName"
+                        id="taskName"
                         label="Nombre"
                         autoFocus
-                        {...register('projectName')}
+                        {...register('taskName')}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         error={descError && descError != " " ? true : false}
                         fullWidth
-                        id="projectDescription"
+                        id="taskDescription"
                         label="Descripción"
                         autoFocus
                         multiline
                         rows={4}
                         helperText={descError}
-                        {...register('projectDescription')}
+                        {...register('taskDescription')}
                     />
                 </Grid>
-                <Grid item xs={12}>
-                  <InputLabel id='project-leader-select-label'>Lider</InputLabel>
-                  <Select
-                    labelId='project-leader-select-label'
-                    id='project-leader-select'
+                <Grid item xs={6}>
+                <TextField 
                     fullWidth
-                    value={selectedLeader?.Nombre}
-                    label='lider'
-                    onChange={(event) => handleChangeLeader(event.target.value)}
+                    id="priority"
+                    label="Prioridad"
+                    autoFocus
+                    select
+                    value={priority}
+                    onChange={(event: any) => {
+                      setPriority(event.target.value);
+                    }}
                   >
-                    {resources.map((resource) => (
-                      <MenuItem key={resource.legajo} value={resource.legajo}>{resource.Nombre} {resource.Apellido}</MenuItem>
+                    {PRIORITIES.map((priority, index) => (
+                      <MenuItem key={index} value={priority}>
+                        {priority}
+                      </MenuItem>
                     ))}
-                  </Select>
-                  <FormHelperText>{leaderError}</FormHelperText>
+                  </TextField>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <TextField 
+                      fullWidth
+                      id="state"
+                      label="State"
+                      autoFocus
+                      select
+                      value={state}
+                      onChange={(event: any) => {
+                        setState(event.target.value);
+                      }}
+                    >
+                      {STATES.map((state, index) => (
+                        <MenuItem key={index} value={state}>
+                          {state}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                </Grid>
+                {/* <Grid item xs={6}>
                   <LocalizationProvider 
                     dateAdapter={AdapterDateFns}>
                     <DatePicker
@@ -159,7 +161,7 @@ export default function CreateProject() {
                       }}
                     />
                   </LocalizationProvider>
-                </Grid>
+                </Grid> */}
               </Grid>
               <Button 
                 type="submit"
@@ -174,8 +176,9 @@ export default function CreateProject() {
                 fullWidth
                 style={{ height: '50px'}}
                 variant="outlined"
-                sx={{ mb: 2 }} 
-                href="../proyectos">
+                sx={{ mb: 2 }}
+                onClick={() => router.push(`../${id}`)}
+                >
                   Cancelar
               </Button>
             </Box>
