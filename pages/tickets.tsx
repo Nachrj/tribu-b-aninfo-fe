@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
-import { BASE_URL } from "@/pages/constants";
 import HeaderItem from "@/components/HeaderItem";
-import GoBack from '@/components/goBackIcon';
+import GoBack from '@/components/backButton';
 import { useClientData } from "@/services/clients";
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
+import { getTickets } from "@/requests/tickets";
+import { deleteTicket } from "@/requests/ticket";
 
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
@@ -16,6 +17,8 @@ export default function Tickets() {
     const [ticketToDelete, setTicketToDelete] = useState(0);
 
     const clients = useClientData();
+    const router = useRouter();
+    const { product_name, product_version, product_version_name } = router.query;
 
     const updatedTickets = tickets.map((ticket) => {
         const client = clients.find((client) => Number(client.id) === ticket.client_id);
@@ -24,38 +27,13 @@ export default function Tickets() {
           social_reason: client ? client.social_reason : "N/A"
         };
     });
-      
-
-    const router = useRouter();
-    const { product_name, product_version, product_version_name } = router.query;
-    const dic_product_version = {
-        product_version_ids: [product_version]
-    }
-
+    
     useEffect(() => {
+        const body = {
+            product_version_ids: [product_version]
+        }
         if (router.isReady) {
-            fetch(`${BASE_URL}/v1/tickets`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify(dic_product_version),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                try {
-                    console.log(data.result)
-                    setTickets(data.result);
-                } catch (error) {
-                    console.error('Error parsing JSON:', error);
-                }
-            });
+            getTickets(setTickets, body);
         }
     }, [router.isReady, refresh]);
 
@@ -68,24 +46,12 @@ export default function Tickets() {
         setTicketToDelete(ticket_id);
     };
 
-    const handleAccept = (ticket_id) => {
+    const handleClose = () => {
+        setDeleteRow(false);
+    }
 
-        fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
-            method: "DELETE",
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not OK');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            try {
-                console.log(data.result)
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        });
+    const handleAccept = (ticket_id) => {
+        deleteTicket(ticket_id);
         setDeleteRow(false);
         setRefresh(!refresh);
     };
@@ -132,7 +98,7 @@ export default function Tickets() {
                     </div>
                 </div>
             </div>
-            <PopUpConfirmAction title={"TITULO"} show={deleteRow} onClickAcept={() => handleAccept(ticketToDelete)}/>
+            <PopUpConfirmAction title={"TITULO"}  show={deleteRow} onClickAcept={() => handleAccept(ticketToDelete)} onClickClose={handleClose}/>
         </div>
     );
 }

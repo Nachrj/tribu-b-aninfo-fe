@@ -3,7 +3,7 @@ import TasksGridRow from "@/components/tasksGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
 import HeaderItem from "@/components/HeaderItem";
-import GoBack from '@/components/goBackIcon';
+import GoBack from '@/components/backButton';
 
 export default function Tasks() {
     

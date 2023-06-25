@@ -2,7 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Product } from '@/pages/types';
 
-
 export default function ProductGridRow({ product }: {product: Product }) {
   const router = useRouter();
 

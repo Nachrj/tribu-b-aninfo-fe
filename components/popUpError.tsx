@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const PopUpERROR  = ({ title, items, show, onClick }) => {
+const PopUpError  = ({ title, items, show, onClick }) => {
 
     if (!show) return null;
     return (
@@ -16,4 +16,4 @@ const PopUpERROR  = ({ title, items, show, onClick }) => {
     );
 };
 
-export default PopUpERROR ;
+export default PopUpError;

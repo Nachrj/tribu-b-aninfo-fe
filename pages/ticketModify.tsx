@@ -6,8 +6,9 @@ import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
 import { BASE_URL, STATES_OPTIONS, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
-import GoBack from '@/components/goBackIcon';
-import PopUpERROR from "@/components/popUpERROR";
+import GoBack from '@/components/backButton';
+import PopUpError from "@/components/popUpError";
+import { editTicket, getTicket } from "@/requests/ticket";
 
 export default function TicketModify() {
     const [ticketData, setTicket] = useState<Ticket>();
@@ -35,7 +36,7 @@ export default function TicketModify() {
         router.back();
     };
     
-    const assert_values = (state) =>{
+    const assertValues = (state) =>{
         let errors = [];
         
         if (state === 1) {
@@ -49,7 +50,7 @@ export default function TicketModify() {
     };
 
     const onSave = () => {
-        const errors = assert_values(state); 
+        const errors = assertValues(state); 
         if (errors.length !== 0) {
             setErrors(errors);
             return;
@@ -66,52 +67,16 @@ export default function TicketModify() {
             title: title
         };
 
-        fetch(`${BASE_URL}/v1/ticket`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body_ticket),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not OK');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            try {
-                // setTicket(data.result);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        });
+        editTicket(setTicket, body_ticket);
     };
 
     useEffect(() => {
-
         if (router.isReady) {
             const {ticket_id} = router.query;
-            fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
-                method: "GET",
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                try {
-                    setTicket(data.result);
-                } catch (error) {
-                    console.error('Error parsing JSON:', error);
-                }
-            });
+            getTicket(setTicket, ticket_id);
         }
     }, [router.isReady]);
     
-
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
@@ -140,14 +105,12 @@ export default function TicketModify() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between pt-5">
-                        <div className="flex justify-end">
-                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-green-500 hover:bg-green-700 mr-5" onClick={onSave}>Save</button>
-                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-black-800 text-black bg-  bg-red-500 hover:bg-red-700" onClick={onBack}>Cancel</button>
-                        </div>
+                    <div className="flex justify-end mt-5">
+                        <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-white-800 text-black bg-red-600 hover:bg-red-700 mr-10" onClick={onBack}>Cancel</button>
+                        <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black bg-green-500 hover:bg-green-700" onClick={onSave}>Save</button>
                     </div>
                 </div>
-                <PopUpERROR show={errors.length !== 0} title={"ERROR"} items={errors} onClick={handleClosePopUp}/>
+                <PopUpError show={errors.length !== 0} title={"Se encontraron errores en los datos."} items={errors} onClick={handleClosePopUp}/>
             </div>
         </>
     );

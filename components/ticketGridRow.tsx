@@ -2,10 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Ticket } from '@/pages/types';
 import { TICKET_STATE } from '@/pages/constants';
-import DeleteButton from './DeleteIcon';
-import EditButton from './PencilIcon';
+import DeleteButton from './deleteButton';
+import EditButton from './editButton';
 import { useClientData } from '@/services/clients';
-import { BASE_URL } from '@/pages/constants';
 
 export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
 
@@ -31,7 +30,6 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
     const client = clients.find((client) => Number(client.id) === clientId);
     return client ? client.social_reason : "N/A";
   };
-
 
   return (
     <tr key={ticket.id} onClick={()=>handleEdit(ticket as Ticket)} className='cursor-pointer'>

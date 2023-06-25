@@ -6,9 +6,10 @@ import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
 import { BASE_URL, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
-import PopUpERROR from "@/components/popUpERROR";
-import GoBack from '@/components/goBackIcon';
+import PopUpERROR from "@/components/popUpError";
+import GoBack from '@/components/backButton';
 import { useClientData } from "@/services/clients";
+import { createTicket } from "@/requests/ticket";
 
 export default function CreateTicket() {
     const [title, setTitle] = useState("");
@@ -32,7 +33,7 @@ export default function CreateTicket() {
         router.back();
     };
 
-    const assert_values = (client, description, priority, resource, severity, title) =>{
+    const assertValues = (client, description, priority, resource, severity, title) =>{
         let errors = [];
         if (!client) {
             errors.push("Falta ingresar el cliente.");
@@ -57,7 +58,7 @@ export default function CreateTicket() {
 
     const onSave = () => {
 
-        const errors = assert_values(client, description, priority, resource, severity, title); 
+        const errors = assertValues(client, description, priority, resource, severity, title); 
         if (errors.length !== 0) {
             setErrors(errors);
             return;
@@ -72,27 +73,8 @@ export default function CreateTicket() {
             severity: severity,
             title: title
         };
+        createTicket(body_ticket);
 
-        fetch(`${BASE_URL}/v1/ticket`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body_ticket),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not OK');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            try {
-                console.log(data);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        });
         router.back();
     };
 
@@ -128,11 +110,9 @@ export default function CreateTicket() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-between pt-5">
-                        <div className="flex justify-end">
-                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-black-800 text-black bg- mr-5 bg-red-500 hover:bg-red-700" onClick={onBack}>Cancel</button>
-                            <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-green-500 hover:bg-green-700" onClick={onSave}>Save</button>
-                        </div>
+                    <div className="flex justify-end mt-5">
+                        <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-black-800 text-black mr-10 bg-red-500 hover:bg-red-700" onClick={onBack}>Cancel</button>
+                        <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black bg-green-500 hover:bg-green-700" onClick={onSave}>Save</button>
                     </div>
                 </div>
                 <PopUpERROR show={errors.length !== 0} title={"ERROR"} items={errors} onClick={handleClosePopUp}/>

@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import React, { useState, useEffect } from 'react';
 
 const Select = ({label, options, value, onChange}) => {
@@ -13,7 +12,6 @@ const Select = ({label, options, value, onChange}) => {
   useEffect(() => {  
     setCurrentValue(value);
   }, [value]);
-
 
   return ( 
     <div className="mb-4">
