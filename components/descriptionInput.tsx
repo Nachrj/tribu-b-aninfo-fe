@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const DescriptionInput = ({ label, value = '', modify = false, onChange }) => {
+const DescriptionInput = ({ label, value = '', modify = true, onChange }) => {
   const [inputValue, setInputValue] = useState(value);
 
   const handleChange = (event) => {
