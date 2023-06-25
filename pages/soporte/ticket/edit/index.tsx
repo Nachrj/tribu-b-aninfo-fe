@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
-import { BASE_URL, STATES_OPTIONS, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
+import { STATES_OPTIONS, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/soporte/constants";
 import GoBack from '@/components/backButton';
 import PopUpError from "@/components/popUpError";
 import { editTicket, getTicket } from "@/requests/ticket";

@@ -38,7 +38,7 @@ export default function Tickets() {
     }, [router.isReady, refresh]);
 
     const handleClick = (ticket: Ticket) => {
-        router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
+        router.push(`/soporte/ticket/create?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
     };
 
     const handleDelete = (ticket_id) => {

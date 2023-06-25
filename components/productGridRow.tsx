@@ -10,7 +10,7 @@ export default function ProductGridRow({ product }: {product: Product }) {
     const product_version = product.version_id;
     const product_version_name = product.version_name;
 
-    router.push(`/tickets?product_name=${product_name}&product_version=${product_version}&product_version_name=${product_version_name}`);
+    router.push(`/soporte/tickets?product_name=${product_name}&product_version=${product_version}&product_version_name=${product_version_name}`);
   };
   
   return (

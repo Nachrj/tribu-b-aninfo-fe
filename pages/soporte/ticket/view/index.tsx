@@ -6,6 +6,7 @@ import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
+import { TICKET_STATE } from "../../constants";
 
 export default function TicketView() {
     const [ticketData, setTicket] = useState<Ticket>();
@@ -13,7 +14,7 @@ export default function TicketView() {
 
     const clickHandler = () => {
         // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
-        router.push(`/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
+        router.push(`/soporte/ticket/view/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
     };
     
     useEffect(() => {
@@ -26,10 +27,10 @@ export default function TicketView() {
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
-                 <div className="mb-4">
+                <div className="mb-4">
                     <GoBack/>   
                     <div className="justify-between flex">
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Ticket: {title}</div>
+                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Ticket: {ticketData?.title}</div>
                         <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-black"> ID: {ticketData?.id}</div>
                     </div>
                 </div>
@@ -37,17 +38,17 @@ export default function TicketView() {
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Input label="Título" value={title} modify={false}/>
-                                <Input label="Estado" value={state} modify={false}/>
-                                <Input label="Resource" value={resource} modify={false}/>
+                                <Input label="Título" value={ticketData?.title} modify={false}/>
+                                <Input label="Estado" value={TICKET_STATE[ticketData?.state]} modify={false}/>
+                                <Input label="Resource" value={ticketData?.resource_name} modify={false}/>
                             </div>
                             <div className="flex flex-row justify-around min-w-full px-2 mt-5 ">
                                 <Input label="SLA" value={ticketData?.SLA} modify={false} />
-                                <Input label="Severidad" value={severity} modify={false}/>
-                                <Input label="Prioridad" value={priority} modify={false}/>
+                                <Input label="Severidad" value={ticketData?.severity} modify={false}/>
+                                <Input label="Prioridad" value={ticketData?.priority} modify={false}/>
                             </div>
                             <div className="mx-12">
-                                <DescriptionInput label="Descripción" value={description} modify={false}/>
+                                <DescriptionInput label="Descripción" value={ticketData?.description} modify={false}/>
                             </div>
                         </div>
                     </div>
