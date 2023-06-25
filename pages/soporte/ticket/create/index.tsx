@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import React from 'react';
 import { useRouter } from 'next/router';
 import Input from "@/components/input";
@@ -28,35 +28,39 @@ export default function CreateTicket() {
         value: client.id,
     }));
 
+    selectClientOptions.unshift({ label: "Seleccione un cliente", value: "" });
+
     const selectResourceOptions = resources.map((resource) => ({
         label: `${resource.Nombre} ${resource.Apellido}`,
         value: resource.legajo,
     }));
 
+    selectResourceOptions.unshift({ label: "Seleccione un recurso", value: 0 });
+
     const router = useRouter();
-    const {product_version, product_version_name, product_name} = router.query;
+    const { product_version, product_version_name, product_name } = router.query;
     const onBack = () => {
         router.back();
     };
 
-    const assertValues = (client: string, description: string, priority: number, resource: string, severity: number, title: string) =>{
+    const assertValues = (client: string, description: string, priority: number, resource: string, severity: number, title: string) => {
         let errors = [];
         if (!client) {
             errors.push("Falta ingresar el cliente.");
         }
-        if (!description){
+        if (!description) {
             errors.push("Falta ingresar la descripción.");
         }
         if (!priority) {
             errors.push("Falta ingresar la prioridad.");
         }
-        if (!resource){
+        if (!resource) {
             errors.push("Falta ingresar el recurso.");
         }
-        if (!severity){
+        if (!severity) {
             errors.push("Falta ingresar la severidad.");
         }
-        if (!title){
+        if (!title) {
             errors.push("Falta ingresar el título.");
         }
         return errors;
@@ -64,7 +68,7 @@ export default function CreateTicket() {
 
     const onSave = () => {
 
-        const errors = assertValues(client, description, priority, resource, severity, title); 
+        const errors = assertValues(client, description, priority, resource, severity, title);
         if (errors.length !== 0) {
             setErrors(errors);
             return;
@@ -74,7 +78,7 @@ export default function CreateTicket() {
 
         const body_ticket = {
             client_id: mappedClient,
-            description: description ,
+            description: description,
             priority: priority,
             product_version_id: product_version,
             resource_name: resource,
@@ -93,10 +97,10 @@ export default function CreateTicket() {
     return (
         <>
             <div className="container max-w-7xl mx-auto mt-8">
-                <GoBack/>
-                 <div className="mb-4">
-                        <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Crear Nuevo Ticket</div>
-                        <div className="justify-between flex">
+                <GoBack />
+                <div className="mb-4">
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Crear Nuevo Ticket</div>
+                    <div className="justify-between flex">
                         <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500"> Producto: {product_name}</div>
                         <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> Versión: {product_version_name}</div>
                     </div>
@@ -105,16 +109,16 @@ export default function CreateTicket() {
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Input label="Título" value={title} onChange={setTitle}/>
-                                <Select label="Recurso" options={selectResourceOptions} value={resource} onChange={setResource}/>
-                                <Select label="Clientes" options={selectClientOptions} value={client} onChange={setClient}/>
+                                <Input label="Título" value={title} onChange={setTitle} />
+                                <Select label="Recurso" options={selectResourceOptions} value={resource} onChange={setResource} />
+                                <Select label="Clientes" options={selectClientOptions} value={client} onChange={setClient} />
                             </div>
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Select label="Severidad"  options={TICKET_SEVERITY} value={severity} onChange={setSeverity}/>
-                                <Select label="Prioridad"  options={TICKET_PRIORITY} value={priority} onChange={setPriority}/>
+                                <Select label="Severidad" options={TICKET_SEVERITY} value={severity} onChange={setSeverity} />
+                                <Select label="Prioridad" options={TICKET_PRIORITY} value={priority} onChange={setPriority} />
                             </div>
                             <div className="mx-12">
-                                <DescriptionInput label="Descripción" value={description} onChange={setDescription}/>
+                                <DescriptionInput label="Descripción" value={description} onChange={setDescription} />
                             </div>
                         </div>
                     </div>
@@ -123,7 +127,7 @@ export default function CreateTicket() {
                         <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black bg-green-500 hover:bg-green-700" onClick={onSave}>Save</button>
                     </div>
                 </div>
-                <PopUpERROR show={errors.length !== 0} title={"Se encontraron errores en los datos."} items={errors} onClick={handleClosePopUp}/>
+                <PopUpERROR show={errors.length !== 0} title={"Se encontraron errores en los datos."} items={errors} onClick={handleClosePopUp} />
             </div>
         </>
     );
