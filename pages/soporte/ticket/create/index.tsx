@@ -9,6 +9,7 @@ import PopUpERROR from "@/components/popUpError";
 import GoBack from '@/components/backButton';
 import { useClientData } from "@/services/clients";
 import { createTicket } from "@/requests/ticket";
+import { useResourceData } from "@/services/resources";
 
 export default function CreateTicket() {
     const [title, setTitle] = useState("");
@@ -20,10 +21,16 @@ export default function CreateTicket() {
     const [errors, setErrors] = useState([]);
 
     const clients = useClientData();
+    const resources = useResourceData();
 
     const selectClientOptions = clients.map((client) => ({
         label: client.social_reason,
         value: client.id,
+    }));
+
+    const selectResourceOptions = resources.map((resource) => ({
+        label: `${resource.Nombre} ${resource.Apellido}`,
+        value: resource.legajo,
     }));
 
     const router = useRouter();
@@ -32,7 +39,7 @@ export default function CreateTicket() {
         router.back();
     };
 
-    const assertValues = (client, description, priority, resource, severity, title) =>{
+    const assertValues = (client: number, description: string, priority: number, resource: string, severity: number, title: string) =>{
         let errors = [];
         if (!client) {
             errors.push("Falta ingresar el cliente.");
@@ -97,7 +104,7 @@ export default function CreateTicket() {
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
                                 <Input label="Título" value={title} onChange={setTitle}/>
-                                <Input label="Recurso" value={resource} onChange={setResource} />
+                                <Select label="Recurso" options={selectResourceOptions} value={resource} onChange={setResource}/>
                                 <Select label="Clientes" options={selectClientOptions} value={client} onChange={setClient}/>
                             </div>
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
