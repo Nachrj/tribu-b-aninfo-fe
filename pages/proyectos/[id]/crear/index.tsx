@@ -141,8 +141,9 @@ export default function CreateTask() {
                 fullWidth
                 style={{ height: '50px'}}
                 variant="outlined"
-                sx={{ mb: 2 }} 
-                href="../proyectos">
+                sx={{ mb: 2 }}
+                onClick={() => router.push(`../${id}`)}
+                >
                   Cancelar
               </Button>
             </Box>

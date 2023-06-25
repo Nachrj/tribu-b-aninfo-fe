@@ -7,11 +7,10 @@ import { Box, Button } from "@mui/material";
 import COLORS from '@/constants/colors';
 
 const PROJECT = {
-    id: 1,
-    nombre: "Sistema de HomeBanking",
-    cliente: "HSBC",
-    estado: "Iniciado",
-    description: "Proyecto para un banco para sistema online",
+    id: 0,
+    name: "",
+    state: "",
+    description: "",
     tasks: [
         { id: 1, nombre: "Relevamiento", estado: "Iniciado", prioridad: "Alta", fecha: "2021-10-10" },
         { id: 2, nombre: "Diseño", estado: "Iniciado", prioridad: "Alta", fecha: "2021-10-10" },
@@ -38,7 +37,7 @@ export default function ProjectsTasks() {
                 console.log("Got data from projects id: ", data)
                 setProject(data)
             })
-      }, [])
+      }, [id])
   
 
     return (
