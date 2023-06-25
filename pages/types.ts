@@ -10,6 +10,12 @@ export interface Client {
   cuit: number
 }
 
+export interface Resource {
+  legajo: number
+  Nombre: string
+  Apellido: string
+}
+
 export interface Product {
   id: number
   name: string
