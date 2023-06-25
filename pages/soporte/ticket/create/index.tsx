@@ -1,11 +1,10 @@
-import {Ticket} from "@/pages/types";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import React from 'react';
 import { useRouter } from 'next/router';
 import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
-import { BASE_URL, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/constants";
+import { TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/soporte/constants";
 import PopUpERROR from "@/components/popUpError";
 import GoBack from '@/components/backButton';
 import { useClientData } from "@/services/clients";

@@ -1,8 +1,7 @@
-import {useEffect, useState} from "react";
 import TasksGridRow from "@/components/tasksGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
-import HeaderItem from "@/components/HeaderItem";
+import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
 
 export default function Tasks() {
@@ -48,6 +47,7 @@ export default function Tasks() {
     return (
         <div className="container max-w-7xl mx-auto mt-8">
             <div className="mb-4">
+                <GoBack/>
                 <h1 className="text-black text-3xl font-bold decoration-gray-400">Tasks</h1>
                 <div className="justify-between flex">
                     <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Ticket: {ticket_title}</div>
@@ -55,7 +55,6 @@ export default function Tasks() {
                 </div>
             </div>
             <div className="flex flex-col">
-                <GoBack/>
                 <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 w-full">
                     <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg text-black">
                         <table className="min-w-full">
@@ -70,11 +69,11 @@ export default function Tasks() {
                             </thead>
 
                             <tbody>
-                            {list.map((task) => (
-                                <TasksGridRow 
-                                                key={task.id}
-                                                task={task}/>
-                                ))}
+                                {list.map((task) => (
+                                    <TasksGridRow 
+                                                    key={task.id}
+                                                    task={task}/>
+                                    ))}
                             </tbody>
                         </table>
                     </div>

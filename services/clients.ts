@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "@/pages/constants";
+import { BASE_URL } from "@/pages/soporte/constants";
 import { Client } from "@/pages/types";
 
 export function useClientData() {

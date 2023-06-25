@@ -2,8 +2,7 @@ import {Product} from "@/pages/types";
 import {useEffect, useState} from "react";
 import ProductGridRow from "@/components/productGridRow";
 import React from 'react';
-import { BASE_URL } from "@/pages/constants";
-import HeaderItem from "@/components/HeaderItem";
+import HeaderItem from "@/components/headerItem";
 import { getProducts } from "@/requests/products";
 
 export default function Products() {

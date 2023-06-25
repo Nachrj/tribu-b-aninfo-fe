@@ -35,3 +35,9 @@ export interface Ticket {
   state: number,
   title: string
 }
+export interface ErrorInputProps {
+  name: string
+  description: string
+  client: string
+  cost: string
+}

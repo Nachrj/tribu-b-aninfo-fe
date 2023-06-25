@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
-import HeaderItem from "@/components/HeaderItem";
+import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
 import { useClientData } from "@/services/clients";
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
@@ -38,7 +38,7 @@ export default function Tickets() {
     }, [router.isReady, refresh]);
 
     const handleClick = (ticket: Ticket) => {
-        router.push(`/newTicket?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
+        router.push(`/soporte/ticket/create?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
     };
 
     const handleDelete = (ticket_id) => {

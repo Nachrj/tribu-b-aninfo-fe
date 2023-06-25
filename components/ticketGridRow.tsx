@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Ticket } from '@/pages/types';
-import { TICKET_STATE } from '@/pages/constants';
+import { TICKET_STATE } from '@/pages/soporte/constants';
 import DeleteButton from './deleteButton';
 import EditButton from './editButton';
 import { useClientData } from '@/services/clients';
@@ -16,9 +16,9 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
   const ticket_estado = ticket.state;
   const ticket_sla = ticket.SLA;
   const ticket_severidad = ticket.severity;
-  const handleEdit = (ticket: Ticket) => { //ver que le vamos a pasar (si le pasamos algo)
-
-    router.push(`/ticketModify?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
+  const handleEdit = (e) => { //ver que le vamos a pasar (si le pasamos algo)
+    e.stopPropagation();
+    router.push(`/soporte/ticket/edit?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
   };
 
   const handleDelete = (e) => {
@@ -31,8 +31,12 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
     return client ? client.social_reason : "N/A";
   };
 
+  const handleClickRow = () => {
+    router.push(`/soporte/ticket/view?ticket_id=${ticket_id}`);
+  }
+
   return (
-    <tr key={ticket.id} onClick={()=>handleEdit(ticket as Ticket)} className='cursor-pointer'>
+    <tr key={ticket.id} onClick={handleClickRow} className='cursor-pointer'>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex items-center">{ticket.id}</div>
       </td>
@@ -57,7 +61,7 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
         <div className="text-sm leading-5 text-gray-900">{clientSocialReason(ticket.client_id)}</div>
       </td>
       <td className="py-4 whitespace-no-wrap border-b border-gray-200 ">
-        <EditButton onClick={() => handleEdit(ticket)}/>
+        <EditButton onClick={handleEdit}/>
       </td>
 
       <td className="py-4 whitespace-no-wrap border-b border-gray-200">
