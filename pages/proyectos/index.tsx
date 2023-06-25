@@ -47,9 +47,10 @@ export default function Projects() {
           </Box>
           
           <Table 
-            headerItems={["id", "nombre", "estado"]}
+            headerItems={["id", "nombre", "estado", "", ""]}
             rowItems={projects}
             linkTo="/proyectos"
+            onDelete={(itemId: number) => console.log('Borrando proyecto id: ', itemId)}
           />
         </Box>
       </Container>

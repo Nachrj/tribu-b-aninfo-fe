@@ -14,12 +14,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { InputLabel, MenuItem, Select } from '@mui/material';
-
-type Resource = {
-  legajo: string,
-  Nombre: string,
-  Apellido: string,
-}
+import { Resource } from '@/utils/types';
 
 export default function CreateProject() {
     const {register, handleSubmit} = useForm();
@@ -51,7 +46,7 @@ export default function CreateProject() {
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        fetch("https://aninfo-backend-proyectos.onrender.com/projects", {
+        fetch("http://localhost:8080/projects", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

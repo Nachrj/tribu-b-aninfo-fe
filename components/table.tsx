@@ -5,9 +5,11 @@ type TableProps<T> = {
     headerItems: string[],
     rowItems: T[],
     linkTo?: string,
+    onEdit?: (itemId: number) => void,
+    onDelete?: (itemId: number) => void,
 }
 
-export default function Table<T>({ headerItems, rowItems, linkTo }: TableProps<T>) {
+export default function Table<T>({ headerItems, rowItems, linkTo, onEdit, onDelete }: TableProps<T>) {
     return (
     <div className="container max-w-7xl mx-auto mt-8">
         <div className="flex flex-col">
@@ -24,7 +26,7 @@ export default function Table<T>({ headerItems, rowItems, linkTo }: TableProps<T
 
                         <tbody>
                         {rowItems.map((item, index) => (
-                            <TableRow linkTo={linkTo} key={index} item={item} items={headerItems} />
+                            <TableRow linkTo={linkTo} key={index} item={item} items={headerItems} onEdit={onEdit} onDelete={onDelete} />
                         ))}
                         </tbody>
                     </table>

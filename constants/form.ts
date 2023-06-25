@@ -12,4 +12,5 @@ export const FORMERRORS = {
     noDescription: "Debe ingresar una descripción",
     noClient: "Debe ingresar el cliente",
     noCost: "Debe ingresar el costo",
+    noHours: 'Debe ingresar la cantidad de horas'
 }

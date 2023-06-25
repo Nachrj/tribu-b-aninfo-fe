@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Grid, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 import Table from '@/components/table';
-import { Box, Button } from "@mui/material";
+import { Box, Button, Container, Divider } from "@mui/material";
 import COLORS from '@/constants/colors';
-
-const PROJECT = {
-    id: 0,
-    name: "",
-    state: "",
-    description: "",
-    tasks: [
-        { id: 1, nombre: "Relevamiento", estado: "Iniciado", prioridad: "Alta", fecha: "2021-10-10" },
-        { id: 2, nombre: "Diseño", estado: "Iniciado", prioridad: "Alta", fecha: "2021-10-10" },
-    ]
-}
+import Typography from '@mui/material/Typography';
+import { statusMap } from '@/utils/types';
+import { PROJECT } from '@/utils/dump';
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
@@ -64,36 +54,48 @@ export default function ProjectsTasks() {
   
 
     return (
-        <div style={{ padding: "4em" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <h1 className="text-3xl font-bold decoration-gray-400 pr-10">{project.name}</h1>
-                <Button 
-                    type="submit"
-                    fullWidth
-                    style={{backgroundColor: COLORS.button, height: '50px'}}
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, width: '12%' }} 
-                    href={`./proyectos/${id}/crear`}>
-                    Editar proyecto
+        <Container component="main">
+            <Box sx={{ mt: 4 }}>
+                <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
+                    <Typography variant="h3" component="h1">
+                    {project.name}
+                    </Typography>
+                    <Button 
+                        type="submit"
+                        fullWidth
+                        style={{backgroundColor: COLORS.button, height: '50px'}}
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2, width: '12%' }} 
+                        href={`./${id}/editar`}>
+                        Editar
+                    </Button>
+                </Box>
+                <Typography className='ml-2' variant="h6" component="h6" >
+                    {statusMap.get(project.state)}
+                </Typography>
+                <Divider className='my-3' />
+                <Typography className='ml-2' color={'gray'}>
+                    {project.description}
+                </Typography>
+                <Button color='secondary' style={{textTransform: 'none'}}>
+                    Ver más información
                 </Button>
-            </div>
-            <h3 className="text-2xl decoration-gray-400" style={{ marginBottom: "1vw" }}>{project.state}</h3>
-            <span className="decoration-gray-400">{project.description}</span>
-            <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
+                <Table 
+                    rowItems={tasks}
+                    headerItems={["id", "nombre", "estado", "prioridad", "", ""]}
+                    onDelete={(itemId: number) => console.log('Borrando task con id: ', itemId)}
+                    onEdit={(itemId: number) => console.log('Editando task con id: ', itemId)}
+                />
                 <Button 
                     type="submit"
                     fullWidth
                     style={{backgroundColor: COLORS.button, height: '50px'}}
                     variant="contained"
-                    sx={{ mt: 3, mb: 2, width: '10%' }} 
-                    href={`./${id}/crear`}>
+                    sx={{ mt: 3, mb: 2, width: '15%' }} 
+                    href={`./${id}/crearTarea`}>
                     Crear tarea
                 </Button>
             </Box>
-            <Table 
-                rowItems={tasks}
-                headerItems={["id", "nombre", "estado", "prioridad"]}
-            />
-        </div>
+        </Container>
     )
 }
