@@ -16,7 +16,8 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
   const ticket_estado = ticket.state;
   const ticket_sla = ticket.SLA;
   const ticket_severidad = ticket.severity;
-  const handleEdit = (ticket: Ticket) => { //ver que le vamos a pasar (si le pasamos algo)
+  const handleEdit = (e) => { //ver que le vamos a pasar (si le pasamos algo)
+    e.stopPropagation();
     router.push(`/soporte/ticket/edit?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
   };
 
@@ -60,7 +61,7 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
         <div className="text-sm leading-5 text-gray-900">{clientSocialReason(ticket.client_id)}</div>
       </td>
       <td className="py-4 whitespace-no-wrap border-b border-gray-200 ">
-        <EditButton onClick={() => handleEdit(ticket)}/>
+        <EditButton onClick={handleEdit}/>
       </td>
 
       <td className="py-4 whitespace-no-wrap border-b border-gray-200">

@@ -1,8 +1,7 @@
-import {useEffect, useState} from "react";
 import TasksGridRow from "@/components/tasksGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
-import HeaderItem from "@/components/HeaderItem";
+import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
 
 export default function Tasks() {
@@ -70,11 +69,11 @@ export default function Tasks() {
                             </thead>
 
                             <tbody>
-                            {list.map((task) => (
-                                <TasksGridRow 
-                                                key={task.id}
-                                                task={task}/>
-                                ))}
+                                {list.map((task) => (
+                                    <TasksGridRow 
+                                                    key={task.id}
+                                                    task={task}/>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
