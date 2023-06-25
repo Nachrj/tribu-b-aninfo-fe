@@ -19,24 +19,47 @@ const PROJECT = {
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
+    const [tasks, setTasks] = useState(PROJECT.tasks)
     const router = useRouter()
     const id = router.query.id
 
-    useEffect(() => {
+    const getProject = () => {
         fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-            .then((res) => {
-                console.log("res", res)
-                return res.json()
-            })
-            .then((data) => {
-                console.log("Got data from projects id: ", data)
-                setProject(data)
-            })
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+              .then((res) => {
+                  console.log("res", res)
+                  return res.json()
+              })
+              .then((data) => {
+                  console.log("Got data from projects id: ", data)
+                  setProject(data)
+              })
+    }
+
+    const getTasks = () => {
+        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}/tasks`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+              .then((res) => {
+                  console.log("res", res)
+                  return res.json()
+              })
+              .then((data) => {
+                  console.log("Got data from tasks: ", data)
+                  setTasks(data.map((task : any) => { return { id: task.id, nombre: task.name, estado: task.state, prioridad: task.priority }}))
+              })
+    }
+
+    useEffect(() => {
+        getProject()
+        getTasks()
       }, [id])
   
 
@@ -68,8 +91,8 @@ export default function ProjectsTasks() {
                 </Button>
             </Box>
             <Table 
-                rowItems={PROJECT.tasks}
-                headerItems={["id", "nombre", "estado", "prioridad", "fecha"]}
+                rowItems={tasks}
+                headerItems={["id", "nombre", "estado", "prioridad"]}
             />
         </div>
     )
