@@ -66,7 +66,7 @@ export default function Tickets() {
                 </div>
                 <div className="justify-between flex">
                     <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>
-                    <div className="text-2xl font-bold decoration-gray-400 w-fit pr-20 text-gray-500"> Version: {product_version_name}</div>
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit pr-20 text-gray-500"> Versión: {product_version_name}</div>
                 </div>
             </div>
             <div className="flex flex-col">
@@ -76,7 +76,7 @@ export default function Tickets() {
                             <thead>
                             <tr>
                                 <HeaderItem title="ID" />
-                                <HeaderItem title="Titulo" />
+                                <HeaderItem title="Título" />
                                 <HeaderItem title="Estado" />
                                 <HeaderItem title="SLA" />
                                 <HeaderItem title="Severidad" />
@@ -98,7 +98,7 @@ export default function Tickets() {
                     </div>
                 </div>
             </div>
-            <PopUpConfirmAction title={"TITULO"}  show={deleteRow} onClickAcept={() => handleAccept(ticketToDelete)} onClickClose={handleClose}/>
+            <PopUpConfirmAction title={"¿Desea eliminar el ticket?"} message={"Aprete confirmar para eliminar el ticket"} show={deleteRow} onClickAcept={() => handleAccept(ticketToDelete)} onClickClose={handleClose}/>
         </div>
     );
 }

@@ -91,9 +91,9 @@ export default function TicketModify() {
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Input label="Title" value={title} onChange={setTitle}/>
+                                <Input label="Título" value={title} onChange={setTitle}/>
                                 <Select label="Estado" value={state} options={STATES_OPTIONS} onChange={setState}/>
-                                <Input label="Resource" value={resource} onChange={setResource}/>
+                                <Input label="Recurso" value={resource} onChange={setResource}/>
                             </div>
                             <div className="flex flex-row justify-around min-w-full px-2 mt-5 ">
                                 <Input label="SLA" value={ticketData?.SLA} modify={false} />

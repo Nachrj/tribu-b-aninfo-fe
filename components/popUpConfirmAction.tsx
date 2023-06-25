@@ -6,10 +6,10 @@ const PopUpConfirmAction = ({ show, title, message, onClickAcept, onClickClose }
 
     if (!show) return null;
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 min-w-400">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 h-400 text-center">
             <div className="bg-white p-4 rounded shadow ">
-                <h2 className="text-back font-bold text-lg mb-2">{title}</h2>
-                <p className="text-gray-500">{message}</p>
+                <h2 className="text-black font-bold text-lg mb-2">{title}</h2>
+                <p className="text-gray-500 max-w-xs">{message}</p>
                 <button className="mt-4 mx-2 px-4 py-2 bg-green-500 text-white rounded" onClick={onClickAcept}>
                     Confirmar
                 </button>

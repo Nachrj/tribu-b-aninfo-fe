@@ -37,7 +37,7 @@ export default function TicketView() {
                     <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                         <div className=" min-w-full overflow-hidden align-middle border-b shadow sm:rounded-lg text-black border border px-2 ">
                             <div className="flex flex-row justify-around min-w-full  px-2 mt-5 ">
-                                <Input label="Title" value={title} modify={false}/>
+                                <Input label="Título" value={title} modify={false}/>
                                 <Input label="Estado" value={state} modify={false}/>
                                 <Input label="Resource" value={resource} modify={false}/>
                             </div>
