@@ -9,7 +9,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
 
-const PRIORITIES = ["Iniciado", "En progreso", "Finalizado"]
+const STATES = ["Finished", "NotStarted", "InProgress"]
+const PRIORITIES = ["Low", "Medium", "High"]
 
 export default function CreateTask() {
     const {register, handleSubmit} = useForm();
@@ -19,21 +20,19 @@ export default function CreateTask() {
     const [costError, setCostError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [priority, setPriority] = useState<string | undefined>(" ");
+    const [state, setState] = useState<string | undefined>(" ");
 
     const router = useRouter()
     const id = router.query.id
 
     const validateForm = (formData: FieldValues) => {
-      setNameError(!formData.projectName ? FORMERRORS.noName : ' ');
-      setDescError(!formData.projectDescription ? FORMERRORS.noDescription : ' ');
-      setClientError(!formData.projectClient ? FORMERRORS.noClient : ' ');
-      setCostError(!formData.projectCost ? FORMERRORS.noCost : ' ');
-
-      if (formData.projectName?.length > MAXLENGTHS.name) {
+      setNameError(!formData.taskName ? FORMERRORS.noName : ' ');
+      setDescError(!formData.taskDescription ? FORMERRORS.noDescription : ' ');
+      if (formData.taskName?.length > MAXLENGTHS.name) {
         setNameError(FORMERRORS.maxNameLength);
       }
 
-      if (formData.projectDescription?.length > MAXLENGTHS.description) {
+      if (formData.taskDescription?.length > MAXLENGTHS.description) {
         setDescError(FORMERRORS.maxDescriptionLength);
       }
 
@@ -42,17 +41,34 @@ export default function CreateTask() {
         descError == ' ' &&
         clientError == ' ' &&
         costError == ' ' &&
-        formData.projectName &&
-        formData.projectDescription &&
-        formData.projectCost &&
-        formData.projectClient
-      );
+        formData.taskName &&
+        formData.taskDescription
+        );
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        console.log(formData);
-        // fetch
+        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}/tasks`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.taskName,
+          description: formData.taskDescription,
+          priority: priority,
+          state: state,
+          // startDate: new Date(),
+        })
+      })
+      .then((res) => {
+          console.log("res", res)
+          return res.json()
+      })
+      .then((data) => {
+          console.log("Project created: ", data)
+          router.push(`../${id}`)
+      })
       }
     }
 
@@ -115,6 +131,25 @@ export default function CreateTask() {
                   </TextField>
                 </Grid>
                 <Grid item xs={6}>
+                  <TextField 
+                      fullWidth
+                      id="state"
+                      label="State"
+                      autoFocus
+                      select
+                      value={state}
+                      onChange={(event: any) => {
+                        setState(event.target.value);
+                      }}
+                    >
+                      {STATES.map((state, index) => (
+                        <MenuItem key={index} value={state}>
+                          {state}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                </Grid>
+                {/* <Grid item xs={6}>
                   <LocalizationProvider 
                     dateAdapter={AdapterDateFns}>
                     <DatePicker
@@ -126,7 +161,7 @@ export default function CreateTask() {
                       }}
                     />
                   </LocalizationProvider>
-                </Grid>
+                </Grid> */}
               </Grid>
               <Button 
                 type="submit"
