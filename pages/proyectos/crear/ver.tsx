@@ -14,6 +14,16 @@ import { InputLabel, MenuItem } from '@mui/material';
 
 
 export default function ModifyTicket() {
+    const {register, handleSubmit} = useForm();
+    const options = [1,2,3];
+    const [priorityError, setPriorityError] = useState('');
+    const [severityError, setSeverityError] = useState('');
+    const [stateError, setStateError] = useState('');
+    const [severity, setSeverity] = useState(0);
+    const [priority, setPriority] = useState(0);
+    const [state, setState] = useState(0);
+
+
     const titulo = "csaca";
     const descripcion = "dsadasdasdasdasd";
     const recurso = "juan";
@@ -23,45 +33,8 @@ export default function ModifyTicket() {
     const severidad = "1";
 
 
-    const {register, handleSubmit} = useForm();
-    const [nameError, setNameError] = useState("");
-    const [descError, setDescError] = useState("");
-    const [clientError, setClientError] = useState("");
-    const [resourceError, setResourceError] = useState("");
-    const [priorityError, setPriorityError] = useState('');
-    const [severityError, setSeverityError] = useState('');
-    const [stateError, setStateError] = useState('');
-    
-    const options = [1,2,3];
-    const [severity, setSeverity] = useState(severidad);
-    const [priority, setPriority] = useState(prioridad);
-    const [state, setState] = useState(estado);
-    
-    const [title, setTitle] = useState(titulo);
-    const [desc, setDesc] = useState(descripcion);
-    const [resource, setResourse] = useState(recurso);
-    const [client, setClient] = useState(cliente);
-    
 
 
-    const handleChangeTitle = (option) => {
-      setTitle(option);
-      setNameError("");
-    };
-    const handleChangeDescription = (option) => {
-      setDescription(option);
-      setDescError("");
-    };
-    const handleChangeResource = (option) => {
-      setResource(option);
-      setResourceError("");
-    };
-    
-    const handleChangeClient = (client) => {
-      setClient(client);
-      setClientError("");
-    };
-    
     const handleChangePriority = (option) => {
       setPriority(option);
       setPriorityError("");
@@ -77,72 +50,30 @@ export default function ModifyTicket() {
       setStateError("");
     };
 
-    const validateForm = (formData: FieldValues) => {
-      setNameError(!formData.title ? FORM_ERRORS.noName : '');
-      setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
-      setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
-      setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
-      setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
-      setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
-      
-      if (formData.state == 1) {
-        setStateError(FORM_ERRORS.InvalidState);
-        // setNameError(FORM_ERRORS.maxNameLength);
-      }
+    const handleFormVerTareas = (formData: FieldValues) => {
+      console.log("holanda");
+      //se debe dirigir a las tareas del ticket_id
 
-      if (formData.description?.length > MAXLENGTHS.description) {
-        setDescError(FORM_ERRORS.maxDescriptionLength);
-      }
-      
-      if (formData.description?.length > MAXLENGTHS.description) {
-        setDescError(FORM_ERRORS.maxDescriptionLength);
-      }
-
-      return (
-        nameError == '' &&
-        descError == '' &&
-        clientError == '' &&
-        priorityError == '' &&
-        severityError == '' &&
-        stateError == '' &&
-        resourceError == '' &&
-        formData.title &&
-        formData.description &&
-        formData.client_id &&
-        formData.priority &&
-        formData.severity &&
-        formData.state &&
-        formData.resource_name
-      );
-    };
-    
-    const handleFormSubmit = (formData: FieldValues) => {
-      console.log("ASDASDASDASDASDDASDAS");
-      if (validateForm(formData)) { 
-        console.log(formData);
-        // fetch
-
-        fetch(`http://localhost:5001/v1/ticket`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not OK');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            try {
-                console.log(data);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        });
-      }
+        // fetch(`http://localhost:5001/v1/ticket`, {
+        //   method: "POST",
+        //   headers: {
+        //       "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(formData),
+        // })
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('Network response was not OK');
+        //     }
+        //     return response.json();
+        // })
+        // .then((data) => {
+        //     try {
+        //         console.log(data);
+        //     } catch (error) {
+        //         console.error('Error parsing JSON:', error);
+        //     }
+        // });
     }
 
     return (
@@ -156,21 +87,20 @@ export default function ModifyTicket() {
             }}
           >
             <Typography variant="h3" component="h1" className='text-black'>
-              Modificar Ticket
+              Ver Ticket
             </Typography>
             <Box sx={{ mt: 4, width: '50%' }}>
-              <form onSubmit={handleSubmit(handleFormSubmit)}>
+              <form onSubmit={handleSubmit(handleFormVerTareas)}>
                 
                 <Grid container spacing={3}>
 
                   <Grid item xs={12}>
                       <TextField
-                          error={nameError && nameError != " " ? true : false}
-                          helperText={nameError}
                           fullWidth
                           id="title"
                           label="Título"
-                          value={title}
+                          value={titulo}
+                          disabled
                           autoFocus
                           {...register('title')}
                           />
@@ -178,42 +108,38 @@ export default function ModifyTicket() {
                   
                   <Grid item xs={12}>
                       <TextField
-                          error={descError && descError != " " ? true : false}
                           fullWidth
                           id="description"
                           label="Descripción"
-                          value={desc}
                           autoFocus
                           multiline
+                          value={descripcion}
+                          disabled
                           rows={4}
-                          helperText={descError}
                           {...register('description')}
                           />
                   </Grid>
 
                   <Grid item xs={12}>
                       <TextField
-                          error={descError && descError != " " ? true : false}
                           fullWidth
                           id="resource_name"
                           label="Recurso"
-                          value={resource}
                           autoFocus
-                          helperText={resourceError}
+                          value={recurso}
+                          disabled
                           {...register('resource_name')}
                           />
                   </Grid>
 
                   <Grid item xs={12}>
                       <TextField
-                          error={descError && descError != " " ? true : false}
                           fullWidth
                           id="client_id"
                           label="Cliente"
-                          value={client}
                           autoFocus
-                          helperText={clientError}
-                          onClick={handleChangeClient(client)}
+                          value={cliente}
+                          disabled
                           {...register('client_id')}
                           />
                   </Grid>
@@ -227,6 +153,8 @@ export default function ModifyTicket() {
                       error={priorityError != "" ? true : false}
                       fullWidth
                       autoFocus
+                      value={prioridad}
+                      disabled
                       {...register('priority')}
                     >
                       {options.map((option) => (
@@ -245,6 +173,8 @@ export default function ModifyTicket() {
                       value={severity}
                       fullWidth
                       autoFocus
+                      value={severidad}
+                      disabled
                       error={severityError != "" ? true : false}
                       {...register('severity')}
                       >
@@ -263,6 +193,8 @@ export default function ModifyTicket() {
                       id="select-state" 
                       value={state}
                       fullWidth
+                      value={estado}
+                      disabled
                       autoFocus
                       error={stateError != "" ? true : false}
                       {...register('state')}
@@ -282,9 +214,9 @@ export default function ModifyTicket() {
                   style={{backgroundColor: COLORS.button, height: '50px'}}
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }} >
-                    Guardar
+                    Ver Tareas
                 </Button>
-                <Button 
+                {/* <Button 
                   type="submit"
                   fullWidth
                   style={{ height: '50px'}}
@@ -292,7 +224,7 @@ export default function ModifyTicket() {
                   sx={{ mb: 2 }} 
                   href="../proyectos">
                     Cancelar
-                </Button>
+                </Button> */}
               </form>
             </Box>
           </Box>
