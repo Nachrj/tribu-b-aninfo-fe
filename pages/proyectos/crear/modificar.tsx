@@ -13,18 +13,19 @@ import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
 import { InputLabel, MenuItem } from '@mui/material';
 
 
-export default function CreateTicket() {
+export default function ModifyTicket() {
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState("");
     const [descError, setDescError] = useState("");
     const [clientError, setClientError] = useState("");
-    const [productVersionError, setProductVersionError] = useState("");
     const [resourceError, setResourceError] = useState("");
     const options = [1,2,3];
     const [priorityError, setPriorityError] = useState('');
     const [severityError, setSeverityError] = useState('');
+    const [stateError, setStateError] = useState('');
     const [severity, setSeverity] = useState(0);
     const [priority, setPriority] = useState(0);
+    const [state, setState] = useState(0);
 
     const handleChangePriority = (option) => {
       setPriority(option);
@@ -35,18 +36,23 @@ export default function CreateTicket() {
       setSeverity(option);
       setSeverityError("");
     };
+    
+    const handleChangeState = (option) => {
+      setState(option);
+      setStateError("");
+    };
 
     const validateForm = (formData: FieldValues) => {
-      setNameError(!formData.title ? FORM_ERRORS.noName : '');
-      setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
-      setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
-      setProductVersionError(!formData.product_version_id ? FORM_ERRORS.noProductVersion : '');
-      setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
-      setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
-      setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
-
-      if (formData.title?.length > MAXLENGTHS.name) {
-        setNameError(FORM_ERRORS.maxNameLength);
+      // setNameError(!formData.title ? FORM_ERRORS.noName : '');
+      // setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
+      // setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
+      // setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
+      // setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
+      // setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
+      
+      if (formData.state == 1) {
+        setStateError(FORM_ERRORS.InvalidState);
+        // setNameError(FORM_ERRORS.maxNameLength);
       }
 
       if (formData.description?.length > MAXLENGTHS.description) {
@@ -57,16 +63,16 @@ export default function CreateTicket() {
         nameError == '' &&
         descError == '' &&
         clientError == '' &&
-        productVersionError == '' &&
         priorityError == '' &&
         severityError == '' &&
+        stateError == '' &&
         resourceError == '' &&
         formData.title &&
         formData.description &&
         formData.client_id &&
-        formData.product_version_id &&
         formData.priority &&
         formData.severity &&
+        formData.state &&
         formData.resource_name
       );
     };
@@ -108,11 +114,10 @@ export default function CreateTicket() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'left',
-              // background: 'pink'
             }}
           >
             <Typography variant="h3" component="h1" className='text-black'>
-              Crear Ticket
+              Modificar Ticket
             </Typography>
             <Box sx={{ mt: 4, width: '50%' }}>
               <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -168,19 +173,6 @@ export default function CreateTicket() {
                           {...register('client_id')}
                           />
                   </Grid>
-                  
-                  <Grid item xs={12}>
-                      <TextField
-                          error={descError && descError != " " ? true : false}
-                          fullWidth
-                          id="product_version_id"
-                          label="product_version_id"
-                          type="number"
-                          autoFocus
-                          helperText={productVersionError}
-                          {...register('product_version_id')}
-                          />
-                  </Grid>
 
                   <Grid item xs={6}>
                     <InputLabel id="select-priority">Prioridad</InputLabel>
@@ -219,6 +211,26 @@ export default function CreateTicket() {
                       ))}  
                     </Select>
                   </Grid>
+
+                  <Grid item xs={6}>
+                    <InputLabel id="select-state">Estado</InputLabel>
+                    <Select 
+                      labelId="state" 
+                      id="select-state" 
+                      value={state}
+                      fullWidth
+                      autoFocus
+                      error={stateError != "" ? true : false}
+                      {...register('state')}
+                      >
+                      {options.map((option) => (
+                        <MenuItem key={option} value={option} onClick={() => handleChangeState(option)}>
+                          {option}
+                        </MenuItem>
+                      ))}  
+                    </Select>
+                  </Grid>
+
                 </Grid>
                 <Button 
                   type="submit"
