@@ -3,7 +3,7 @@ import styles from "./modalResources.module.css"
 
 export default function ModalResources({tareas, closeModal, onSubmit, defaultValue}: any) {
   const[formState, setFormState] = useState(defaultValue || {
-    tarea: tareas[0].tarea,
+    tareaId: tareas[0].tarea,
     fecha: "",
     horas: "1",
   });
@@ -40,7 +40,7 @@ export default function ModalResources({tareas, closeModal, onSubmit, defaultVal
     <div className={styles.modal}>
       <form className={styles.formgroup}>
       <label htmlFor="tasks-select">Seleccione una tarea:</label>
-        <select name="tarea" id="tasks-select" value={formState.tarea} onChange={handleChange}>
+        <select name="tareaId" id="tasks-select" value={formState.tareaId} onChange={handleChange}>
           {
             tareas.map((t: {tarea: string}) => t.tarea).map((i: string) => (
               <option key={i} value={i}>{i}</option>
