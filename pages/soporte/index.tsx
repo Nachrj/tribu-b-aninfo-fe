@@ -26,7 +26,7 @@ export default function Products() {
                 style={{backgroundColor: COLORS.button, height: '50px'}}
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: '10%' }} 
-                href="./soporte/crear/modificar">
+                href="./soporte/ticket/create">
                   Crear
             </Button>
           </Box>
