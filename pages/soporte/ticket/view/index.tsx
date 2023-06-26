@@ -120,7 +120,7 @@ export default function ModifyTicket() {
                                             id="select-severity" 
                                             fullWidth
                                             autoFocus
-                                            defaultValue={ticketData?.severity}
+                                            value={ticketData?.severity}
                                           />
 
                                        </Grid>
@@ -133,7 +133,7 @@ export default function ModifyTicket() {
                                             }}
                                             id="select-state" 
                                             fullWidth
-                                            defaultValue={ticketData?.state}
+                                            value={ticketData?.state}
                                             autoFocus
                                           />
                                        </Grid>
