@@ -1,15 +1,16 @@
 import TableRow from "./tableRow"
 import HeaderItem from "./headerItem"
+import { ProjectTable, TaskTable } from "@/utils/types"
 
-type TableProps<T> = {
+type TableProps = {
     headerItems: string[],
-    rowItems: T[],
+    rowItems: ProjectTable[] | TaskTable[],
     linkTo?: string,
     onEdit?: (itemId: number) => void,
     onDelete?: (itemId: number) => void,
 }
 
-export default function Table<T>({ headerItems, rowItems, linkTo, onEdit, onDelete }: TableProps<T>) {
+export default function Table({ headerItems, rowItems, linkTo, onEdit, onDelete }: TableProps) {
     return (
     <div className="container max-w-7xl mx-auto mt-8">
         <div className="flex flex-col">
