@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Ticket} from "@/pages/types";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -11,18 +12,19 @@ import { useState, useEffect } from 'react';
 import COLORS from '@/constants/colors';
 import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
 import { InputLabel, MenuItem } from '@mui/material';
+import { editTicket, getTicket } from "@/requests/ticket";
 
 
 export default function ModifyTicket() {
-    const titulo = "csaca";
-    const descripcion = "dsadasdasdasdasd";
-    const recurso = "juan";
-    const cliente = "1";
-    const estado = "1";
-    const prioridad = "1";
-    const severidad = "1";
+    const titulo = "asd";
+    const descripcion = "sadasdasdasdasda";
+    const recurso = "asdas";
+    const cliente = 2;
+    const estado = 1;
+    const prioridad = 2;
+    const severidad = 2;
 
-
+    const [ticketData, setTicket] = useState<Ticket>();
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState("");
     const [descError, setDescError] = useState("");
@@ -42,25 +44,11 @@ export default function ModifyTicket() {
     const [resource, setResourse] = useState(recurso);
     const [client, setClient] = useState(cliente);
     
-
-
-    const handleChangeTitle = (option) => {
-      setTitle(option);
-      setNameError("");
-    };
-    const handleChangeDescription = (option) => {
-      setDescription(option);
-      setDescError("");
-    };
-    const handleChangeResource = (option) => {
-      setResource(option);
-      setResourceError("");
-    };
     
-    const handleChangeClient = (event) => {
-      setClient(event.target.value);
-      setClientError("");
-    };
+    // const handleChangeClient = (event) => {
+    //   setClient(event.target.value);
+    //   setClientError("");
+    // };
     
     const handleChangePriority = (event) => {
       setPriority(event.target.value);
@@ -78,9 +66,6 @@ export default function ModifyTicket() {
     };
 
 
-    useEffect(() => {
-      setClient(client);
-    }, [client]);
 
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.title ? FORM_ERRORS.noName : '');
@@ -120,33 +105,20 @@ export default function ModifyTicket() {
         formData.resource_name
       );
     };
+
+    const modifybody = (body) =>{
+      body["ticket_id"] = 8;
+      body["product_version_id"] = 1;
+    }
     
     const handleFormSubmit = (formData: FieldValues) => {
       console.log("ASDASDASDASDASDDASDAS");
       if (validateForm(formData)) { 
+        modifybody(formData);
         console.log(formData);
         // fetch
 
-        fetch(`http://localhost:5001/v1/ticket`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not OK');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            try {
-                console.log(data);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        });
+        editTicket(setTicket,formData)
       }
     }
 
@@ -175,7 +147,7 @@ export default function ModifyTicket() {
                           fullWidth
                           id="title"
                           label="Título"
-                          value={title}
+                          defaultValue={title}
                           autoFocus
                           {...register('title')}
                           />
@@ -187,7 +159,7 @@ export default function ModifyTicket() {
                           fullWidth
                           id="description"
                           label="Descripción"
-                          value={desc}
+                          defaultValue={desc}
                           autoFocus
                           multiline
                           rows={4}
@@ -202,7 +174,7 @@ export default function ModifyTicket() {
                           fullWidth
                           id="resource_name"
                           label="Recurso"
-                          value={resource}
+                          defaultValue={resource}
                           autoFocus
                           helperText={resourceError}
                           {...register('resource_name')}
@@ -213,13 +185,14 @@ export default function ModifyTicket() {
                       <TextField
                           error={descError && descError != " " ? true : false}
                           fullWidth
+                          type='number'
                           id="client_id"
                           label="Cliente"
-                          value={client}
+                          defaultValue={client}
                           autoFocus
                           helperText={clientError}
-                          onChange={handleChangeClient}
                           {...register('client_id')}
+                          // onChange={handleChangeClient}
                           />
                   </Grid>
 
@@ -295,7 +268,7 @@ export default function ModifyTicket() {
                   style={{ height: '50px'}}
                   variant="outlined"
                   sx={{ mb: 2 }} 
-                  href="../proyectos">
+                  href="../">
                     Cancelar
                 </Button>
               </form>

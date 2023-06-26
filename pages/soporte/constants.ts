@@ -9,6 +9,12 @@ export const TICKET_STATE = {
     4: "CLOSED",
 };
 
+export const TICKET_PRIORITY = {
+    1: "ALTA",
+    2: "MEDIA",
+    3: "BAJA"
+};
+
 export const STATES_OPTIONS = [
     {
         key: 1,
@@ -28,11 +34,11 @@ export const STATES_OPTIONS = [
     }
 ];
 
-export const TICKET_SEVERITY = [
-    {
-        key: 0,
-        label: 'select severity'
-    },
+export const SEVERITY_OPTIONS = [
+    // {
+    //     key: 0,
+    //     label: 'select severity'
+    // },
     {
         key: 1,
         label: '1'
@@ -50,7 +56,7 @@ export const TICKET_SEVERITY = [
         label: "4"
     }
 ];
-export const TICKET_PRIORITY = [
+export const PRIORITY_OPTIONS = [
     {
         key: 0,
         label: 'select priority'
