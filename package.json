@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "engines": {
+    "node": ">=14.18"
+  },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
     "@heroicons/react": "^2.0.17",
