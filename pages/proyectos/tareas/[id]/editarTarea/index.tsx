@@ -1,30 +1,35 @@
 import * as React from 'react';
-import { Container, Typography, Box, Button, TextField, Grid, Select, MenuItem } from '@mui/material';
+import { Container, Typography, Box, Button, TextField, Grid, Select, MenuItem, FormHelperText, InputLabel } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import COLORS from '@/constants/colors';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
-import { PROJECT_URL } from '@/pages/_app';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { prioritiesMap, statusMap } from '@/utils/types';
+import { Resource, prioritiesMap, statusMap } from '@/utils/types';
+import { PROJECT_URL } from '@/pages/_app';
 
-export default function CreateTask() {
+export default function UpdateTask() {
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
-    const [clientError, setClientError] = useState(" ");
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const [dueDateError, setDueDateError] = useState(" ");
+    const [dueDate, setDueDate] = useState<Date | undefined>(undefined);
     const [priority, setPriority] = useState<string | undefined>(" ");
     const [state, setState] = useState<string | undefined>(" ");
+    const [selectedResource, setSelectedResource] = useState<Resource | undefined>(undefined);
+    const [resources, setResources] = useState<Resource[]>([]);
+    const [resourceError, setResourceError] = useState(" ");
 
     const router = useRouter()
     const id = router.query.id
+    const projectId = router.query.projectId
 
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.taskName ? FORMERRORS.noName : ' ');
       setDescError(!formData.taskDescription ? FORMERRORS.noDescription : ' ');
+      setDueDateError(!dueDate ? FORMERRORS.noDueDate : ' ');
       if (formData.taskName?.length > MAXLENGTHS.name) {
         setNameError(FORMERRORS.maxNameLength);
       }
@@ -36,7 +41,6 @@ export default function CreateTask() {
       return (
         nameError == ' ' &&
         descError == ' ' &&
-        clientError == ' ' &&
         formData.taskName &&
         formData.taskDescription
         );
@@ -44,8 +48,8 @@ export default function CreateTask() {
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        fetch(`${PROJECT_URL}/projects/${id}/tasks`, {
-        method: 'POST',
+        fetch(`${PROJECT_URL}/tasks/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -54,7 +58,8 @@ export default function CreateTask() {
           description: formData.taskDescription,
           priority: priority,
           state: state,
-          // startDate: new Date(),
+          dueDate: dueDate,
+          resourceId: selectedResource?.legajo,
         })
       })
       .then((res) => {
@@ -62,11 +67,32 @@ export default function CreateTask() {
           return res.json()
       })
       .then((data) => {
-          console.log("Project created: ", data)
-          router.push(`../${id}`)
+          router.push(`../../${projectId}`)
       })
       }
     }
+
+    useEffect(() => {
+      fetch("https://recursos-squad12.onrender.com/recursos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+          .then((res) => {
+              console.log("res", res)
+              return res.json()
+          })
+          .then((data) => {
+              console.log("Got data from resources: ", data)
+              setResources(data)
+          })
+    }, [])
+
+    const handleChangeResource = (newResourceValue: string) => {
+      const selectedResource = resources.find((resource: Resource) => resource.legajo === newResourceValue);
+      setSelectedResource(selectedResource);
+    };
 
     return (
         <Container component="main">
@@ -79,7 +105,7 @@ export default function CreateTask() {
             }}
           >
             <Typography variant="h3" component="h1">
-              Crear Tarea
+              Editar Tarea
             </Typography>
             <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ mt: 4, width: '50%' }}>
               <Grid container spacing={3}>
@@ -120,9 +146,9 @@ export default function CreateTask() {
                     }}
                   >
                     {Array.from(prioritiesMap.entries()).map(([key, value]) => (
-                    <MenuItem key={key} value={key}>
-                      {value}
-                    </MenuItem>
+                      <MenuItem key={key} value={key}>
+                        {value}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid>
@@ -136,28 +162,47 @@ export default function CreateTask() {
                       value={state}
                       onChange={(event: any) => {
                         setState(event.target.value);
+                        console.log('state: ', event.target.value)
                       }}
                     >
-                    {Array.from(statusMap.entries()).map(([key, value]) => (
-                    <MenuItem key={key} value={key}>
-                      {value}
-                    </MenuItem>
+                      {Array.from(statusMap.entries()).map(([key, value]) => (
+                      <MenuItem key={key} value={key}>
+                        {value}
+                      </MenuItem>
                     ))}
                     </TextField>
                 </Grid>
-                <Grid item xs={12}>
-                <LocalizationProvider 
-                  dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Fecha límite"
-                    sx={{ width: '100%'}}
-                    value={selectedDate}
-                    onChange={(newValue: any) => {
-                      setSelectedDate(newValue);
-                    }}
-                  />
-                </LocalizationProvider>
-              </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider 
+                    dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="Fecha límite"
+                      sx={{ width: '100%'}}
+                      value={dueDate}
+                      onChange={(newValue: any) => {
+                        setDueDate(newValue);
+                      }}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel id='resource-select-label'>Recurso</InputLabel>
+                  <Select
+                    labelId='resource-select-label'
+                    id='resource-select'
+                    fullWidth
+                    value={selectedResource?.Nombre}
+                    label='recurso'
+                    onChange={(event) => handleChangeResource(event.target.value)}
+                  >
+                    {resources.map((resource) => (
+                      <MenuItem key={resource.legajo} value={resource.legajo}>
+                        {resource.Nombre} {resource.Apellido}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>{resourceError}</FormHelperText>
+                </Grid>
               </Grid>
               <Button 
                 type="submit"
@@ -165,7 +210,7 @@ export default function CreateTask() {
                 style={{backgroundColor: COLORS.button, height: '50px'}}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }} >
-                  Crear
+                  Actualizar
               </Button>
               <Button 
                 type="submit"
@@ -173,7 +218,7 @@ export default function CreateTask() {
                 style={{ height: '50px'}}
                 variant="outlined"
                 sx={{ mb: 2 }}
-                onClick={() => router.push(`../${id}`)}
+                onClick={() => router.push(`../../${projectId}`)}
                 >
                   Cancelar
               </Button>

@@ -5,13 +5,14 @@ import Table from "@/components/table";
 import { Box, Button, Container } from "@mui/material";
 import COLORS from "@/constants/colors";
 import Typography from '@mui/material/Typography';
+import { PROJECT_URL } from '@/pages/_app';
 
 export default function Projects() {
     // examples for the table
     const [projects, setProjects] = useState([])
 
     useEffect(() => {
-        fetch("https://aninfo-backend-proyectos.onrender.com/projects")
+        fetch(`${PROJECT_URL}/projects`)
             .then((res) => {
                 console.log("res", res)
                 return res.json()

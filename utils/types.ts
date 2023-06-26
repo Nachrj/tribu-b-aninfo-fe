@@ -4,6 +4,12 @@ export const statusMap = new Map<string, string>([
     ['NotStarted', 'No iniciado'],
 ])
 
+export const prioritiesMap = new Map<string, string>([
+    ['Low', 'Baja'],
+    ['Medium', 'Media'],
+    ['High', 'Alta'],
+])
+
 export type Resource = {
     legajo: string,
     Nombre: string,
