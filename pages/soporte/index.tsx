@@ -18,15 +18,16 @@ export default function Products() {
         <Box sx={{ mt: 4 }}>
           <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
             <Typography variant="h3" component="h1">
-              Proyectos
+              Productos
             </Typography>
-            <Button 
+            <Button
                 type="submit"
                 fullWidth
                 style={{backgroundColor: COLORS.button, height: '50px'}}
                 variant="contained"
-                sx={{ mt: 3, mb: 2, width: '10%' }} 
-                href="./soporte/ticket/create">
+                sx={{ mt: 3, mb: 2, width: '10%' }}
+                href="./soporte/ticket/create"
+                >
                   Crear
             </Button>
           </Box>
