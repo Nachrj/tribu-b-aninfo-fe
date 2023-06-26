@@ -37,6 +37,7 @@ export type ProjectTable = {
     id: number,
     nombre: string,
     descripcion: string,
+    [key: string]: any, // Index signature accepting any string key
 }
 
 export type TaskTable = {
@@ -44,6 +45,7 @@ export type TaskTable = {
     nombre: string,
     estado: string,
     prioridad: string,
+    [key: string]: any, // Index signature accepting any string key
 }
 
 export type Task = {
