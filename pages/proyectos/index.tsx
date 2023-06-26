@@ -1,6 +1,4 @@
-import {Cliente} from "@/pages/types";
 import {useEffect, useState} from "react";
-import HeaderItem from "@/components/headerItem";
 import Table from "@/components/table";
 import { Box, Button, Container } from "@mui/material";
 import COLORS from "@/constants/colors";
