@@ -9,73 +9,90 @@ import Grid from '@mui/material/Grid';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import COLORS from '@/constants/colors';
-import { DatePicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
-import { setPriority } from 'os';
-import { FormControl, InputLabel, MenuItem } from '@mui/material';
+import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
+import { InputLabel, MenuItem } from '@mui/material';
 
 
 export default function CreateTicket() {
     const {register, handleSubmit} = useForm();
-    const [nameError, setNameError] = useState(" ");
-    const [descError, setDescError] = useState(" ");
-    const [clientError, setClientError] = useState(" ");
-    const [costError, setCostError] = useState(" ");
-    const [severityError, setSeverityError] = useState(" ");
+    const [nameError, setNameError] = useState("");
+    const [descError, setDescError] = useState("");
+    const [clientError, setClientError] = useState("");
+    const [resourceError, setResourceError] = useState("");
     const options = ['Opción 1', 'Opción 2', 'Opción 3'];
-    const [priorityError, setPriorityError] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('');
-    // const [priority, setPriority] = useState(0);
+    const [priorityError, setPriorityError] = useState('');
+    const [severityError, setSeverityError] = useState('');
+    const [severity, setSeverity] = useState(0);
+    const [priority, setPriority] = useState(0);
 
-    const handleChange = (event) => {
-      console.log("BOCA BOCA BOCA");
-      setSelectedOption(event.target.value);
-      setPriorityError(false);
+    const handleChangePriority = (option) => {
+      setPriority(option);
+      setPriorityError("");
     };
 
-    const handleBlur = () => {
-    if (selectedOption === '') {
-      setPriorityError(true); // Marca el estado de error si no se selecciona ninguna opción al salir del componente
-    }
-  };
-
+    const handleChangeSeverity = (option) => {
+      setSeverity(option);
+      setSeverityError("");
+    };
 
     const validateForm = (formData: FieldValues) => {
-      setNameError(!formData.TicketName ? FORMERRORS.noName : ' ');
-      setDescError(!formData.TicketDescription ? FORMERRORS.noDescription : ' ');
-      setClientError(!formData.TicketClient ? FORMERRORS.noClient : ' ');
-      setPriorityError(!formData.TicketResource ? FORMERRORS.noClient : ' ');
-      setSeverityError(!formData.TicketPriority ? FORMERRORS.noClient : ' ');
-      setSelectedOption(!formData.TicketSeverity ? FORMERRORS.noCost : ' ');
+      setNameError(!formData.title ? FORM_ERRORS.noName : '');
+      setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
+      setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
+      setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
+      setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
+      setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
 
-      if (formData.TicketName?.length > MAXLENGTHS.name) {
-        setNameError(FORMERRORS.maxNameLength);
+      if (formData.title?.length > MAXLENGTHS.name) {
+        setNameError(FORM_ERRORS.maxNameLength);
       }
 
-      if (formData.TicketDescription?.length > MAXLENGTHS.description) {
-        setDescError(FORMERRORS.maxDescriptionLength);
+      if (formData.description?.length > MAXLENGTHS.description) {
+        setDescError(FORM_ERRORS.maxDescriptionLength);
       }
 
       return (
-        nameError == ' ' &&
-        descError == ' ' &&
-        clientError == ' ' &&
-        priorityError == ' ' &&
-        severityError == ' ' &&
-        costError == ' ' &&
-        formData.TicketName &&
-        formData.TicketDescription &&
-        formData.TicketCost &&
-        formData.TicketClient
+        nameError == '' &&
+        descError == '' &&
+        clientError == '' &&
+        priorityError == '' &&
+        severityError == '' &&
+        resourceError == '' &&
+        formData.title &&
+        formData.description &&
+        formData.client_id &&
+        formData.priority &&
+        formData.severity &&
+        formData.resource_name
       );
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
+      console.log("ASDASDASDASDASDDASDAS");
       if (validateForm(formData)) { 
         console.log(formData);
         // fetch
+
+        fetch(`http://localhost:5001/v1/ticket`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            try {
+                console.log(data);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        });
       }
     }
 
@@ -93,119 +110,117 @@ export default function CreateTicket() {
             <Typography variant="h3" component="h1" className='text-black'>
               Crear Ticket
             </Typography>
-            <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ mt: 4, width: '50%' }}>
-              <Grid container spacing={3}>
-
-                <Grid item xs={12}>
-                    <TextField
-                        error={nameError && nameError != " " ? true : false}
-                        helperText={nameError}
-                        fullWidth
-                        id="TicketName"
-                        label="Titulo"
-                        autoFocus
-                        {...register('TicketName')}
-                    />
-                </Grid>
+            <Box sx={{ mt: 4, width: '50%' }}>
+              <form onSubmit={handleSubmit(handleFormSubmit)}>
                 
-                <Grid item xs={12}>
-                    <TextField
-                        error={descError && descError != " " ? true : false}
-                        fullWidth
-                        id="TicketDescription"
-                        label="Descripción"
-                        autoFocus
-                        multiline
-                        rows={4}
-                        helperText={descError}
-                        {...register('TicketDescription')}
-                    />
-                </Grid>
+                <Grid container spacing={3}>
 
-                <Grid item xs={12}>
-                    <TextField
-                        error={descError && descError != " " ? true : false}
-                        fullWidth
-                        id="TicketResource"
-                        label="Recurso"
-                        autoFocus
-                        helperText={clientError}
-                        {...register('TicketResource')}
-                    />
-                </Grid>
+                  <Grid item xs={12}>
+                      <TextField
+                          error={nameError && nameError != " " ? true : false}
+                          helperText={nameError}
+                          fullWidth
+                          id="title"
+                          label="Título"
+                          autoFocus
+                          {...register('title')}
+                          />
+                  </Grid>
+                  
+                  <Grid item xs={12}>
+                      <TextField
+                          error={descError && descError != " " ? true : false}
+                          fullWidth
+                          id="description"
+                          label="Descripción"
+                          autoFocus
+                          multiline
+                          rows={4}
+                          helperText={descError}
+                          {...register('description')}
+                          />
+                  </Grid>
 
-                <Grid item xs={12}>
-                    <TextField
-                        error={descError && descError != " " ? true : false}
-                        fullWidth
-                        id="TicketClient"
-                        label="Cliente"
-                        autoFocus
-                        helperText={clientError}
-                        {...register('TicketClient')}
-                    />
-                </Grid>
+                  <Grid item xs={12}>
+                      <TextField
+                          error={descError && descError != " " ? true : false}
+                          fullWidth
+                          id="resource_name"
+                          label="Recurso"
+                          autoFocus
+                          helperText={resourceError}
+                          {...register('resource_name')}
+                          />
+                  </Grid>
 
-                <Grid item xs={6}>
-                  <InputLabel id="select-priority">Prioridad</InputLabel>
-                  <Select 
-                    labelId="TicketPriority" 
-                    id="select-priority" 
-                    value={selectedOption}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={descError != " " ? true : false}
-                    fullWidth
-                    autoFocus
-                    helperText={priorityError}
-                    {...register('TicketPriority')}
-                  >
-                    {options.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Grid>
+                  <Grid item xs={12}>
+                      <TextField
+                          error={descError && descError != " " ? true : false}
+                          fullWidth
+                          id="client_id"
+                          label="Cliente"
+                          autoFocus
+                          helperText={clientError}
+                          {...register('client_id')}
+                          />
+                  </Grid>
 
-                <Grid item xs={6}>
-                  <InputLabel id="select-severity">Severidad</InputLabel>
-                  <Select 
-                    labelId="TicketSeverity" 
-                    id="select-severity" 
-                    value={severityError}
-                    error={descError && descError != " " ? true : false}
-                    fullWidth
-                    autoFocus
-                    helperText={severityError}
-                    onChange={handleChange}
-                    {...register('TicketSeverity')}
-                  >
-                    {options.map((option) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}  
-                  </Select>
+                  <Grid item xs={6}>
+                    <InputLabel id="select-priority">Prioridad</InputLabel>
+                    <Select 
+                      labelId="priority" 
+                      id="select-priority" 
+                      value={priority}
+                      error={priorityError != "" ? true : false}
+                      fullWidth
+                      autoFocus
+                      {...register('priority')}
+                    >
+                      {options.map((option) => (
+                        <MenuItem key={option} value={option} onClick={() => handleChangePriority(option)}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <InputLabel id="select-severity">Severidad</InputLabel>
+                    <Select 
+                      labelId="severity" 
+                      id="select-severity" 
+                      value={severity}
+                      fullWidth
+                      autoFocus
+                      error={severityError != "" ? true : false}
+                      {...register('severity')}
+                      >
+                      {options.map((option) => (
+                        <MenuItem key={option} value={option} onClick={() => handleChangeSeverity(option)}>
+                          {option}
+                        </MenuItem>
+                      ))}  
+                    </Select>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Button 
-                type="submit"
-                fullWidth
-                style={{backgroundColor: COLORS.button, height: '50px'}}
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }} >
-                  Crear
-              </Button>
-              <Button 
-                type="submit"
-                fullWidth
-                style={{ height: '50px'}}
-                variant="outlined"
-                sx={{ mb: 2 }} 
-                href="../proyectos">
-                  Cancelar
-              </Button>
+                <Button 
+                  type="submit"
+                  fullWidth
+                  style={{backgroundColor: COLORS.button, height: '50px'}}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }} >
+                    Crear
+                </Button>
+                <Button 
+                  type="submit"
+                  fullWidth
+                  style={{ height: '50px'}}
+                  variant="outlined"
+                  sx={{ mb: 2 }} 
+                  href="../proyectos">
+                    Cancelar
+                </Button>
+              </form>
             </Box>
           </Box>
         </Container>
