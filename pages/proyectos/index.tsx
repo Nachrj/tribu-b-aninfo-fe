@@ -41,7 +41,7 @@ export default function Projects() {
                 style={{backgroundColor: COLORS.button, height: '50px'}}
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: '10%' }} 
-                href="./proyectos/crear">
+                href="./proyectos/crear/modificar">
                   Crear
             </Button>
           </Box>
