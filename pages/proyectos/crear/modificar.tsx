@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import COLORS from '@/constants/colors';
 import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
 import { InputLabel, MenuItem } from '@mui/material';
@@ -57,25 +57,30 @@ export default function ModifyTicket() {
       setResourceError("");
     };
     
-    const handleChangeClient = (client) => {
-      setClient(client);
+    const handleChangeClient = (event) => {
+      setClient(event.target.value);
       setClientError("");
     };
     
-    const handleChangePriority = (option) => {
-      setPriority(option);
+    const handleChangePriority = (event) => {
+      setPriority(event.target.value);
       setPriorityError("");
     };
 
-    const handleChangeSeverity = (option) => {
-      setSeverity(option);
+    const handleChangeSeverity = (event) => {
+      setSeverity(event.target.value);
       setSeverityError("");
     };
     
-    const handleChangeState = (option) => {
-      setState(option);
+    const handleChangeState = (event) => {
+      setState(event.target.value);
       setStateError("");
     };
+
+
+    useEffect(() => {
+      setClient(client);
+    }, [client]);
 
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.title ? FORM_ERRORS.noName : '');
@@ -213,7 +218,7 @@ export default function ModifyTicket() {
                           value={client}
                           autoFocus
                           helperText={clientError}
-                          onClick={handleChangeClient(client)}
+                          onChange={handleChangeClient}
                           {...register('client_id')}
                           />
                   </Grid>
