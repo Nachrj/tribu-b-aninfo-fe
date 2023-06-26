@@ -6,10 +6,12 @@ import { Box, Button, Container } from "@mui/material";
 import COLORS from "@/constants/colors";
 import Typography from '@mui/material/Typography';
 import { PROJECT_URL } from '@/pages/_app';
+import PopUpConfirmAction from "@/components/popUpConfirmAction";
 
 export default function Projects() {
-    // examples for the table
     const [projects, setProjects] = useState([])
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+    const [projectIdToDelete, setProjectIdToDelete] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         fetch(`${PROJECT_URL}/projects`)
@@ -28,6 +30,21 @@ export default function Projects() {
                 }))
             })
     }, [])
+
+    const handleDeleteConfirm = () => {
+      fetch(`${PROJECT_URL}/projects/${projectIdToDelete}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+      })
+      .then((res) => {
+          console.log("res", res)
+          return res.json()
+      })
+      setShowConfirmDelete(false);
+      setProjectIdToDelete(undefined);
+  };
 
     return (
       <Container component="main">
@@ -51,7 +68,18 @@ export default function Projects() {
             headerItems={["id", "nombre", "estado", "", ""]}
             rowItems={projects}
             linkTo="/proyectos"
-            onDelete={(itemId: number) => console.log('Borrando proyecto id: ', itemId)}
+            onDelete={(id: number) => {
+              console.log('Borrando task con id: ', id)
+              setProjectIdToDelete(id);
+              setShowConfirmDelete(true);
+          }}
+          />
+          <PopUpConfirmAction
+            show={showConfirmDelete}
+            title="Confirmar eliminación"
+            message="¿Estás seguro de que deseas eliminar este proyecto?"
+            onClickAcept={handleDeleteConfirm}
+            onClickClose={() => setShowConfirmDelete(false)}
           />
         </Box>
       </Container>

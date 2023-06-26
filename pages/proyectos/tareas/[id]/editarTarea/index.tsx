@@ -9,8 +9,34 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Resource, prioritiesMap, statusMap } from '@/utils/types';
 import { PROJECT_URL } from '@/pages/_app';
+import { TASK } from '@/utils/dump';
 
 export default function UpdateTask() {
+    const router = useRouter()
+    const id = router.query.id
+    const projectId = router.query.projectId
+
+    const [task, setTask] = useState(TASK)
+
+    useEffect(() => {
+      fetch(`${PROJECT_URL}/tasks/${id}`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+          console.log("res", res)
+          return res.json()
+      })
+      .then((task) => {
+          console.log("Got task: ", task)
+          if (task) {
+            setTask(task)
+          }
+      })
+    })
+
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
@@ -21,10 +47,6 @@ export default function UpdateTask() {
     const [selectedResource, setSelectedResource] = useState<Resource | undefined>(undefined);
     const [resources, setResources] = useState<Resource[]>([]);
     const [resourceError, setResourceError] = useState(" ");
-
-    const router = useRouter()
-    const id = router.query.id
-    const projectId = router.query.projectId
 
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.taskName ? FORMERRORS.noName : ' ');
@@ -66,7 +88,7 @@ export default function UpdateTask() {
           console.log("res", res)
           return res.json()
       })
-      .then((data) => {
+      .then(() => {
           router.push(`../../${projectId}`)
       })
       }
