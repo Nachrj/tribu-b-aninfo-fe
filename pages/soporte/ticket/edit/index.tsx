@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Input from "@/components/input";
 import DescriptionInput from "@/components/descriptionInput";
 import Select from "@/components/select";
-import { STATES_OPTIONS, TICKET_PRIORITY, TICKET_SEVERITY } from "@/pages/soporte/constants";
+import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
 import GoBack from '@/components/backButton';
 import PopUpError from "@/components/popUpError";
 import { editTicket, getTicket } from "@/requests/ticket";
@@ -97,8 +97,8 @@ export default function TicketModify() {
                             </div>
                             <div className="flex flex-row justify-around min-w-full px-2 mt-5 ">
                                 <Input label="SLA" value={ticketData?.SLA} modify={false} />
-                                <Select label="Severidad" value={severity} options={TICKET_SEVERITY} onChange={setSeverity}/>
-                                <Select label="Prioridad" value={priority} options={TICKET_PRIORITY} onChange={setPriority}/>
+                                <Select label="Severidad" value={severity} options={SEVERITY_OPTIONS} onChange={setSeverity}/>
+                                <Select label="Prioridad" value={priority} options={PRIORITY_OPTIONS} onChange={setPriority}/>
                             </div>
                             <div className="mx-12">
                                 <DescriptionInput label="Descripción" value={description} onChange={setDescription}/>
