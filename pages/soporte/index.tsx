@@ -5,6 +5,8 @@ import COLORS from "@/constants/colors";
 import Typography from '@mui/material/Typography';
 import { getProducts } from "@/requests/products";
 import { Product } from "../types";
+import HeaderItem from "@/components/headerItem";
+import ProductGridRow from "@/components/productGridRow";
 
 export default function Products() {
     const [products, setProducts] = useState<Product[]>([])
@@ -20,23 +22,23 @@ export default function Products() {
             <Typography variant="h3" component="h1">
               Productos
             </Typography>
-            <Button
-                type="submit"
-                fullWidth
-                style={{backgroundColor: COLORS.button, height: '50px'}}
-                variant="contained"
-                sx={{ mt: 3, mb: 2, width: '10%' }}
-                href="./soporte/ticket/create"
-                >
-                  Crear
-            </Button>
           </Box>
-          
-          <Table 
-            headerItems={["id", "name", "version_name"]}
-            rowItems={products}
-            linkTo="/soporte"
-          />
+          <table className="min-w-full">
+            <thead>
+              <tr>
+                  <HeaderItem title="Name" />
+                  <HeaderItem title="Version" />
+              </tr>
+            </thead>
+
+            <tbody>
+                {
+                    products.map((product) => ( 
+                        <ProductGridRow key={product.id} product={product}/>
+                    ))
+                }
+            </tbody>
+          </table>
         </Box>
       </Container>
   )
