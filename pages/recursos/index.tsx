@@ -15,17 +15,6 @@ export default function Resources() {
       {Id: 5, tareaId: "4", nombreTarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2", proyectoId: 2, recursoId: "4"}
     ]);
 
-    // const tareas = [
-    //   [{"id": 1, "name": "Hacer MDD"}, {"id": 2, "name": "Iniciar frontend"}],
-    //   [{"id": 3, "name": "Iniciar backend"}, {"id": 4, "name": "Hacer wireframe"}]
-    // ];
-
-    const [projectIdx, setProjectIdx] = useState(0);
-
-    const handlerLoadTasks = (event: any) => {
-      setProjectIdx(event.target.value);
-    };
-
     const [modalOpen, setModalOpen] = useState(false);
 
     const [rowToEdit, setRowToEdit] = useState(null);
@@ -71,19 +60,6 @@ export default function Resources() {
             <br />
             <h2 className="text-3xl font-bold decoration-gray-400">Marcos Rivero</h2>
             <br />
-            <div>
-              <label htmlFor="selProject">Proyecto: </label>
-              
-              <select name="projects" id="selProject" onClick={handlerLoadTasks}>
-                
-                {
-                  projects.map((item, i) => (
-                    <option key={"project"+i} value={i}>{item.name}</option>
-                  ))
-                }
-              </select>
-
-            </div>
             <br />
             <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                     onClick={() => setModalOpen(true)}>Agregar registro</button>
@@ -96,7 +72,7 @@ export default function Resources() {
             />
 
             {modalOpen && <ModalResources
-                            proyecto={projects[projectIdx]}
+                            proyectos={projects}
                             closeModal={() => {setModalOpen(false); setRowToEdit(null)}}
                             onSubmit={handleSubmit}
                             defaultValue={rowToEdit !== null && horas[rowToEdit]}
