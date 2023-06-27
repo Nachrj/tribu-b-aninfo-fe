@@ -79,7 +79,7 @@ export default function ProjectsTasks() {
     useEffect(() => {
         getProject()
         getTasks()
-      }, [id])
+      }, [])
   
 
     return (
@@ -106,7 +106,15 @@ export default function ProjectsTasks() {
                 <Typography className='ml-2' color={'gray'}>
                     {project.description}
                 </Typography>
-                <Button color='secondary' style={{textTransform: 'none'}}>
+                <Button 
+                    color='secondary' 
+                    style={{textTransform: 'none'}}
+                    onClick={() => {
+                        console.log('Redireccionando a mas informacion')
+                        console.log('Project id: ', id)
+                        router.push(`./${id}/masInformacion`);
+                    }}
+                >
                     Ver más información
                 </Button>
                 <Table 
