@@ -15,7 +15,7 @@ export default function TableResources({rows, editRow, deleteRow}:any) {
                 {
                    rows.map((row: any, idx: any) => {
                     return <tr key={idx}>
-                        <td>{row.tareaId}</td>
+                        <td>{row.nombreTarea}</td>
                         <td>{row.fecha}</td>
                         <td>{row.horas}</td>
                         <td>

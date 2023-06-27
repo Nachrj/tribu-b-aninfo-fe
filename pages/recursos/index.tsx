@@ -4,14 +4,21 @@ import ModalResources from "@/components/modalResources";
 export default function Resources() {
     
     const [projects, setProjects] = useState([
-      { "id": 1, "nombre": "Sistema de Home Banking", "horas": [{Id: 1, tareaId: "Hacer MDD", fecha: "2023-06-19", horas: "4", proyectoId: "1", recursoId: "4"}, {Id: 3, tareaId: "Iniciar frontend", fecha: "2023-06-20", horas: "6", proyectoId: "1", recursoId: "4"}]},
-      { "id": 2, "nombre": "Gestión aranceles", "horas": [{Id: 2, tareaId: "Iniciar backend", fecha: "2023-06-20", horas: "5", proyectoId: "2", recursoId: "4"}, {Id: 5, tareaId: "Hacer wireframe", fecha: "2023-06-20", horas: "2", proyectoId: "2", recursoId: "4"}]}
+      { "id": 1, "name": "Sistema de Home Banking", "tareas": [{"id": 1, "name": "Hacer MDD"}, {"id": 2, "name": "Iniciar frontend"}]},
+      { "id": 2, "name": "Gestión aranceles", "tareas": [{"id": 3, "name": "Iniciar backend"}, {"id": 4, "name": "Hacer wireframe"}]}
     ]);
 
-    const tareas = [
-      [{id: 1, tarea: "Hacer MDD"}, {id: 3, tarea: "Iniciar frontend"}],
-      [{id: 2, tarea: "Iniciar backend"}, {id: 5, tarea: "Hacer wireframe"}]
-    ];
+    const [horas, setHoras] = useState([
+      {Id: 1, tareaId: "1", nombreTarea: "Hacer MDD", fecha: "2023-06-19", horas: "4", proyectoId: 1, recursoId: "4"},
+      {Id: 3, tareaId: "2", nombreTarea: "Iniciar frontend", fecha: "2023-06-20", horas: "6", proyectoId: 1, recursoId: "4"},
+      {Id: 2, tareaId: "3", nombreTarea: "Iniciar backend", fecha: "2023-06-20", horas: "5", proyectoId: 2, recursoId: "4"},
+      {Id: 5, tareaId: "4", nombreTarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2", proyectoId: 2, recursoId: "4"}
+    ]);
+
+    // const tareas = [
+    //   [{"id": 1, "name": "Hacer MDD"}, {"id": 2, "name": "Iniciar frontend"}],
+    //   [{"id": 3, "name": "Iniciar backend"}, {"id": 4, "name": "Hacer wireframe"}]
+    // ];
 
     const [projectIdx, setProjectIdx] = useState(0);
 
@@ -24,8 +31,7 @@ export default function Resources() {
     const [rowToEdit, setRowToEdit] = useState(null);
 
     const handleDeleteRow = (targetIndex: any) => {
-      projects[projectIdx].horas.splice(targetIndex, 1);
-      setProjects([...projects]);
+      setHoras(horas.filter((_, idx) => idx !== targetIndex))
 
     }
 
@@ -36,22 +42,27 @@ export default function Resources() {
 
     const handleSubmit = (formState: any) => {
       if (rowToEdit === null) {
-        projects[projectIdx].horas.push(formState);
+        setHoras([...horas, formState]);
       } else {
-        projects[projectIdx].horas[rowToEdit].tareaId = formState.tareaId;
-        projects[projectIdx].horas[rowToEdit].fecha = formState.fecha;
-        projects[projectIdx].horas[rowToEdit].horas = formState.horas;
+        setHoras(
+          horas.map((currRow, idx) => {
+            if (idx !== rowToEdit) return currRow;
+
+            return formState;
+          })
+        )
       }
     }
 
     useEffect(() => {
-        // fetch("")
+        // fetch("http://localhost:8080/proyectos/recurso/4")
         //     .then((res) => {
-        //         console.log("res", res)
+        //         // console.log("res", res)
         //         return res.json()
         //     })
         //     .then((data) => {
-        //         console.log(data)
+        //         console.log(data);
+        //         setProjects(data);
         //     })
     }, [])
 
@@ -67,7 +78,7 @@ export default function Resources() {
                 
                 {
                   projects.map((item, i) => (
-                    <option key={"project"+i} value={i}>{item.nombre}</option>
+                    <option key={"project"+i} value={i}>{item.name}</option>
                   ))
                 }
               </select>
@@ -77,15 +88,21 @@ export default function Resources() {
             <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                     onClick={() => setModalOpen(true)}>Agregar registro</button>
 
-            <TableResources rows={projects[projectIdx].horas} editRow={handleEditRow} deleteRow={handleDeleteRow}/>
+            <TableResources
+              //rows={horas.filter(h => h.proyectoId === projects[projectIdx].id)}
+              rows={horas}
+              editRow={handleEditRow}
+              deleteRow={handleDeleteRow}
+            />
 
             {modalOpen && <ModalResources
-                            tareas={tareas[projectIdx]}
+                            proyecto={projects[projectIdx]}
                             closeModal={() => {setModalOpen(false); setRowToEdit(null)}}
                             onSubmit={handleSubmit}
-                            defaultValue={rowToEdit !== null && projects[projectIdx].horas[rowToEdit]}
+                            defaultValue={rowToEdit !== null && horas[rowToEdit]}
                           />
             }
+            <div>{rowToEdit}</div>
         </>
     )
 }
