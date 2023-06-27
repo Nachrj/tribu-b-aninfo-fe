@@ -15,6 +15,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { Resource } from '@/utils/types';
+import { PROJECT_URL } from '@/pages/_app';
 
 export default function CreateProject() {
     const {register, handleSubmit} = useForm();
@@ -46,7 +47,7 @@ export default function CreateProject() {
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        fetch("http://localhost:8080/projects", {
+        fetch(`${PROJECT_URL}/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

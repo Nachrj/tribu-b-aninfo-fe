@@ -7,6 +7,7 @@ import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
 import { PROJECT } from '@/utils/dump';
 import { Project } from '@/utils/types';
+import { PROJECT_URL } from '@/pages/_app';
 
 export default function CreateTask() {
     const {register, handleSubmit} = useForm();
@@ -18,7 +19,7 @@ export default function CreateTask() {
     const id = router.query.id
 
     const getProject = () => {
-        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}`, {
+        fetch(`${PROJECT_URL}/projects/${id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -73,7 +74,7 @@ export default function CreateTask() {
           console.log('current Project description', description)
           console.log('current consumedHours', consumedHours)
           console.log('res: ', rest)
-          fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}`, {
+          fetch(`${PROJECT_URL}/projects/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

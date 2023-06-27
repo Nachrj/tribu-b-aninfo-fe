@@ -4,17 +4,21 @@ import Table from '@/components/table';
 import { Box, Button, Container, Divider } from "@mui/material";
 import COLORS from '@/constants/colors';
 import Typography from '@mui/material/Typography';
-import { statusMap } from '@/utils/types';
+import { prioritiesMap, statusMap } from '@/utils/types';
 import { PROJECT } from '@/utils/dump';
+import { PROJECT_URL } from '@/pages/_app';
+import PopUpConfirmAction from '@/components/popUpConfirmAction';
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
     const [tasks, setTasks] = useState(PROJECT.tasks)
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+    const [taskIdToDelete, setTaskIdToDelete] = useState<number | undefined>(undefined);
     const router = useRouter()
     const id = router.query.id
 
     const getProject = () => {
-        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}`, {
+        fetch(`${PROJECT_URL}/projects/${id}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -31,7 +35,7 @@ export default function ProjectsTasks() {
     }
 
     const getTasks = () => {
-        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}/tasks`, {
+        fetch(`${PROJECT_URL}/projects/${id}/tasks`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -43,9 +47,34 @@ export default function ProjectsTasks() {
               })
               .then((data) => {
                   console.log("Got data from tasks: ", data)
-                  setTasks(data.map((task : any) => { return { id: task.id, nombre: task.name, estado: task.state, prioridad: task.priority }}))
+                  setTasks(data.map((task : any) => { 
+                    return { 
+                        id: task.id, 
+                        nombre: task.name, 
+                        estado: statusMap.get(task.state), 
+                        prioridad: prioritiesMap.get(task.priority) 
+                    }
+                }))
               })
     }
+
+    const handleDeleteConfirm = () => {
+        fetch(`${PROJECT_URL}/tasks/${taskIdToDelete}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+        })
+        .then((res) => {
+            console.log("res", res)
+            //return res.json()
+        })
+        .then(() => {
+            getTasks()
+        })
+        setShowConfirmDelete(false);
+        setTaskIdToDelete(undefined);
+    };
 
     useEffect(() => {
         getProject()
@@ -83,8 +112,23 @@ export default function ProjectsTasks() {
                 <Table 
                     rowItems={tasks}
                     headerItems={["id", "nombre", "estado", "prioridad", "", ""]}
-                    onDelete={(itemId: number) => console.log('Borrando task con id: ', itemId)}
-                    onEdit={(itemId: number) => console.log('Editando task con id: ', itemId)}
+                    onDelete={(taskId: number) => {
+                        console.log('Borrando task con id: ', taskId)
+                        setTaskIdToDelete(taskId);
+                        setShowConfirmDelete(true);
+                    }}
+                    onEdit={(taskId: number) => {
+                        console.log('Editando task con id: ', taskId)
+                        router.push(`./tareas/${taskId}/editarTarea?projectId=${id}`)
+                    }
+                    }
+                />
+                <PopUpConfirmAction
+                    show={showConfirmDelete}
+                    title="Confirmar eliminación"
+                    message="¿Estás seguro de que deseas eliminar esta tarea?"
+                    onClickAcept={handleDeleteConfirm}
+                    onClickClose={() => setShowConfirmDelete(false)}
                 />
                 <Button 
                     type="submit"

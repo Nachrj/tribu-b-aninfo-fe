@@ -3,18 +3,21 @@ import { Container, Typography, Box, Button, TextField, Grid, Select, MenuItem }
 import { FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import COLORS from '@/constants/colors';
+import { DatePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
-import { PROJECT_URL } from '@/pages/_app';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { prioritiesMap, statusMap } from '@/utils/types';
+
+const STATES = ["Finished", "NotStarted", "InProgress"]
+const PRIORITIES = ["Low", "Medium", "High"]
 
 export default function CreateTask() {
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
     const [clientError, setClientError] = useState(" ");
+    const [costError, setCostError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [priority, setPriority] = useState<string | undefined>(" ");
     const [state, setState] = useState<string | undefined>(" ");
@@ -37,6 +40,7 @@ export default function CreateTask() {
         nameError == ' ' &&
         descError == ' ' &&
         clientError == ' ' &&
+        costError == ' ' &&
         formData.taskName &&
         formData.taskDescription
         );
@@ -44,7 +48,7 @@ export default function CreateTask() {
     
     const handleFormSubmit = (formData: FieldValues) => {
       if (validateForm(formData)) { 
-        fetch(`${PROJECT_URL}/projects/${id}/tasks`, {
+        fetch(`https://aninfo-backend-proyectos.onrender.com/projects/${id}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +58,7 @@ export default function CreateTask() {
           description: formData.taskDescription,
           priority: priority,
           state: state,
-          dueDate: selectedDate,
+          // startDate: new Date(),
         })
       })
       .then((res) => {
@@ -119,10 +123,10 @@ export default function CreateTask() {
                       setPriority(event.target.value);
                     }}
                   >
-                    {Array.from(prioritiesMap.entries()).map(([key, value]) => (
-                    <MenuItem key={key} value={key}>
-                      {value}
-                    </MenuItem>
+                    {PRIORITIES.map((priority, index) => (
+                      <MenuItem key={index} value={priority}>
+                        {priority}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid>
@@ -130,7 +134,7 @@ export default function CreateTask() {
                   <TextField 
                       fullWidth
                       id="state"
-                      label="Estado"
+                      label="State"
                       autoFocus
                       select
                       value={state}
@@ -138,26 +142,26 @@ export default function CreateTask() {
                         setState(event.target.value);
                       }}
                     >
-                    {Array.from(statusMap.entries()).map(([key, value]) => (
-                    <MenuItem key={key} value={key}>
-                      {value}
-                    </MenuItem>
-                    ))}
+                      {STATES.map((state, index) => (
+                        <MenuItem key={index} value={state}>
+                          {state}
+                        </MenuItem>
+                      ))}
                     </TextField>
                 </Grid>
-                <Grid item xs={12}>
-                <LocalizationProvider 
-                  dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Fecha límite"
-                    sx={{ width: '100%'}}
-                    value={selectedDate}
-                    onChange={(newValue: any) => {
-                      setSelectedDate(newValue);
-                    }}
-                  />
-                </LocalizationProvider>
-              </Grid>
+                {/* <Grid item xs={6}>
+                  <LocalizationProvider 
+                    dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="Finalización"
+                      sx={{ width: '100%'}}
+                      value={selectedDate}
+                      onChange={(newValue: any) => {
+                        setSelectedDate(newValue);
+                      }}
+                    />
+                  </LocalizationProvider>
+                </Grid> */}
               </Grid>
               <Button 
                 type="submit"
