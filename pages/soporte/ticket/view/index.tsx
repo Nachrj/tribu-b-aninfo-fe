@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
 import { FieldValues, useForm } from 'react-hook-form';
+import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS , TICKET_STATE} from "@/pages/soporte/constants";
 
 
 export default function ModifyTicket() {
@@ -31,6 +32,9 @@ export default function ModifyTicket() {
           console.log("INFO DEL TICKET", ticketData);
       }
     }, [router.isReady]);
+
+    const selectedPriority = PRIORITY_OPTIONS.find(option => option.key === ticketData?.priority); 
+    const selectedState = TICKET_STATE[ticketData?.state];
 
     return (
       <>
@@ -112,7 +116,8 @@ export default function ModifyTicket() {
                                             }}
                                             id="select-state" 
                                             fullWidth
-                                            value={ticketData?.state}
+                                            // value={ticketData?.state}
+                                            value={selectedState}
                                             autoFocus
                                           />
                                        </Grid>
@@ -126,7 +131,8 @@ export default function ModifyTicket() {
                                             id="select-priority" 
                                             fullWidth
                                             autoFocus
-                                            value={ticketData?.priority}
+                                            // value={ticketData?.priority}
+                                            value={selectedPriority  ? selectedPriority.label : ''}
                                          />
                                        </Grid>
 

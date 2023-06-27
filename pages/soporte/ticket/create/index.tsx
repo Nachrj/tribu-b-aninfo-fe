@@ -17,6 +17,7 @@ import { useClientData } from '@/services/clients';
 import { useProductsData } from '@/services/products';
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
+import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
 
 
 
@@ -226,9 +227,9 @@ export default function CreateTicket() {
                                                         autoFocus
                                                         {...register('priority')}
                                                     >
-                                                        {options.map((option) => (
-                                                            <MenuItem key={option} value={option} onClick={() => handleChangePriority(option)}>
-                                                                {option}
+                                                        {PRIORITY_OPTIONS.map((option) => (
+                                                            <MenuItem key={option.key} value={option.key} onClick={() => handleChangePriority(option.key)}>
+                                                                {option.label}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
@@ -245,11 +246,11 @@ export default function CreateTicket() {
                                                         error={severityError != "" ? true : false}
                                                         {...register('severity')}
                                                     >
-                                                        {options.map((option) => (
-                                                            <MenuItem key={option} value={option} onClick={() => handleChangeSeverity(option)}>
-                                                                {option}
-                                                            </MenuItem>
-                                                        ))}
+                                                        {SEVERITY_OPTIONS.map((option) => (
+                                                        <MenuItem key={option.key} value={option.key} onClick={() => handleChangeSeverity(option.key)}>
+                                                            {option.label}
+                                                        </MenuItem>
+                                                        ))}    
                                                     </Select>
                                                 </Grid>
                                             </Grid>
