@@ -1,7 +1,10 @@
 import {useEffect, useState} from "react";
 import TableResources from "@/components/tableResources";
 import ModalResources from "@/components/modalResources";
+import ModalResourcesEdit from "@/components/modalResourcesEdit";
 export default function Resources() {
+
+    const recursoId = 4;
     
     const [projects, setProjects] = useState([
       { "id": 1, "name": "Sistema de Home Banking", "tareas": [{"id": 1, "name": "Hacer MDD"}, {"id": 2, "name": "Iniciar frontend"}]},
@@ -9,13 +12,15 @@ export default function Resources() {
     ]);
 
     const [horas, setHoras] = useState([
-      {Id: 1, tareaId: "1", nombreTarea: "Hacer MDD", fecha: "2023-06-19", horas: "4", proyectoId: 1, recursoId: "4"},
-      {Id: 3, tareaId: "2", nombreTarea: "Iniciar frontend", fecha: "2023-06-20", horas: "6", proyectoId: 1, recursoId: "4"},
-      {Id: 2, tareaId: "3", nombreTarea: "Iniciar backend", fecha: "2023-06-20", horas: "5", proyectoId: 2, recursoId: "4"},
-      {Id: 5, tareaId: "4", nombreTarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2", proyectoId: 2, recursoId: "4"}
+      {Id: 1, tareaId: "1", nombreTarea: "Hacer MDD", fecha: "2023-06-19", horas: "4", proyectoId: 1, recursoId: 4},
+      {Id: 3, tareaId: "2", nombreTarea: "Iniciar frontend", fecha: "2023-06-20", horas: "6", proyectoId: 1, recursoId: 4},
+      {Id: 2, tareaId: "3", nombreTarea: "Iniciar backend", fecha: "2023-06-20", horas: "5", proyectoId: 2, recursoId: 4},
+      {Id: 5, tareaId: "4", nombreTarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2", proyectoId: 2, recursoId: 4}
     ]);
 
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [modalEditOpen, setModalEditOpen] = useState(false);
 
     const [rowToEdit, setRowToEdit] = useState(null);
 
@@ -26,7 +31,7 @@ export default function Resources() {
 
     const handleEditRow = (idx: any) => {
       setRowToEdit(idx);
-      setModalOpen(true);
+      setModalEditOpen(true);
     }
 
     const handleSubmit = (formState: any) => {
@@ -74,6 +79,14 @@ export default function Resources() {
             {modalOpen && <ModalResources
                             proyectos={projects}
                             closeModal={() => {setModalOpen(false); setRowToEdit(null)}}
+                            onSubmit={handleSubmit}
+                            defaultValue={rowToEdit !== null && horas[rowToEdit]}
+                            recursoId={recursoId}
+                          />
+            }
+            {modalEditOpen && <ModalResourcesEdit
+                            proyectos={projects}
+                            closeModal={() => {setModalEditOpen(false); setRowToEdit(null)}}
                             onSubmit={handleSubmit}
                             defaultValue={rowToEdit !== null && horas[rowToEdit]}
                           />
