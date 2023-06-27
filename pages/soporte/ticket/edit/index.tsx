@@ -240,7 +240,7 @@ export default function TicketModify() {
                             fullWidth
                             id="title"
                             defaultValue={title}
-                            value={title}
+                            // value={title}
                             autoFocus
                             multiline
                             rows={1}
@@ -256,7 +256,7 @@ export default function TicketModify() {
                             fullWidth
                             id="description"
                             defaultValue={description}
-                            value={description}
+                            // value={description}
                             autoFocus
                             multiline
                             rows={4}

@@ -11,10 +11,12 @@ import {Ticket} from "@/pages/types";
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
+import { FieldValues, useForm } from 'react-hook-form';
 
 
 export default function ModifyTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
+    const { register, handleSubmit } = useForm();
 
     const clickHandler = () => {
       // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
@@ -54,7 +56,7 @@ export default function ModifyTicket() {
                                  }}
                                >
                                  <Box sx={{ mt: 4, width: '50%' }}>
-                                   <form >
+                                  <form onSubmit={handleSubmit(clickHandler)}>
                                     
                                      <Grid container spacing={3}>
 
