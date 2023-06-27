@@ -3,44 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
-import { getTicketTasks } from "@/requests/task";
+import { getTicketTasks } from "@/requests/tasks";
+import { Button } from "@mui/material";
+import COLORS from "@/constants/colors";
 
 export default function Tasks() {
-    
-    const list = [
-        {
-            nombre:"BOCA LA CONCHA DE TU MADRE",
-            descripcion:"dsadasdsad dss dasd a fafaef sfwaefwa dfwq feew afjwa fwnj ",
-            estado:"OPEN",
-            prioridad:1,
-            fecha_limite:"31/6/23",
-            horas_insumidas: "4 hs",
-        },
-        {
-            nombre:"BOCA LA CONCHA DE TU MADRE",
-            descripcion:"dsadasdsad dss dasd a fafaef sfwaefwa dfwq feew afjwa fwnj ",
-            estado:"OPEN",
-            prioridad:1,
-            fecha_limite:"31/6/23",
-            horas_insumidas: "4 hs",
-        },
-        {
-            nombre:"BOCA LA CONCHA DE TU MADRE",
-            descripcion:"dsadasdsad dss dasd a fafaef sfwaefwa dfwq feew afjwa fwnj ",
-            estado:"OPEN",
-            prioridad:1,
-            fecha_limite:"31/6/23",
-            horas_insumidas: "4 hs",
-        },
-        {
-            nombre:"BOCA LA CONCHA DE TU MADRE",
-            descripcion:"dsadasdsad dss dasd a fafaef sfwaefwa dfwq feew afjwa fwnj ",
-            estado:"OPEN",
-            prioridad:1,
-            fecha_limite:"31/6/23",
-            horas_insumidas: "4 hs",
-        },
-    ];
 
     const router = useRouter();
     const {ticket_id, ticket_title} = router.query;
@@ -49,17 +16,34 @@ export default function Tasks() {
         if (router.isReady) {
             getTicketTasks(setTasks, ticket_id);
         }
-    }, []);
+    }, [router.isReady]);
+
+    // esta funcion deberia llevar a la vista alternativa de la creacion de una task
+    // se le tiene que mandar el ticket id para que cuando se cree la tarea se asocie
+    const handleCreateTask = () => {
+        router.push(`/proyectos/`);
+    }
 
     return (
         <div className="container max-w-7xl mx-auto mt-8">
             <div className="mb-4">
                 <GoBack/>
-                <h1 className="text-black text-3xl font-bold decoration-gray-400">Tasks</h1>
-                <div className="justify-between flex">
-                    <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Ticket: {ticket_title}</div>
-                    <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> ID: {ticket_id}</div>
+                <div className="flex justify-between">
+                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tasks</h1>
+                    <Button 
+                        type="submit"
+                        style={{backgroundColor: COLORS.button, height: '50px'}}
+                        variant="contained"
+                        sx={{ mr: 8, witdh: '10%' }}
+                        onClick={handleCreateTask} >
+                        Crear
+                    </Button>
                 </div>
+                <div className="justify-between flex pr-20">
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Ticket: {ticket_title}</div>
+                    <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500"> ID: {ticket_id}</div>
+                </div>
+
             </div>
             <div className="flex flex-col">
                 <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 w-full">
@@ -76,10 +60,10 @@ export default function Tasks() {
                             </thead>
 
                             <tbody>
-                                {list.map((task) => (
+                                {tasks.map((task) => (
                                     <TasksGridRow 
-                                                    key={task.id}
-                                                    task_id={task.id}/>
+                                                    key={task.task_id}
+                                                    task_id={task.task_id}/>
                                     ))}
                             </tbody>
                         </table>

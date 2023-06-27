@@ -2,7 +2,7 @@ import { BASE_URL } from "@/pages/soporte/constants";
 
 export const getTask = (setTask, task_id) => {
 
-    const ticket = fetch(`${BASE_URL}/tasks/${task_id}`, {
+    const ticket = fetch(`https://aninfo-backend-proyectos.onrender.com/tasks/${task_id}`, {
         method: "GET",
     })
     .then(response => {
@@ -13,9 +13,7 @@ export const getTask = (setTask, task_id) => {
     })
     .then((data) => {
         try {
-            if (data.result) {
-                setTask(data.result);
-            }
+            setTask(data.result);
         } catch (error) {
             console.error('Error parsing JSON:', error);
         }
