@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useRouter } from 'next/router';
 
-const PopUpConfirmAction = ({ 
-    show, 
-    title, 
-    message, 
-    onClickAcept, 
-    onClickClose 
+interface Props {
+  show: boolean;
+  title: string;
+  message: string;
+  onClickAcept: () => void;
+  onClickClose: () => void;
+}
+
+const PopUpConfirmAction: FC<Props> = ({ 
+    show,
+    title,
+    message,
+    onClickAcept,
+    onClickClose
 }) => {
     const router = useRouter();
 
