@@ -35,10 +35,6 @@ export const STATES_OPTIONS = [
 ];
 
 export const SEVERITY_OPTIONS = [
-    // {
-    //     key: 0,
-    //     label: 'select severity'
-    // },
     {
         key: 1,
         label: '1'
@@ -57,10 +53,6 @@ export const SEVERITY_OPTIONS = [
     }
 ];
 export const PRIORITY_OPTIONS = [
-    {
-        key: 0,
-        label: 'select priority'
-    },
     {
         key: 1,
         label: '1'

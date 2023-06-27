@@ -1,4 +1,5 @@
 import { BASE_URL } from "@/pages/soporte/constants";
+import { Ticket } from "@/pages/types";
 
 export const getTicket = (setTicket, ticket_id) => {
 
@@ -13,7 +14,9 @@ export const getTicket = (setTicket, ticket_id) => {
     })
     .then((data) => {
         try {
-            setTicket(data.result);
+            if (data.result) {
+                setTicket(data.result);
+            }
         } catch (error) {
             console.error('Error parsing JSON:', error);
         }
