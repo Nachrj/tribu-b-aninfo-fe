@@ -12,11 +12,10 @@ import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
 
-
 export default function ModifyTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
 
-    const clickHandler = () => {
+    const handleViewTasks = () => {
       // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
       router.push(`/soporte/ticket/view/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
   };
@@ -27,7 +26,6 @@ export default function ModifyTicket() {
       if (router.isReady) {
           const {ticket_id} = router.query;
           getTicket(setTicket, ticket_id);
-          console.log("INFO DEL TICKET", ticketData);
       }
     }, [router.isReady]);
 
@@ -144,7 +142,8 @@ export default function ModifyTicket() {
                                        fullWidth
                                        style={{backgroundColor: COLORS.button, height: '50px'}}
                                        variant="contained"
-                                       sx={{ mt: 3, mb: 2 }} >
+                                       sx={{ mt: 3, mb: 2 }}
+                                       onClick={handleViewTasks} >
                                          Ver Tareas
                                      </Button>
                                    </form>

@@ -1,8 +1,9 @@
 import TasksGridRow from "@/components/tasksGridRow";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
+import { getTicketTasks } from "@/requests/task";
 
 export default function Tasks() {
     
@@ -43,6 +44,12 @@ export default function Tasks() {
 
     const router = useRouter();
     const {ticket_id, ticket_title} = router.query;
+    const [tasks, setTasks] = useState([]);
+    useEffect(() => {
+        if (router.isReady) {
+            getTicketTasks(setTasks, ticket_id);
+        }
+    }, []);
 
     return (
         <div className="container max-w-7xl mx-auto mt-8">
@@ -72,7 +79,7 @@ export default function Tasks() {
                                 {list.map((task) => (
                                     <TasksGridRow 
                                                     key={task.id}
-                                                    task={task}/>
+                                                    task_id={task.id}/>
                                     ))}
                             </tbody>
                         </table>

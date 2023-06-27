@@ -1,26 +1,14 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import { getTask } from '@/requests/task';
+import React, { useEffect, useState } from 'react';
 
+export default function TasksGridRow({ task_id }) {
+  const [task, setTask] = useState();
 
-export default function TasksGridRow({ task }) {
-
-  const router = useRouter();
-
-  // const handleClick = () => { //ver que le vamos a pasar (si le pasamos algo)
-  //   const task_id = task.id;
-  //   const task_titulo = task.titulo;
-  //   const task_estado = task.estado;
-  //   const task_sla = task.sla;
-  //   const task_severidad = task.severidad;
-  
-  //   // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
-
-  //   router.push(`/taskView?task_id=${task_id}&task_titulo=${task_titulo}&task_estado=${task_estado}&task_sla=${task_sla}&task_severidad=${task_severidad}`);
-  // };
-
+  useEffect(() => {
+    getTask(setTask, task_id);
+  }, []);
 
   return (
-    // <tr key={`${task['id']}`} onClick={handleClick}>
     <tr key={`${task['id']}`} className='cursor-pointer'>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex items-center">{task['nombre']}</div>
