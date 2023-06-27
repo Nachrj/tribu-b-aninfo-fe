@@ -110,7 +110,7 @@ export default function CreateTicket() {
                     marginTop: 4,
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'left',
+                    alignItems: 'center',
                 }}
             >
                 <Typography variant="h3" component="h1" className='text-black'>
