@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Box, Button, Container, Divider } from "@mui/material";
 import Typography from '@mui/material/Typography';
+import ListItemText from '@mui/material/ListItemText';
 import { PROJECT } from '@/utils/dump';
 import { Resource, statusMap } from '@/utils/types';
 import { PROJECT_URL } from '@/pages/_app';
-import { get } from 'http';
 
 export default function MoreProjectInfo() {
     const [project, setProject] = useState(PROJECT)
-    const [resource, setResource] = useState<Resource>()
+    const [resource, setResource] = useState<Resource | undefined>(undefined)
+    const [consumedHours, setConsumedHours] = useState<number>(0)
     const router = useRouter()
     const id = router.query.id
 
@@ -26,13 +27,17 @@ export default function MoreProjectInfo() {
             return res.json()
         })
         .then((data) => {
-            console.log("Got data from projects id: ", data)
-            setProject(data)
+            console.log("Got data from projects id: ", data);
+            setProject(data);
         })
+        .then(() => {
+            getResource();
+            getConsumedHours();
+        });
     }
 
     const getResource = () => {
-        fetch(`https://recursos-squad12.onrender.com/recursos/${project.leaderId}`, {
+        fetch('https://recursos-squad12.onrender.com/recursos', {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -44,14 +49,36 @@ export default function MoreProjectInfo() {
             })
             .then((resources) => {
                 console.log("Got data from resources: ", resources)
-                const data = resources.filter((resource: Resource) => Number(resource.legajo) === project.leaderId)[0]
+                const data = resources.find((resource: Resource) => Number(resource?.legajo) === project.leaderId)
+                console.log('data: ', data)
                 setResource(data)
+                // console.log('Leader id: ', data?.legajo)
+                console.log('resource: ', data)
         })
     };
 
+    const getConsumedHours = () => {
+        fetch(`${PROJECT_URL}/projects/${id}/tasks`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+        .then((res) => {
+            console.log("res", res)
+            return res.json()
+        })
+        .then((tasks) => {
+            console.log("Got tasks: ", tasks)
+            tasks.map((task : any) => { 
+            setConsumedHours(consumedHours + task.consumedHours)
+            console.log('consumedHours: ', consumedHours)
+            })
+        })
+    }
+
     useEffect(() => {
         getProject()
-        getResource()
       }, [])
   
 
@@ -72,7 +99,9 @@ export default function MoreProjectInfo() {
                 </Typography>
             </Box>
             <Box>
-                
+                {/* <ListItemText primary='Leader:' /> */}
+                <p>Project Leader: {resource?.Nombre} {resource?.Apellido}</p>
+                <p>Horas consumidas: {consumedHours}</p>
             </Box>
         </Container>
     )
