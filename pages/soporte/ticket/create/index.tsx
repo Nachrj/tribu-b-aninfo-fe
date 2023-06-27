@@ -15,6 +15,7 @@ import { createTicket } from '@/requests/ticket';
 import { useResourceData } from '@/services/resources';
 import { useClientData } from '@/services/clients';
 import { useProductsData } from '@/services/products';
+import { useRouter } from 'next/router';
 
 
 export default function CreateTicket() {
@@ -36,6 +37,9 @@ export default function CreateTicket() {
     const resources = useResourceData();
     const clients = useClientData();
     const products = useProductsData();
+
+    const router = useRouter();
+    const { product_version } = router.query;
 
     const handleChangePriority = (option) => {
         setPriority(option);
@@ -65,7 +69,7 @@ export default function CreateTicket() {
         setNameError(!formData.title ? FORM_ERRORS.noName : '');
         setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
         setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
-        setProductVersionError(!formData.product_version_id ? FORM_ERRORS.noProductVersion : '');
+        setProductVersionError(!product_version ? FORM_ERRORS.noProductVersion : '');
         setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
         setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
         setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
@@ -78,6 +82,8 @@ export default function CreateTicket() {
             setDescError(FORM_ERRORS.maxDescriptionLength);
         }
 
+        formData.product_version_id = Number(product_version);
+
         return (
             nameError == '' &&
             descError == '' &&
@@ -89,7 +95,7 @@ export default function CreateTicket() {
             formData.title &&
             formData.description &&
             formData.client_id &&
-            formData.product_version_id &&
+            product_version &&
             formData.priority &&
             formData.severity &&
             formData.resource_name
@@ -185,25 +191,6 @@ export default function CreateTicket() {
                                 </Select>
                             </Grid>
 
-                            <Grid item xs={12}>
-                                <InputLabel id="select-product-label">Product Version</InputLabel>
-                                <Select
-                                    labelId="select-product-label"
-                                    id="select-product-label"
-                                    value={product}
-                                    fullWidth
-                                    autoFocus
-                                    type="number"
-                                    {...register('product_version_id')}
-                                    onChange={handleChangeProduct}
-                                >
-                                    {products.map((product) => (
-                                        <MenuItem key={product.id} value={product.version_id}>
-                                            {product.version_name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </Grid>
 
                             <Grid item xs={6}>
                                 <InputLabel id="select-priority">Prioridad</InputLabel>
