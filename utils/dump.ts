@@ -23,3 +23,9 @@ export const TASK = {
     projectId: 0,
     resourceId: 0,
 }
+
+export const RESOURCE = {
+    legajo: '',
+    Nombre: '',
+    Apellido: '',
+}

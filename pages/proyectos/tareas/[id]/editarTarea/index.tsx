@@ -10,13 +10,40 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Resource, prioritiesMap, statusMap } from '@/utils/types';
 import { PROJECT_URL } from '@/pages/_app';
 import { TASK } from '@/utils/dump';
+import { set } from 'date-fns';
 
 export default function UpdateTask() {
     const router = useRouter()
     const id = router.query.id
     const projectId = router.query.projectId
-
     const [task, setTask] = useState(TASK)
+    const {register, handleSubmit, reset } = useForm();
+    const [nameError, setNameError] = useState(" ");
+    const [descError, setDescError] = useState(" ");
+    const [dueDateError, setDueDateError] = useState(" ");
+    const [dueDate, setDueDate] = useState<Date | undefined>(undefined);
+    const [priority, setPriority] = useState<string | undefined>(" ");
+    const [state, setState] = useState<string | undefined>(" ");
+    const [selectedResourceId, setSelectedResourceId] = useState<string | undefined>(" ");
+    const [resources, setResources] = useState<Resource[]>([]);
+    const [resourceError, setResourceError] = useState(" ");
+
+    useEffect(() => {
+      fetch("https://recursos-squad12.onrender.com/recursos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+          .then((res) => {
+              console.log("res", res)
+              return res.json()
+          })
+          .then((data) => {
+              console.log("Got data from resources: ", data)
+              setResources(data)
+          })
+    }, [])
 
     useEffect(() => {
       fetch(`${PROJECT_URL}/tasks/${id}`, {
@@ -33,20 +60,21 @@ export default function UpdateTask() {
           console.log("Got task: ", task)
           if (task) {
             setTask(task)
+            reset({
+              taskName: task.name,
+              taskDescription: task.description,
+              taskPriority: task.priority,
+              taskState: task.state,
+              taskDueDate: task.dueDate,
+              taskResource: task.resourceId,
+            })
+            setDueDate(task.dueDate)
+            setPriority(task.priority)
+            setState(task.state)
+            setSelectedResourceId(task.resourceId);
           }
       })
-    })
-
-    const {register, handleSubmit} = useForm();
-    const [nameError, setNameError] = useState(" ");
-    const [descError, setDescError] = useState(" ");
-    const [dueDateError, setDueDateError] = useState(" ");
-    const [dueDate, setDueDate] = useState<Date | undefined>(undefined);
-    const [priority, setPriority] = useState<string | undefined>(" ");
-    const [state, setState] = useState<string | undefined>(" ");
-    const [selectedResource, setSelectedResource] = useState<Resource | undefined>(undefined);
-    const [resources, setResources] = useState<Resource[]>([]);
-    const [resourceError, setResourceError] = useState(" ");
+    }, [resources])
 
     const validateForm = (formData: FieldValues) => {
       setNameError(!formData.taskName ? FORMERRORS.noName : ' ');
@@ -69,6 +97,7 @@ export default function UpdateTask() {
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
+
       if (validateForm(formData)) { 
         fetch(`${PROJECT_URL}/tasks/${id}`, {
         method: 'PUT',
@@ -81,39 +110,23 @@ export default function UpdateTask() {
           priority: priority,
           state: state,
           dueDate: dueDate,
-          resourceId: selectedResource?.legajo,
+          resourceId: selectedResourceId,
+          projectId: task.projectId,
         })
       })
       .then((res) => {
           console.log("res", res)
-          return res.json()
       })
       .then(() => {
+          console.log("Task updated")
           router.push(`../../${projectId}`)
       })
       }
     }
 
-    useEffect(() => {
-      fetch("https://recursos-squad12.onrender.com/recursos", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-          .then((res) => {
-              console.log("res", res)
-              return res.json()
-          })
-          .then((data) => {
-              console.log("Got data from resources: ", data)
-              setResources(data)
-          })
-    }, [])
-
     const handleChangeResource = (newResourceValue: string) => {
+      console.log('New Resource Value: ', newResourceValue)
       const selectedResource = resources.find((resource: Resource) => resource.legajo === newResourceValue);
-      setSelectedResource(selectedResource);
     };
 
     return (
@@ -139,6 +152,9 @@ export default function UpdateTask() {
                         id="taskName"
                         label="Nombre"
                         autoFocus
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         {...register('taskName')}
                     />
                 </Grid>
@@ -149,6 +165,9 @@ export default function UpdateTask() {
                         id="taskDescription"
                         label="Descripción"
                         autoFocus
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         multiline
                         rows={4}
                         helperText={descError}
@@ -161,6 +180,9 @@ export default function UpdateTask() {
                     id="priority"
                     label="Prioridad"
                     autoFocus
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     select
                     value={priority}
                     onChange={(event: any) => {
@@ -180,6 +202,9 @@ export default function UpdateTask() {
                       id="state"
                       label="Estado"
                       autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       select
                       value={state}
                       onChange={(event: any) => {
@@ -208,22 +233,26 @@ export default function UpdateTask() {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel id='resource-select-label'>Recurso</InputLabel>
-                  <Select
-                    labelId='resource-select-label'
-                    id='resource-select'
-                    fullWidth
-                    value={selectedResource?.Nombre}
-                    label='recurso'
-                    onChange={(event) => handleChangeResource(event.target.value)}
-                  >
-                    {resources.map((resource) => (
+                  <TextField 
+                      fullWidth
+                      id="recurso"
+                      label="Recurso"
+                      autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      select
+                      value={selectedResourceId}
+                      onChange={(event: any) => {
+                        setSelectedResourceId(event.target.value);
+                      }}
+                    >
+                      {resources.map((resource) => (
                       <MenuItem key={resource.legajo} value={resource.legajo}>
                         {resource.Nombre} {resource.Apellido}
                       </MenuItem>
                     ))}
-                  </Select>
-                  <FormHelperText>{resourceError}</FormHelperText>
+                    </TextField>
                 </Grid>
               </Grid>
               <Button 

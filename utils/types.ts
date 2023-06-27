@@ -22,6 +22,12 @@ export enum ProjectState {
     FINISHED = "Finalizado",
 }
 
+export enum TaskPriority {
+    LOW = "Baja",
+    MEDIUM = "Media",
+    HIGH = "Alta",
+}
+
 export type Project = {
     id: number,
     name: string,
@@ -31,4 +37,16 @@ export type Project = {
     endDate: Date,
     consumedHours: number,
     state: ProjectState,
+}
+
+export type Task = {
+    id: number,
+    name: string,
+    description: string,
+    projectId: number,
+    priority: TaskPriority,
+    status: ProjectState,
+    startDate: Date,
+    endDate: Date,
+    resources: Resource[],
 }

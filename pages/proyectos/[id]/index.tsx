@@ -67,7 +67,7 @@ export default function ProjectsTasks() {
         })
         .then((res) => {
             console.log("res", res)
-            return res.json()
+            //return res.json()
         })
         .then(() => {
             getTasks()
