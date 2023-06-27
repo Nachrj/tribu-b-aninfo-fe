@@ -1,4 +1,3 @@
-import {Cliente} from "@/pages/types";
 import {useEffect, useState} from "react";
 import HeaderItem from "@/components/headerItem";
 import Table from "@/components/table";

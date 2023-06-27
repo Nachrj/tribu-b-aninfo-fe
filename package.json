@@ -8,11 +8,17 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "engines": {
+    "node": ">=14.18"
+  },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.0.17",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.134",
+    "@mui/material": "^5.13.6",
     "@mui/x-date-pickers": "^6.8.0",
     "@types/node": "18.16.1",
     "@types/react": "18.2.0",
