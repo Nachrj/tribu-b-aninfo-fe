@@ -22,9 +22,11 @@ export default function TableRow({ item, items, linkTo, onEdit, onDelete }: Tabl
                 column === 'nombre' ? (
                     <td key={index} className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center">
+                            { linkTo ? (
                             <Button onClick={() => router.push(`${linkTo}/${item["id"]}`)} color='secondary' style={{textTransform: 'none'}}>
                                 {item[column]}
                             </Button>
+                            ) : (item[column])}
                         </div>
                     </td>
                 ) : (
