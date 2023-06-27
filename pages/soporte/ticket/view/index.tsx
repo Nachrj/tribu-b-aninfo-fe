@@ -103,6 +103,20 @@ export default function ModifyTicket() {
                                               value={ticketData?.client_id}
                                             />
                                        </Grid>
+                                       
+                                       <Grid item xs={12}>
+                                         <InputLabel id="select-state">Estado</InputLabel>
+                                         <TextField 
+                                            inputProps={{
+                                              readOnly: true,
+                                            }}
+                                            id="select-state" 
+                                            fullWidth
+                                            value={ticketData?.state}
+                                            autoFocus
+                                          />
+                                       </Grid>
+                                       
                                        <Grid item xs={6}>
                                          <InputLabel id="select-priority">Prioridad</InputLabel>
                                          <TextField
@@ -130,18 +144,6 @@ export default function ModifyTicket() {
 
                                        </Grid>
 
-                                       <Grid item xs={6}>
-                                         <InputLabel id="select-state">Estado</InputLabel>
-                                         <TextField 
-                                            inputProps={{
-                                              readOnly: true,
-                                            }}
-                                            id="select-state" 
-                                            fullWidth
-                                            value={ticketData?.state}
-                                            autoFocus
-                                          />
-                                       </Grid>
 
                                      </Grid>
                                      <Button 

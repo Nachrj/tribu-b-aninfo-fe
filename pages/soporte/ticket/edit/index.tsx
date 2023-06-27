@@ -114,48 +114,52 @@ export default function TicketModify() {
   }, [router.isReady]);
 
 
+  // devuelve true si ambos datos son nulos
+  function allDataIsNull(data1, data2) {
+      if(!data1  && !data2){
+        return true;
+      }
+    return false;
+  }
+
 
   const validateForm = (formData: FieldValues) => {
-    setNameError(!formData.title ? FORM_ERRORS.noName : '');
-    setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
-    setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
-    setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
-    setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
-    setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
+    let noerror = true;
+    
+    if(allDataIsNull(formData.title, ticketData?.title)){
+      setNameError(!formData.title ? FORM_ERRORS.noName : '');
+      noerror = false;
+    }
+    if(allDataIsNull(formData.description, ticketData?.description)){
+      setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
+      noerror = false;
+    }
+    if(allDataIsNull(formData.client_id, ticketData?.client_id)){
+      setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
+      noerror = false;
+    }
+    if(allDataIsNull(formData.resource_name, ticketData?.resource_name)){
+      setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
+      noerror = false;
+    }
+// -----------------------------------------
+// -----------------------------------------
 
     if (formData.title?.length > MAXLENGTHS.name) {
+        noerror = false;
         setNameError(FORM_ERRORS.maxNameLength);
       }
+      
+      if (formData.description?.length > MAXLENGTHS.description) {
+        noerror = false;
+        setDescError(FORM_ERRORS.maxDescriptionLength);
+      }
+      if (!formData.state && ticketData?.state == 1) {
+        noerror = false;
+        setStateError(FORM_ERRORS.InvalidState);
+      }
 
-    if (formData.state == 1) {
-      setStateError(FORM_ERRORS.InvalidState);
-    }
-
-    if (formData.description?.length > MAXLENGTHS.description) {
-      setDescError(FORM_ERRORS.maxDescriptionLength);
-    }
-
-    if (formData.description?.length > MAXLENGTHS.description) {
-      setDescError(FORM_ERRORS.maxDescriptionLength);
-    }
-
-
-    return (
-      nameError == '' &&
-      descError == '' &&
-      clientError == '' &&
-      priorityError == '' &&
-      severityError == '' &&
-      stateError == '' &&
-      resourceError == '' 
-    //   formData.title &&
-    //   formData.description &&
-    //   formData.client_id &&
-    //   formData.priority &&
-    //   formData.severity &&
-    //   formData.state &&
-    //   formData.resource_name
-    );
+    return noerror;
   };
 
   const modifybody = (body) => {
@@ -199,17 +203,10 @@ export default function TicketModify() {
   const handleFormSubmit = (formData: FieldValues) => {
     if (validateForm(formData)) {
       modifybody(formData);
-      console.log(formData);
-
       editTicket(setTicket, formData)
       router.back();
     }
   }
-
-  const handleCancel = () => {
-    console.log("entro al cancel")
-    router.back();
-  };
 
   return (
     <>
@@ -228,16 +225,16 @@ export default function TicketModify() {
               <Container component="main">
                 <Box
                   sx={{
-                    marginTop: 2,
+                    marginTop: 1,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                   }}
                 >
-                  <Box sx={{ mt: 4, width: '50%' }}>
+                  <Box sx={{ mt: 0, width: '50%' }}>
                     <form onSubmit={handleSubmit(handleFormSubmit)}>
 
-                      <Grid container spacing={3}>
+                      <Grid container spacing={1}>
 
                         <Grid item xs={12}>
                           <InputLabel htmlFor="title">Título</InputLabel>
@@ -308,6 +305,25 @@ export default function TicketModify() {
                             ))}
                           </Select>
                         </Grid>
+                        <Grid item xs={12}>
+                          <InputLabel id="select-state">Estado</InputLabel>
+                          <Select
+                            labelId="state"
+                            id="select-state"
+                            defaultValue={state}
+                            value={state}
+                            fullWidth
+                            autoFocus
+                            error={stateError != "" ? true : false}
+                            {...register('state')}
+                          >
+                            {STATES_OPTIONS.map((option) => (
+                              <MenuItem key={option.key} value={option.key} onClick={() => handleChangeState(option.key)}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Grid>
 
                         <Grid item xs={6}>
                           <InputLabel id="select-priority">Prioridad</InputLabel>
@@ -349,25 +365,6 @@ export default function TicketModify() {
                           </Select>
                         </Grid>
 
-                        <Grid item xs={6}>
-                          <InputLabel id="select-state">Estado</InputLabel>
-                          <Select
-                            labelId="state"
-                            id="select-state"
-                            defaultValue={state}
-                            value={state}
-                            fullWidth
-                            autoFocus
-                            error={stateError != "" ? true : false}
-                            {...register('state')}
-                          >
-                            {STATES_OPTIONS.map((option) => (
-                              <MenuItem key={option.key} value={option.key} onClick={() => handleChangeState(option.key)}>
-                                {option.label}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </Grid>
 
                       </Grid>
                       <Button
