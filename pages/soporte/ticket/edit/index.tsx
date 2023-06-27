@@ -202,8 +202,14 @@ export default function TicketModify() {
       console.log(formData);
 
       editTicket(setTicket, formData)
+      router.back();
     }
   }
+
+  const handleCancel = () => {
+    console.log("entro al cancel")
+    router.back();
+  };
 
   return (
     <>
@@ -372,13 +378,13 @@ export default function TicketModify() {
                         sx={{ mt: 3, mb: 2 }} >
                         Guardar
                       </Button>
+
                       <Button
-                        type="submit"
                         fullWidth
                         style={{ height: '50px' }}
                         variant="outlined"
                         sx={{ mb: 2 }}
-                        href="../">
+                        onClick={onBack}>
                         Cancelar
                       </Button>
                     </form>

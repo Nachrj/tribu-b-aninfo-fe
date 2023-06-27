@@ -19,7 +19,6 @@ export default function ModifyTicket() {
     const { register, handleSubmit } = useForm();
 
     const clickHandler = () => {
-      // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
       router.push(`/soporte/ticket/view/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
   };
 
@@ -49,16 +48,16 @@ export default function ModifyTicket() {
                              <Container component="main">
                                <Box
                                  sx={{
-                                   marginTop: 2,
+                                   marginTop: 1,
                                    display: 'flex',
                                    flexDirection: 'column',
                                    alignItems: 'center',
                                  }}
                                >
-                                 <Box sx={{ mt: 4, width: '50%' }}>
+                                 <Box sx={{ mt: 0, width: '50%' }}>
                                   <form onSubmit={handleSubmit(clickHandler)}>
                                     
-                                     <Grid container spacing={3}>
+                                     <Grid container spacing={1}>
 
                                        <Grid item xs={12}>
                                           <InputLabel id="title">Título</InputLabel>

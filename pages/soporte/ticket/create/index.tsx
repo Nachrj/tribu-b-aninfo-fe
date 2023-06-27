@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 
 
+
 export default function CreateTicket() {
     const { register, handleSubmit } = useForm();
     const [nameError, setNameError] = useState("");
@@ -41,7 +42,7 @@ export default function CreateTicket() {
 
     const router = useRouter();
     const { product_version, product_version_name, product_name } = router.query;
-
+    
     const handleChangePriority = (option) => {
         setPriority(option);
         setPriorityError("");
@@ -51,7 +52,7 @@ export default function CreateTicket() {
         setResource(event.target.value);
         setResourceError("");
     };
-
+    
     const handleChangeProduct = (event) => {
         setProduct(event.target.value);
     };
@@ -60,12 +61,12 @@ export default function CreateTicket() {
     const handleChangeClient = (event) => {
         setClient(event.target.value);
     };
-
+    
     const handleChangeSeverity = (option) => {
         setSeverity(option);
         setSeverityError("");
     };
-
+    
     const validateForm = (formData: FieldValues) => {
         setNameError(!formData.title ? FORM_ERRORS.noName : '');
         setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
@@ -74,11 +75,11 @@ export default function CreateTicket() {
         setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
         setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
         setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
-
+        
         if (formData.title?.length > MAXLENGTHS.name) {
             setNameError(FORM_ERRORS.maxNameLength);
         }
-
+        
         if (formData.description?.length > MAXLENGTHS.description) {
             setDescError(FORM_ERRORS.maxDescriptionLength);
         }
@@ -100,25 +101,30 @@ export default function CreateTicket() {
             formData.priority &&
             formData.severity &&
             formData.resource_name
-        );
-    };
-
-    const modifybody = (body) => {
-        body["product_version_id"] = product_version;
-        // body["ticket_id"] = ticketData?.id;
-      }
-
+            );
+        };
+        
+        const modifybody = (body) => {
+            body["product_version_id"] = product_version;
+        }
+        
     const handleFormSubmit = (formData: FieldValues) => {
         modifybody(formData);
         if (validateForm(formData)) {
             console.log(formData);
             createTicket(formData);
+            router.back();
         }
     }
-
+    
+    const handleCancel = () => {
+        console.log("entro al cancel")
+        router.back();
+    };
+    
     return (
         <>
-            <div className="container max-w-7xl mx-auto mt-8">
+            <div className="container max-w-7xl mx-auto mt-4">
                 <div className="mb-4">
                     <GoBack/>   
                     <div className="text-4xl font-bold decoration-gray-400 w-fit text-black">Crear Nuevo Ticket</div>
@@ -133,16 +139,16 @@ export default function CreateTicket() {
                             <Container component="main">
                                 <Box
                                     sx={{
-                                        marginTop: 2,
+                                        marginTop: 1,
                                         display: 'flex',
                                         flexDirection: 'column',
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <Box sx={{ mt: 4, width: '50%' }}>
+                                    <Box sx={{ mt: 0, width: '50%' }}>
                                         <form onSubmit={handleSubmit(handleFormSubmit)}>
 
-                                            <Grid container spacing={2}>
+                                            <Grid container spacing={1}>
 
                                                 <Grid item xs={12}>
                                                     <TextField
@@ -261,7 +267,7 @@ export default function CreateTicket() {
                                                 style={{ height: '50px' }}
                                                 variant="outlined"
                                                 sx={{ mb: 2 }}
-                                                href="../proyectos">
+                                                onClick={handleCancel}>
                                                 Cancelar
                                             </Button>
                                         </form>
