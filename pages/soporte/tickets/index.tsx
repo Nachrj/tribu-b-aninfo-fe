@@ -9,6 +9,8 @@ import { useClientData } from "@/services/clients";
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
 import { getTickets } from "@/requests/tickets";
 import { deleteTicket } from "@/requests/ticket";
+import { Button } from "@mui/material";
+import COLORS from "@/constants/colors";
 
 export default function Tickets() {
     const [tickets, setTickets] = useState<Ticket[]>([])
@@ -19,14 +21,6 @@ export default function Tickets() {
     const clients = useClientData();
     const router = useRouter();
     const { product_name, product_version, product_version_name } = router.query;
-
-    const updatedTickets = tickets.map((ticket) => {
-        const client = clients.find((client) => Number(client.id) === ticket.client_id);
-        return {
-          ...ticket,
-          social_reason: client ? client.social_reason : "N/A"
-        };
-    });
     
     useEffect(() => {
         const body = {
@@ -37,7 +31,7 @@ export default function Tickets() {
         }
     }, [router.isReady, refresh]);
 
-    const handleClick = (ticket: Ticket) => {
+    const handleClick = () => {
         router.push(`/soporte/ticket/create?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
     };
 
@@ -62,7 +56,14 @@ export default function Tickets() {
                 <GoBack/>
                 <div className="flex justify-between">
                     <h1 className="text-black text-3xl font-bold decoration-gray-400">Tickets</h1>
-                    <button className="w-min font-bold px-6 py-3 border-2 border-black rounded-md focus:outline-none focus:ring focus:border-blue-800 text-black  bg-blue-500 hover:bg-blue-700 mx-20" onClick={handleClick}>Crear</button>
+                    <Button 
+                        style={{backgroundColor: COLORS.button, height: '50px'}}
+                        variant="contained"
+                        sx={{ mr: 8, width: '10%' }} 
+                        onClick={handleClick}
+                    >
+                    Crear
+                    </Button>
                 </div>
                 <div className="justify-between flex">
                     <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Producto: {product_name}</div>

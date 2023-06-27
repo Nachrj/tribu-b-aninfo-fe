@@ -59,7 +59,8 @@ export default function ModifyTicket() {
                                      <Grid container spacing={3}>
 
                                        <Grid item xs={12}>
-                                           <TextField
+                                          <InputLabel id="title">Título</InputLabel>
+                                          <TextField
                                               fullWidth
                                               id="title"
                                               value={ticketData?.title}
@@ -67,6 +68,7 @@ export default function ModifyTicket() {
                                               />
                                        </Grid>
                                        <Grid item xs={12}>
+                                          <InputLabel id="description">Descripción</InputLabel>
                                            <TextField
                                               fullWidth
                                               id="description"
@@ -77,7 +79,8 @@ export default function ModifyTicket() {
                                             />
                                        </Grid>
                                        <Grid item xs={12}>
-                                           <TextField
+                                          <InputLabel id="resource_name">Recurso</InputLabel>
+                                          <TextField
                                               inputProps={{
                                                 readOnly: true,
                                               }}
@@ -85,9 +88,10 @@ export default function ModifyTicket() {
                                               id="resource_name"
                                               autoFocus
                                               value={ticketData?.resource_name}
-                                            />
+                                          />
                                        </Grid>
                                        <Grid item xs={12}>
+                                          <InputLabel id="client_id">Cliente</InputLabel>
                                            <TextField
                                               inputProps={{
                                                 readOnly: true,
