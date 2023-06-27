@@ -21,14 +21,6 @@ export default function Tickets() {
     const clients = useClientData();
     const router = useRouter();
     const { product_name, product_version, product_version_name } = router.query;
-
-    const updatedTickets = tickets.map((ticket) => {
-        const client = clients.find((client) => Number(client.id) === ticket.client_id);
-        return {
-          ...ticket,
-          social_reason: client ? client.social_reason : "N/A"
-        };
-    });
     
     useEffect(() => {
         const body = {
@@ -39,7 +31,7 @@ export default function Tickets() {
         }
     }, [router.isReady, refresh]);
 
-    const handleClick = (ticket: Ticket) => {
+    const handleClick = () => {
         router.push(`/soporte/ticket/create?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
     };
 
