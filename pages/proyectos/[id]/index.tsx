@@ -11,7 +11,7 @@ import PopUpConfirmAction from '@/components/popUpConfirmAction';
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
-    const [tasks, setTasks] = useState(PROJECT.tasks)
+    const [tasks, setTasks] = useState([])
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [taskIdToDelete, setTaskIdToDelete] = useState<number | undefined>(undefined);
     const router = useRouter()
@@ -21,18 +21,18 @@ export default function ProjectsTasks() {
         fetch(`${PROJECT_URL}/projects/${id}`, {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
-          })
-              .then((res) => {
-                  console.log("res", res)
-                  return res.json()
-              })
-              .then((data) => {
-                  console.log("Got data from projects id: ", data)
-                  setProject(data)
-                  localStorage.setItem('currentProject', JSON.stringify(data))
-              })
+        })
+        .then((res) => {
+            console.log("res", res)
+            return res.json()
+        })
+        .then((data) => {
+            console.log("Got data from projects id: ", data)
+            setProject(data)
+            localStorage.setItem('currentProject', JSON.stringify(data))
+        })
     }
 
     const getTasks = () => {
@@ -68,7 +68,6 @@ export default function ProjectsTasks() {
         })
         .then((res) => {
             console.log("res", res)
-            //return res.json()
         })
         .then(() => {
             getTasks()
@@ -78,9 +77,11 @@ export default function ProjectsTasks() {
     };
 
     useEffect(() => {
-        getProject()
-        getTasks()
-      }, [])
+        if(id) {
+            getProject()
+            getTasks()
+        }
+      })
   
 
     return (
