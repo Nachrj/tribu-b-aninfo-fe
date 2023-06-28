@@ -217,8 +217,8 @@ export default function TicketModify() {
           <GoBack />
           <div className="text-4xl font-bold decoration-gray-400 w-fit text-black">Modificar Ticket</div>
           <div className="justify-between flex">
-            <div className="text-2xl font-bold decoration-gray-400 w-fit text-black">Ticket: {title}</div>
-            <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-black"> ID: {ticketData?.id}</div>
+            <div className="text-2xl font-bold decoration-gray-400 w-fit text-gray-500">Ticket: {title}</div>
+            <div className="text-2xl font-bold decoration-gray-400 w-fit pr-40 text-gray-500"> ID: {ticketData?.id}</div>
           </div>
         </div>
         <div className="flex flex-col pr-40">

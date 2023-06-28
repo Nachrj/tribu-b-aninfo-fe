@@ -30,7 +30,7 @@ export default function Tasks() {
     // esta funcion deberia llevar a la vista alternativa de la creacion de una task
     // se le tiene que mandar el ticket id para que cuando se cree la tarea se asocie
     const handleCreateTask = () => {
-        router.push(`/soporte/ticket/view/createTask`);
+        router.push(`/soporte/ticket/view/createTask?ticket_id=${ticket_id}&ticket_title=${ticket_title}`);
     }
 
     return (

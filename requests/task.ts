@@ -19,3 +19,32 @@ export const getTask = (setTask, task_id) => {
         }
     });
 }
+
+
+export const addTaskToTicket = (ticket_id, task_id) => {
+
+    const body = {
+        'ticket_id': ticket_id,
+        'task_id': task_id
+    }
+    fetch(`${BASE_URL}/v1/ticket/task`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not OK');
+        }
+        return response.json();
+    })
+    .then((data) => {
+        try {
+            console.log(data);
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+        }
+    });
+}

@@ -14,7 +14,7 @@ import { getTicket } from "@/requests/ticket";
 import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS , TICKET_STATE} from "@/pages/soporte/constants";
 import { useClientData } from '@/services/clients';
 
-export default function ModifyTicket() {
+export default function ViewTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
     // const [client, setClient] = useState<number>(0);
     // setClient(ticketData?.client_id || 0);
