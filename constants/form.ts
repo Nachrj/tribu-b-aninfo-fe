@@ -18,4 +18,6 @@ export const FORM_ERRORS = {
     noState: "Debe ingresar un Estado",
     noCost: "Debe ingresar el costo",
     InvalidState: "Debe ingresar un Estado",
+    noHours: 'Debe ingresar la cantidad de horas',
+    noDueDate: "Debe ingresar la fecha límite de la tarea",
 }
