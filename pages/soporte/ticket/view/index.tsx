@@ -156,7 +156,7 @@ export default function ModifyTicket() {
 
                                      </Grid>
                                      <Button 
-                                       type="submit"
+                                      //  type="submit"
                                        fullWidth
                                        style={{backgroundColor: COLORS.button, height: '50px'}}
                                        variant="contained"

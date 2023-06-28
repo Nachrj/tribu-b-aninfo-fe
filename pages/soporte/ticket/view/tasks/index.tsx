@@ -40,11 +40,10 @@ export default function Tasks() {
                 <div className="flex justify-between">
                     <h1 className="text-black text-3xl font-bold decoration-gray-400">Tasks</h1>
                     <Button 
-                        type="submit"
                         style={{backgroundColor: COLORS.button, height: '50px'}}
                         variant="contained"
-                        sx={{ mr: 8, witdh: '10%' }}
-                        onClick={handleCreateTask} >
+                        sx={{ mr: 8, width: '10%' }} 
+                        onClick={handleCreateTask}>
                         Crear
                     </Button>
                 </div>
