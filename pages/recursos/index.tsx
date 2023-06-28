@@ -12,10 +12,10 @@ export default function Resources() {
     ]);
 
     const [horas, setHoras] = useState([
-      {Id: 1, tareaId: "1", nombreTarea: "Hacer MDD", fecha: "2023-06-19", horas: "4", proyectoId: 1, recursoId: 4},
-      {Id: 3, tareaId: "2", nombreTarea: "Iniciar frontend", fecha: "2023-06-20", horas: "6", proyectoId: 1, recursoId: 4},
-      {Id: 2, tareaId: "3", nombreTarea: "Iniciar backend", fecha: "2023-06-20", horas: "5", proyectoId: 2, recursoId: 4},
-      {Id: 5, tareaId: "4", nombreTarea: "Hacer wireframe", fecha: "2023-06-20", horas: "2", proyectoId: 2, recursoId: 4}
+      {Id: 1, tareaId: "1", fecha: "2023-06-19", horas: "4", proyectoId: 1, recursoId: 4},
+      {Id: 3, tareaId: "2", fecha: "2023-06-20", horas: "6", proyectoId: 1, recursoId: 4},
+      {Id: 2, tareaId: "3", fecha: "2023-06-20", horas: "5", proyectoId: 2, recursoId: 4},
+      {Id: 5, tareaId: "4", fecha: "2023-06-20", horas: "2", proyectoId: 2, recursoId: 4}
     ]);
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -70,8 +70,8 @@ export default function Resources() {
                     onClick={() => setModalOpen(true)}>Agregar registro</button>
 
             <TableResources
-              //rows={horas.filter(h => h.proyectoId === projects[projectIdx].id)}
               rows={horas}
+              projects={projects}
               editRow={handleEditRow}
               deleteRow={handleDeleteRow}
             />
@@ -91,7 +91,7 @@ export default function Resources() {
                             defaultValue={rowToEdit !== null && horas[rowToEdit]}
                           />
             }
-            <div>{rowToEdit}</div>
+            {/* <div>{rowToEdit}</div> */}
         </>
     )
 }
