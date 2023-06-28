@@ -2,15 +2,24 @@ import styles from "./tableResources.module.css"
 
 export default function TableResources({rows, projects, editRow, deleteRow}:any) {
     
-    function getTaskName(tareaId: any){
+    function getTaskName(tarea: any){
         for (let p of projects) {
             for (let t of p.tareas) {
-                if (t.id == tareaId) {
-                    return t.name;
+                if (t.id == tarea) {
+                    return t.nombre;
                 }
             }
         }
-        return tareaId;
+        return tarea;
+    }
+
+    function getProjectName(proyecto: any) {
+        for (let p of projects) {
+          if (p.id == proyecto) {
+            return p.nombre;
+          }
+        }
+        return proyecto;
     }
     
     return <div className={styles.tablewrapper}>
@@ -18,6 +27,7 @@ export default function TableResources({rows, projects, editRow, deleteRow}:any)
             <thead>
                 <tr>
                     <th>Tarea</th>
+                    <th>Proyecto</th>
                     <th>Fecha</th>
                     <th>Horas</th>
                     <th>Modificar</th>
@@ -27,7 +37,8 @@ export default function TableResources({rows, projects, editRow, deleteRow}:any)
                 {
                    rows.map((row: any, idx: any) => {
                     return <tr key={idx}>
-                        <td>{getTaskName(row.tareaId)}</td>
+                        <td>{getTaskName(row.tarea)}</td>
+                        <td>{getProjectName(row.proyecto)}</td>
                         <td>{row.fecha}</td>
                         <td>{row.horas}</td>
                         <td>

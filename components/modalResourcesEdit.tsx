@@ -3,24 +3,24 @@ import styles from "./modalResources.module.css"
 
 export default function ModalResources({proyectos, closeModal, onSubmit, defaultValue}: any) {
   
-  function getTaskName(tareaId: any){
+  function getTaskName(tarea: any){
     for (let p of proyectos) {
         for (let t of p.tareas) {
-            if (t.id == tareaId) {
-                return t.name;
+            if (t.id == tarea) {
+                return t.nombre;
             }
         }
     }
-    return tareaId;
+    return tarea;
   }
 
-  function getProjectName(proyectoId: any) {
+  function getProjectName(proyecto: any) {
     for (let p of proyectos) {
-      if (p.id == proyectoId) {
-        return p.name;
+      if (p.id == proyecto) {
+        return p.nombre;
       }
     }
-    return proyectoId;
+    return proyecto;
   }
 
   const[formState, setFormState] = useState(defaultValue);
@@ -65,9 +65,9 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
       <form className={styles.formgroup}>
         <h2 className="text-2xl font-bold decoration-gray-200">Editar registro</h2>
         <b>Proyecto:</b>
-        <div>{getProjectName(formState.proyectoId)}</div>
+        <div>{getProjectName(formState.proyecto)}</div>
         <b>Tarea:</b>
-        <div>{getTaskName(formState.tareaId)}</div>
+        <div>{getTaskName(formState.tarea)}</div>
         <label htmlFor="hours-select">Horas:</label>
         <select name="horas" id="hours-select" value={formState.horas} onChange={handleChange}>
           {

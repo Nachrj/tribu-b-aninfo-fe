@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styles from "./modalResources.module.css"
 
 export default function ModalResources({proyectos, closeModal, onSubmit, defaultValue, recursoId}: any) {
@@ -14,17 +14,17 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
   const handleProyectoChange = (e: any) => {
     setFormState({
       ...formState,
-      proyectoId: proyectos[e.target.value].id,
+      proyecto: proyectos[e.target.value].id,
     });
   };
   
   const[formState, setFormState] = useState(defaultValue || {
-    tareaId: "0",
+    tarea: "0",
     nombreTarea: "",
     fecha: "",
     horas: "1",
-    proyectoId: proyectos[projectIdx].id,
-    recursoId: recursoId
+    proyecto: proyectos[projectIdx].id,
+    recurso: recursoId
   });
 
   const [errors, setErrors] = useState("");
@@ -54,8 +54,8 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
   const handleTareaChange = (e: any) => {
     setFormState({
       ...formState,
-      tareaId: proyectos[projectIdx].tareas[e.target.value].id,
-      nombreTarea: proyectos[projectIdx].tareas[e.target.value].name,
+      tarea: proyectos[projectIdx].tareas[e.target.value].id,
+      nombreTarea: proyectos[projectIdx].tareas[e.target.value].nombre,
     });
     setSelectDisabled(true);
   };
@@ -68,7 +68,7 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
+    //e.preventDefault();
 
     if (!validateForm()) return;
 
@@ -86,7 +86,7 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
           onClick={handlerLoadProjectIdx} disabled={selectDisabled}>
           {
             proyectos.map((item: any, i: any) => (
-              <option key={"project"+i} value={i}>{item.name}</option>
+              <option key={"project"+i} value={i}>{item.nombre}</option>
             ))
           }
         </select>
@@ -100,7 +100,7 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
             //   <option key={i} value={i}>{i}</option>
             // ))
             proyectos[projectIdx].tareas.map((item: any, i: any) => (
-              <option key={"tarea"+i} value={i}>{item.name}</option>
+              <option key={"tarea"+i} value={i}>{item.nombre}</option>
             ))
           }
         </select>
