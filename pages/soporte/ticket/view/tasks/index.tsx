@@ -62,7 +62,6 @@ export default function Tasks() {
                                 <HeaderItem title="Nombre" />
                                 <HeaderItem title="Estado" />
                                 <HeaderItem title="Prioridad" />
-                                <HeaderItem title="Fecha de Finalización" />
                                 <HeaderItem title="Horas" />
                             </tr>
                             </thead>
