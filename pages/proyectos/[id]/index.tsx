@@ -31,6 +31,7 @@ export default function ProjectsTasks() {
               .then((data) => {
                   console.log("Got data from projects id: ", data)
                   setProject(data)
+                  localStorage.setItem('currentProject', JSON.stringify(data))
               })
     }
 
@@ -112,7 +113,10 @@ export default function ProjectsTasks() {
                     onClick={() => {
                         console.log('Redireccionando a mas informacion')
                         console.log('Project id: ', id)
-                        router.push(`./${id}/masInformacion`);
+                        router.push({
+                            pathname: `./${id}/masInformacion`,
+                            query: { project: JSON.stringify(project) }
+                        });
                     }}
                 >
                     Ver más información
