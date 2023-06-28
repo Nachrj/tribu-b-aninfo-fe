@@ -11,7 +11,7 @@ import PopUpConfirmAction from '@/components/popUpConfirmAction';
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
-    const [tasks, setTasks] = useState(PROJECT.tasks)
+    const [tasks, setTasks] = useState([])
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [taskIdToDelete, setTaskIdToDelete] = useState<number | undefined>(undefined);
     const router = useRouter()
@@ -21,17 +21,17 @@ export default function ProjectsTasks() {
         fetch(`${PROJECT_URL}/projects/${id}`, {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
-          })
-              .then((res) => {
-                  console.log("res", res)
-                  return res.json()
-              })
-              .then((data) => {
-                  console.log("Got data from projects id: ", data)
-                  setProject(data)
-              })
+        })
+        .then((res) => {
+            console.log("res", res)
+            return res.json()
+        })
+        .then((data) => {
+            console.log("Got data from projects id: ", data)
+            setProject(data)
+        })
     }
 
     const getTasks = () => {
@@ -67,7 +67,6 @@ export default function ProjectsTasks() {
         })
         .then((res) => {
             console.log("res", res)
-            //return res.json()
         })
         .then(() => {
             getTasks()
@@ -77,9 +76,11 @@ export default function ProjectsTasks() {
     };
 
     useEffect(() => {
-        getProject()
-        getTasks()
-      }, [id])
+        if(id) {
+            getProject()
+            getTasks()
+        }
+      }, [])
   
 
     return (
@@ -106,7 +107,18 @@ export default function ProjectsTasks() {
                 <Typography className='ml-2' color={'gray'}>
                     {project.description}
                 </Typography>
-                <Button color='secondary' style={{textTransform: 'none'}}>
+                <Button 
+                    color='secondary' 
+                    style={{textTransform: 'none'}}
+                    onClick={() => {
+                        console.log('Redireccionando a mas informacion')
+                        console.log('Project id: ', id)
+                        router.push({
+                            pathname: `./${id}/masInformacion`,
+                            query: { project: JSON.stringify(project) }
+                        });
+                    }}
+                >
                     Ver más información
                 </Button>
                 <Table 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, Typography, Box, Button, TextField, Grid, Select, MenuItem, FormHelperText, InputLabel } from '@mui/material';
+import { Container, Typography, Box, Button, TextField, Grid, MenuItem } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import COLORS from '@/constants/colors';
@@ -10,7 +10,6 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Resource, prioritiesMap, statusMap } from '@/utils/types';
 import { PROJECT_URL } from '@/pages/_app';
 import { TASK } from '@/utils/dump';
-import { set } from 'date-fns';
 
 export default function UpdateTask() {
     const router = useRouter()
@@ -26,7 +25,6 @@ export default function UpdateTask() {
     const [state, setState] = useState<string | undefined>(" ");
     const [selectedResourceId, setSelectedResourceId] = useState<string | undefined>(" ");
     const [resources, setResources] = useState<Resource[]>([]);
-    const [resourceError, setResourceError] = useState(" ");
 
     useEffect(() => {
       fetch("https://recursos-squad12.onrender.com/recursos", {
@@ -97,7 +95,6 @@ export default function UpdateTask() {
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
-
       if (validateForm(formData)) { 
         fetch(`${PROJECT_URL}/tasks/${id}`, {
         method: 'PUT',
