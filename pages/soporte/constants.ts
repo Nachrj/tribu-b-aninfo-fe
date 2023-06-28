@@ -55,19 +55,15 @@ export const SEVERITY_OPTIONS = [
 export const PRIORITY_OPTIONS = [
     {
         key: 1,
-        label: '1'
+        label: 'ALTA'
     },
     {
         key: 2,
-        label: "2"
+        label: "MEDIA"
     },
     {
         key: 3,
-        label: "3"
-    },
-    {
-        key: 4,
-        label: "4"
+        label: "BAJA"
     }
 ];
 // export const TICKET_PRIORITY = [

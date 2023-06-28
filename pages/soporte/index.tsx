@@ -19,9 +19,7 @@ export default function Products() {
       <Container component="main" sx={{ backgroundColor: 'white', color: 'black', mt: 4 }}>
         <Box sx={{ mt: 4 }}>
           <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
-            <Typography variant="h3" component="h1">
-              Productos
-            </Typography>
+            <div className="text-4xl font-bold decoration-gray-400 w-fit text-black">Productos</div>
           </Box>
           <table className="min-w-full">
             <thead>

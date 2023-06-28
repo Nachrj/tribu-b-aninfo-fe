@@ -11,14 +11,19 @@ import {Ticket} from "@/pages/types";
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
+import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS , TICKET_STATE} from "@/pages/soporte/constants";
+import { useClientData } from '@/services/clients';
 
 export default function ModifyTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
+    // const [client, setClient] = useState<number>(0);
+    // setClient(ticketData?.client_id || 0);
+
+    const client = useClientData();
 
     const handleViewTasks = () => {
-      // le vamos a pasar solo el id del task y en task view lo vamos a buscar al back        
       router.push(`/soporte/ticket/view/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
-  };
+    };
 
     const router = useRouter();
 
@@ -28,6 +33,10 @@ export default function ModifyTicket() {
           getTicket(setTicket, ticket_id);
       }
     }, [router.isReady]);
+
+    const selectedPriority = PRIORITY_OPTIONS.find(option => option.key === ticketData?.priority); 
+    const selectedState = TICKET_STATE[ticketData?.state];
+    const client_name = client.find((client) => client.id === ticketData?.client_id); 
 
     return (
       <>
@@ -45,19 +54,20 @@ export default function ModifyTicket() {
                              <Container component="main">
                                <Box
                                  sx={{
-                                   marginTop: 2,
+                                   marginTop: 1,
                                    display: 'flex',
                                    flexDirection: 'column',
                                    alignItems: 'center',
                                  }}
                                >
-                                 <Box sx={{ mt: 4, width: '50%' }}>
-                                   <form >
+                                 <Box sx={{ mt: 0, width: '50%' }}>
+                                  <form >
                                     
-                                     <Grid container spacing={3}>
+                                     <Grid container spacing={1}>
 
                                        <Grid item xs={12}>
-                                           <TextField
+                                          <InputLabel id="title">Título</InputLabel>
+                                          <TextField
                                               fullWidth
                                               id="title"
                                               value={ticketData?.title}
@@ -65,6 +75,7 @@ export default function ModifyTicket() {
                                               />
                                        </Grid>
                                        <Grid item xs={12}>
+                                          <InputLabel id="description">Descripción</InputLabel>
                                            <TextField
                                               fullWidth
                                               id="description"
@@ -75,7 +86,8 @@ export default function ModifyTicket() {
                                             />
                                        </Grid>
                                        <Grid item xs={12}>
-                                           <TextField
+                                          <InputLabel id="resource_name">Recurso</InputLabel>
+                                          <TextField
                                               inputProps={{
                                                 readOnly: true,
                                               }}
@@ -83,9 +95,10 @@ export default function ModifyTicket() {
                                               id="resource_name"
                                               autoFocus
                                               value={ticketData?.resource_name}
-                                            />
+                                          />
                                        </Grid>
                                        <Grid item xs={12}>
+                                          <InputLabel id="client_id">Cliente</InputLabel>
                                            <TextField
                                               inputProps={{
                                                 readOnly: true,
@@ -93,9 +106,25 @@ export default function ModifyTicket() {
                                               fullWidth
                                               id="client_id"
                                               autoFocus
-                                              value={ticketData?.client_id}
+                                              // value={ticketData?.client_id}
+                                              value={client_name  ? client_name.social_reason : ''}
                                             />
                                        </Grid>
+                                       
+                                       <Grid item xs={12}>
+                                         <InputLabel id="select-state">Estado</InputLabel>
+                                         <TextField 
+                                            inputProps={{
+                                              readOnly: true,
+                                            }}
+                                            id="select-state" 
+                                            fullWidth
+                                            // value={ticketData?.state}
+                                            value={selectedState}
+                                            autoFocus
+                                          />
+                                       </Grid>
+                                       
                                        <Grid item xs={6}>
                                          <InputLabel id="select-priority">Prioridad</InputLabel>
                                          <TextField
@@ -105,7 +134,8 @@ export default function ModifyTicket() {
                                             id="select-priority" 
                                             fullWidth
                                             autoFocus
-                                            value={ticketData?.priority}
+                                            // value={ticketData?.priority}
+                                            value={selectedPriority  ? selectedPriority.label : ''}
                                          />
                                        </Grid>
 
@@ -123,18 +153,6 @@ export default function ModifyTicket() {
 
                                        </Grid>
 
-                                       <Grid item xs={6}>
-                                         <InputLabel id="select-state">Estado</InputLabel>
-                                         <TextField 
-                                            inputProps={{
-                                              readOnly: true,
-                                            }}
-                                            id="select-state" 
-                                            fullWidth
-                                            value={ticketData?.state}
-                                            autoFocus
-                                          />
-                                       </Grid>
 
                                      </Grid>
                                      <Button 

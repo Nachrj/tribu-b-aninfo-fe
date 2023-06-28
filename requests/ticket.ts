@@ -16,7 +16,9 @@ export const getTicket = (setTicket, ticket_id) => {
         try {
             if (data.result) {
                 setTicket(data.result);
-            }
+            }  else {
+                setTicket({}); // Set an empty value instead of undefined
+              }
         } catch (error) {
             console.error('Error parsing JSON:', error);
         }
