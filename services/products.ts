@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 import { Product } from "@/pages/types";
 
 export function useProductsData() {
@@ -7,7 +7,7 @@ export function useProductsData() {
 
     useEffect(() => {
 
-        fetch(`${BASE_URL}/v1/products`)
+        fetch(`${SUPPORT_BASE_URL}/v1/products`)
         .then(response =>
         {
             if (!response.ok) {

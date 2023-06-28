@@ -1,8 +1,8 @@
-import { BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 
 export const getTicketTasks = (setTasks, ticket_id) => {
 
-    fetch(`${BASE_URL}/v1/ticket/tasks?ticket_id=${ticket_id}`, {
+    fetch(`${SUPPORT_BASE_URL}/v1/ticket/tasks?ticket_id=${ticket_id}`, {
         method: "GET",
     })
     .then(response => {

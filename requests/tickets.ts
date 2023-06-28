@@ -1,8 +1,8 @@
-import { BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 
 export const getTickets = (setTickets, body) => {
 
-    fetch(`${BASE_URL}/v1/tickets`, {
+    fetch(`${SUPPORT_BASE_URL}/v1/tickets`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

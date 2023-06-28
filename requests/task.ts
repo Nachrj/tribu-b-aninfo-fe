@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 
 export const getTask = (setTask, task_id) => {
 
@@ -27,7 +27,7 @@ export const addTaskToTicket = (ticket_id, task_id) => {
         'ticket_id': ticket_id,
         'task_id': task_id
     }
-    fetch(`${BASE_URL}/v1/ticket/task`, {
+    fetch(`${SUPPORT_BASE_URL}/v1/ticket/task`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

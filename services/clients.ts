@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 import { Client } from "@/pages/types";
 
 export function useClientData() {
   const [clients, setClients] = useState<Client[]>([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/v1/clients`)
+    fetch(`${SUPPORT_BASE_URL}/v1/clients`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not OK");

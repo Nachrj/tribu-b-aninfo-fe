@@ -1,7 +1,7 @@
-import { BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 
 export const getProducts = (setProducts) => {
-    fetch(`${BASE_URL}/v1/products`)
+    fetch(`${SUPPORT_BASE_URL}/v1/products`)
     .then(response =>
     {
         if (!response.ok) {

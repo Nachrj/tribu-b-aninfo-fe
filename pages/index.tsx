@@ -1,13 +1,13 @@
 import { Inter } from "next/font/google"
 import { useEffect } from "react"
-import { BASE_URL } from "./soporte/constants"
+import { SUPPORT_BASE_URL } from "./soporte/constants"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
 
   useEffect(() => {
-    fetch(`${BASE_URL}/v1/clients`, {
+    fetch(`${SUPPORT_BASE_URL}/v1/clients`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
