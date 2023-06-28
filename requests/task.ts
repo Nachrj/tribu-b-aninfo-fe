@@ -2,7 +2,7 @@ import { BASE_URL } from "@/pages/soporte/constants";
 
 export const getTask = (setTask, task_id) => {
 
-    const ticket = fetch(`https://aninfo-backend-proyectos.onrender.com/tasks/${task_id}`, {
+    fetch(`https://aninfo-backend-proyectos.onrender.com/tasks/${task_id}`, {
         method: "GET",
     })
     .then(response => {

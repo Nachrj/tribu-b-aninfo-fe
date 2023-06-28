@@ -3,20 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
-import { getTicketTasks } from "@/requests/tasks";
+import { getInfoTasks, getTicketTasks } from "@/requests/tasks";
 import { Button } from "@mui/material";
 import COLORS from "@/constants/colors";
+import { TicketTask } from "@/pages/types";
 
 export default function Tasks() {
 
     const router = useRouter();
     const {ticket_id, ticket_title} = router.query;
+    const [ticketTasks, setTicketTasks] = useState<TicketTask>();
     const [tasks, setTasks] = useState([]);
     useEffect(() => {
         if (router.isReady) {
-            getTicketTasks(setTasks, ticket_id);
+            getTicketTasks(setTicketTasks, ticket_id);
         }
     }, [router.isReady]);
+
+    useEffect(() => {
+        if (ticketTasks) {
+            getInfoTasks(setTasks, ticketTasks?.task_ids);
+            console.log("TAREAS ", tasks);
+        }
+    }, [ticketTasks]);
 
     // esta funcion deberia llevar a la vista alternativa de la creacion de una task
     // se le tiene que mandar el ticket id para que cuando se cree la tarea se asocie
@@ -60,10 +69,10 @@ export default function Tasks() {
                             </thead>
 
                             <tbody>
-                                {tasks.map((task) => (
+                                {tasks && tasks.map((task) => (
                                     <TasksGridRow 
-                                                    key={task.task_id}
-                                                    task_id={task.task_id}/>
+                                                    key={task.id}
+                                                    task={task}/>
                                     ))}
                             </tbody>
                         </table>

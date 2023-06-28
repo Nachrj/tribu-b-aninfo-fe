@@ -1,16 +1,7 @@
-import { getTask } from '@/requests/task';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export default function TasksGridRow({ task_id }) {
-  const [task, setTask] = useState({});
-
-  const router = useRouter();
-  useEffect(() => {
-    console.log("TASK ID CON EL QUE SE HACE LA REQUEST", task_id);
-    getTask(setTask, task_id);
-  }, []);
-
+export default function TasksGridRow({ task }) {
+  console.log(task);
   if (!task) return null;
   return (
     <tr key={`${task['id']}`} className='cursor-pointer'>
