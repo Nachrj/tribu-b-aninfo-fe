@@ -31,7 +31,6 @@ export default function ProjectsTasks() {
         .then((data) => {
             console.log("Got data from projects id: ", data)
             setProject(data)
-            localStorage.setItem('currentProject', JSON.stringify(data))
         })
     }
 
@@ -81,7 +80,7 @@ export default function ProjectsTasks() {
             getProject()
             getTasks()
         }
-      })
+      }, [])
   
 
     return (

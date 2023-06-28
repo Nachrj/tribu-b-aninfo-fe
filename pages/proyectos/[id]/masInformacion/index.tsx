@@ -35,7 +35,7 @@ export default function MoreProjectInfo() {
               );
             });
         }
-      }, [project, consumedHours]);
+      }, []);
 
     if(!project) {
         return <div>Loading...</div>
