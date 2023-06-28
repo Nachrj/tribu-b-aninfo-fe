@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
-import HeaderItem from "@/components/headerItem";
 import Table from "@/components/table";
 import { Box, Button, Container } from "@mui/material";
 import COLORS from "@/constants/colors";
 import Typography from '@mui/material/Typography';
 import { PROJECT_URL } from '@/pages/_app';
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
+import { statusMap } from "@/utils/types";
 
 export default function Projects() {
     const [projects, setProjects] = useState([])
@@ -24,7 +24,7 @@ export default function Projects() {
                     return {
                         id: project.id,
                         nombre: project.name,
-                        estado: project.state,
+                        estado: statusMap.get(project.state),
                     }
                 }))
             })
@@ -39,7 +39,7 @@ export default function Projects() {
       })
       .then((res) => {
           console.log("res", res)
-          return res.json()
+          // return res.json()
       })
       setShowConfirmDelete(false);
       setProjectIdToDelete(undefined);

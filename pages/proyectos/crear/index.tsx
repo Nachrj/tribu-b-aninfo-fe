@@ -14,10 +14,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { InputLabel, MenuItem, Select } from '@mui/material';
-import { Resource } from '@/utils/types';
+import { ProjectState, Resource } from '@/utils/types';
 import { PROJECT_URL } from '@/pages/_app';
+import { useRouter } from 'next/router';
 
 export default function CreateProject() {
+    const router = useRouter()
     const {register, handleSubmit} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
@@ -67,6 +69,7 @@ export default function CreateProject() {
       })
       .then((data) => {
           console.log("Project created: ", data)
+          router.push('../proyectos')
       })
       }
     }
@@ -157,6 +160,7 @@ export default function CreateProject() {
                       value={selectedDate}
                       onChange={(newValue: any) => {
                         setSelectedDate(newValue);
+                        console.log('selected end date: ', newValue)
                       }}
                     />
                   </LocalizationProvider>

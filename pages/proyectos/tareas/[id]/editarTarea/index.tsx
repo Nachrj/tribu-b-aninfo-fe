@@ -26,7 +26,6 @@ export default function UpdateTask() {
     const [state, setState] = useState<string | undefined>(" ");
     const [selectedResourceId, setSelectedResourceId] = useState<string | undefined>(" ");
     const [resources, setResources] = useState<Resource[]>([]);
-    const [resourceError, setResourceError] = useState(" ");
 
     useEffect(() => {
       fetch("https://recursos-squad12.onrender.com/recursos", {
