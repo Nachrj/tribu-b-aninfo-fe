@@ -13,11 +13,16 @@ import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
 import { FieldValues, useForm } from 'react-hook-form';
 import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS , TICKET_STATE} from "@/pages/soporte/constants";
+import { useClientData } from '@/services/clients';
 
 
 export default function ModifyTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
     const { register, handleSubmit } = useForm();
+    // const [client, setClient] = useState<number>(0);
+    // setClient(ticketData?.client_id || 0);
+
+    const client = useClientData();
 
     const clickHandler = () => {
       router.push(`/soporte/ticket/view/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
@@ -35,6 +40,7 @@ export default function ModifyTicket() {
 
     const selectedPriority = PRIORITY_OPTIONS.find(option => option.key === ticketData?.priority); 
     const selectedState = TICKET_STATE[ticketData?.state];
+    const client_name = client.find((client) => client.id === ticketData?.client_id); 
 
     return (
       <>
@@ -104,7 +110,8 @@ export default function ModifyTicket() {
                                               fullWidth
                                               id="client_id"
                                               autoFocus
-                                              value={ticketData?.client_id}
+                                              // value={ticketData?.client_id}
+                                              value={client_name  ? client_name.social_reason : ''}
                                             />
                                        </Grid>
                                        
