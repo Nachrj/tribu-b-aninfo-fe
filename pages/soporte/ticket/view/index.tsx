@@ -11,22 +11,19 @@ import {Ticket} from "@/pages/types";
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
-import { FieldValues, useForm } from 'react-hook-form';
 import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS , TICKET_STATE} from "@/pages/soporte/constants";
 import { useClientData } from '@/services/clients';
 
-
 export default function ModifyTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
-    const { register, handleSubmit } = useForm();
     // const [client, setClient] = useState<number>(0);
     // setClient(ticketData?.client_id || 0);
 
     const client = useClientData();
 
-    const clickHandler = () => {
+    const handleViewTasks = () => {
       router.push(`/soporte/ticket/view/tasks?ticket_id=${ticketData?.id}&ticket_title=${ticketData?.title}`);
-  };
+    };
 
     const router = useRouter();
 
@@ -34,7 +31,6 @@ export default function ModifyTicket() {
       if (router.isReady) {
           const {ticket_id} = router.query;
           getTicket(setTicket, ticket_id);
-          console.log("INFO DEL TICKET", ticketData);
       }
     }, [router.isReady]);
 
@@ -65,7 +61,7 @@ export default function ModifyTicket() {
                                  }}
                                >
                                  <Box sx={{ mt: 0, width: '50%' }}>
-                                  <form onSubmit={handleSubmit(clickHandler)}>
+                                  <form >
                                     
                                      <Grid container spacing={1}>
 
@@ -164,7 +160,8 @@ export default function ModifyTicket() {
                                        fullWidth
                                        style={{backgroundColor: COLORS.button, height: '50px'}}
                                        variant="contained"
-                                       sx={{ mt: 3, mb: 2 }} >
+                                       sx={{ mt: 3, mb: 2 }}
+                                       onClick={handleViewTasks} >
                                          Ver Tareas
                                      </Button>
                                    </form>

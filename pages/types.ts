@@ -1,3 +1,5 @@
+import { list } from "postcss"
+
 export interface Usuario {
   nombre: string
   apellido: string
@@ -46,4 +48,9 @@ export interface ErrorInputProps {
   description: string
   client: string
   cost: string
+}
+
+export interface TicketTask {
+  ticket_id: number
+  task_ids: list.List
 }

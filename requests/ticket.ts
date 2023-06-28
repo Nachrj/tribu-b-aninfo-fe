@@ -3,7 +3,7 @@ import { Ticket } from "@/pages/types";
 
 export const getTicket = (setTicket, ticket_id) => {
 
-    const ticket = fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
+    fetch(`${BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
         method: "GET",
     })
     .then(response => {
