@@ -116,7 +116,7 @@ export default function TicketModify() {
 
   // devuelve true si ambos datos son nulos
   function allDataIsNull(data1, data2) {
-      if(!data1  && !data2){
+      if((!data1  && !data2)){
         return true;
       }
     return false;
@@ -139,8 +139,10 @@ export default function TicketModify() {
       noerror = false;
     }
     if(allDataIsNull(formData.resource_name, ticketData?.resource_name)){
-      setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
-      noerror = false;
+      if((!formData.state && ticketData?.state !=1) || (formData.state && formData.state !=1)){	
+          setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
+          noerror = false;
+      }
     }
 // -----------------------------------------
 // -----------------------------------------
@@ -154,10 +156,10 @@ export default function TicketModify() {
         noerror = false;
         setDescError(FORM_ERRORS.maxDescriptionLength);
       }
-      if (!formData.state && ticketData?.state == 1) {
-        noerror = false;
-        setStateError(FORM_ERRORS.InvalidState);
-      }
+      // if (!formData.state && ticketData?.state == 1) {
+      //   noerror = false;
+      //   setStateError(FORM_ERRORS.InvalidState);
+      // }
 
     return noerror;
   };
@@ -277,6 +279,7 @@ export default function TicketModify() {
                             value={resource}
                             fullWidth
                             autoFocus
+                            error={resourceError != "" ? true : false}
                             {...register('resource_name')}
                           >
                             {resources.map((resource) => (
@@ -296,6 +299,7 @@ export default function TicketModify() {
                             value={client}
                             fullWidth
                             autoFocus
+                            error={clientError != "" ? true : false}
                             {...register('client_id')}
                           >
                             {clients.map((client) => (

@@ -91,17 +91,15 @@ export default function CreateTicket() {
             nameError == '' &&
             descError == '' &&
             clientError == '' &&
-            productVersionError == '' &&
             priorityError == '' &&
             severityError == '' &&
-            resourceError == '' &&
+            // resourceError == '' &&
             formData.title &&
             formData.description &&
             formData.client_id &&
-            product_version &&
             formData.priority &&
-            formData.severity &&
-            formData.resource_name
+            formData.severity 
+            // formData.resource_name
             );
         };
         
@@ -109,19 +107,19 @@ export default function CreateTicket() {
             body["product_version_id"] = product_version;
         }
         
-    const handleFormSubmit = (formData: FieldValues) => {
-        modifybody(formData);
-        if (validateForm(formData)) {
-            console.log(formData);
-            createTicket(formData);
-            router.back();
+        const handleFormSubmit = (formData: FieldValues) => {
+            modifybody(formData);
+            if (validateForm(formData)) {
+                console.log(formData);
+                createTicket(formData);
+                router.back();
+            }
         }
-    }
-    
-    const handleCancel = () => {
-        console.log("entro al cancel")
-        router.back();
-    };
+        
+        const handleCancel = () => {
+            console.log("entro al cancel")
+            router.back();
+        };
     
     return (
         <>
@@ -206,6 +204,7 @@ export default function CreateTicket() {
                                                         autoFocus
                                                         {...register('client_id')}
                                                         onChange={handleChangeClient}
+                                                        error={clientError != "" ? true : false}
                                                     >
                                                         {clients.map((client) => (
                                                             <MenuItem key={client.id} value={client.id}>
