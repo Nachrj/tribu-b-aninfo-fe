@@ -55,7 +55,7 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
 
     if (!validateForm()) return;
 
-    console.log(formState);
+    //console.log(formState);
     onSubmit(formState);
     closeModal();
   }
@@ -64,6 +64,7 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
     <div className={styles.modal}>
       <form className={styles.formgroup}>
         <h2 className="text-2xl font-bold decoration-gray-200">Editar registro</h2>
+        <br />
         <b>Proyecto:</b>
         <div>{getProjectName(formState.proyecto)}</div>
         <b>Tarea:</b>

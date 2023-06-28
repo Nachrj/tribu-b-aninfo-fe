@@ -72,7 +72,7 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
 
     if (!validateForm()) return;
 
-    console.log(formState);
+    //console.log(formState);
     onSubmit(formState);
     closeModal();
   }

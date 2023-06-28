@@ -23,6 +23,7 @@ export default function TableResources({rows, projects, editRow, deleteRow}:any)
     }
     
     return <div className={styles.tablewrapper}>
+        <h2 className="text-2xl font-bold decoration-gray-100">Registro de Horas</h2>
         <table className={styles.table}>
             <thead>
                 <tr>

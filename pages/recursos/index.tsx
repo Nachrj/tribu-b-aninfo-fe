@@ -25,7 +25,7 @@ export default function Resources() {
     // ]);
 
     const [horas, setHoras] = useState([
-      {id: "", tareaId: "", fecha: "", horas: "", proyectoId: "", recursoId: ""}
+      {id: "", tarea: "", fecha: "", horas: "", proyecto: "", recurso: ""}
     ]);
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -63,19 +63,18 @@ export default function Resources() {
         return res.json()
       })
       .then((data) => {
-        console.log(data);
+        //console.log(data);
         formState.id = data.id;
       })
     }
 
     function editRegister(formState: any) {
     
-      // Send data to the backend via POST
-      fetch('https://cargahoras-squad12.onrender.com/horas/' + formState.id, {  // Enter your IP address here
+      fetch('https://cargahoras-squad12.onrender.com/horas/' + formState.id, {
   
         method: 'POST', 
         mode: 'cors', 
-        body: JSON.stringify(formState), // body data type must match "Content-Type" header
+        body: JSON.stringify(formState),
         headers: {
           "Content-Type": "application/json",
         },
@@ -85,8 +84,7 @@ export default function Resources() {
 
     function deleteRegister(id: any) {
     
-      // Send data to the backend via POST
-      fetch('https://cargahoras-squad12.onrender.com/horas/' + id, {  // Enter your IP address here
+      fetch('https://cargahoras-squad12.onrender.com/horas/' + id, {
   
         method: 'DELETE', 
         mode: 'cors',
@@ -120,7 +118,7 @@ export default function Resources() {
                 return res.json()
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 setHoras(data);
             })
     }, [])
@@ -132,7 +130,7 @@ export default function Resources() {
               return res.json()
           })
           .then((data) => {
-              console.log(data);
+              //console.log(data);
               setProjects(data);
           })
     }, [])
@@ -144,7 +142,7 @@ export default function Resources() {
             <br />
             <br />
             <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                    onClick={() => setModalOpen(true)}>Agregar registro</button>
+                    onClick={() => setModalOpen(true)}>+ Agregar registro</button>
 
             <TableResources
               rows={horas}
