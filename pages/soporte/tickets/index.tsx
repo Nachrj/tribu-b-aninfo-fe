@@ -51,7 +51,7 @@ export default function Tickets() {
     };
 
     // dado el una serie de tickets se invierte el orden para que a la hora de modificar o crear aparezca en primer lugar el ticket afectado
-    const reversedTickets = [...tickets].reverse();
+    // const reversedTickets = [...tickets].reverse();
 
     return (
         <div className="container max-w-7xl m-full mt-8">
@@ -91,7 +91,7 @@ export default function Tickets() {
                             </thead>
 
                             <tbody>
-                            {reversedTickets.map((ticket) => (
+                            {tickets.map((ticket) => (
                                 <TicketGridRow 
                                                 key={ticket.product_version_id}
                                                 ticket={ticket}
