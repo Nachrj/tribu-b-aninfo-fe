@@ -1,6 +1,6 @@
 // esto se deberia configurar con variables de entorno, pero fue
-export const SUPPORT_BASE_URL = "http://localhost:5001";
-// export const SUPPORT_BASE_URL = "https://psa-soporte.onrender.com";
+// export const SUPPORT_BASE_URL = "http://localhost:5001";
+export const SUPPORT_BASE_URL = "https://psa-soporte.onrender.com";
 
 type TicketOptionsInterface = {
     [key: number]: string
