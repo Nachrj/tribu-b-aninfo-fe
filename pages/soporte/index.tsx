@@ -1,12 +1,40 @@
-import Image from "next/image"
-import { Inter } from "next/font/google"
+import {useEffect, useState} from "react";
+import { Box, Button, Container } from "@mui/material";
+import { getProducts } from "@/requests/products";
+import { Product } from "@/utils/types";
+import HeaderItem from "@/components/headerItem";
+import ProductGridRow from "@/components/productGridRow";
 
-const inter = Inter({ subsets: ["latin"] })
+export default function Products() {
+    const [products, setProducts] = useState<Product[]>([])
 
-export default function Support() {
-  return (
-    <div className="flex h-full flex-col justify-center items-center bg-white">
-      <h1 className="text-4xl mb-5 font-bold">soporte</h1>
-    </div>
+    useEffect(() => {
+        getProducts(setProducts);
+    }, []);
+
+    return (
+      <Container component="main" sx={{ backgroundColor: 'white', color: 'black', mt: 4 }}>
+        <Box sx={{ mt: 4 }}>
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
+            <div className="text-4xl font-bold decoration-gray-400 w-fit text-black">Productos</div>
+          </Box>
+          <table className="min-w-full">
+            <thead>
+              <tr>
+                  <HeaderItem title="Name" />
+                  <HeaderItem title="Version" />
+              </tr>
+            </thead>
+
+            <tbody>
+                {
+                    products.map((product) => ( 
+                        <ProductGridRow key={product.id} product={product}/>
+                    ))
+                }
+            </tbody>
+          </table>
+        </Box>
+      </Container>
   )
 }
