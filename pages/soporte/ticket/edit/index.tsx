@@ -1,4 +1,4 @@
-import { Ticket } from "@/pages/types";
+import { Ticket } from "@/utils/types";
 import { useEffect, useState } from "react";
 import React from 'react';
 import { useRouter } from 'next/router';

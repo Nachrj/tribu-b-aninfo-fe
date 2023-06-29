@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SUPPORT_BASE_URL } from "@/constants/support";
-import { Client } from "@/pages/types";
+import { Client } from "@/utils/types";
 
 export function useClientData() {
   const [clients, setClients] = useState<Client[]>([]);

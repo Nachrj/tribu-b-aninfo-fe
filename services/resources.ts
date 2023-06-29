@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Resource } from "@/pages/types";
+import { Resource } from "@/utils/types";
 
 export function useResourceData() {
   const [resources, setResources] = useState<Resource[]>([]);

@@ -1,11 +1,10 @@
-import {Ticket} from "@/pages/types";
+import {Ticket} from "@/utils/types";
 import {useEffect, useState} from "react";
 import TicketGridRow from "@/components/ticketGridRow";
 import React from 'react';
 import { useRouter } from 'next/router';
 import HeaderItem from "@/components/headerItem";
 import GoBack from '@/components/backButton';
-import { useClientData } from "@/services/clients";
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
 import { getTickets } from "@/requests/tickets";
 import { deleteTicket } from "@/requests/ticket";

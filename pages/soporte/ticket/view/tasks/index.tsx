@@ -6,7 +6,7 @@ import GoBack from '@/components/backButton';
 import { getInfoTasks, getTicketTasks } from "@/requests/tasks";
 import { Button } from "@mui/material";
 import COLORS from "@/constants/colors";
-import { TicketTask } from "@/pages/types";
+import { TicketTask } from "@/utils/types";
 import { Task } from "@/utils/types";
 
 export default function Tasks() {

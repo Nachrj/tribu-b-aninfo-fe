@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 import COLORS from '@/constants/colors';
 import { InputLabel, MenuItem } from '@mui/material';
-import {Ticket} from "@/pages/types";
+import {Ticket} from "@/utils/types";
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SUPPORT_BASE_URL } from "@/constants/support";
-import { Product } from "@/pages/types";
+import { Product } from "@/utils/types";
 
 export function useProductsData() {
     const [products, setProducts] = useState<Product[]>([]);

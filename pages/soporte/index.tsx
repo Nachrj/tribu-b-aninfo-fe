@@ -1,10 +1,7 @@
 import {useEffect, useState} from "react";
-import Table from "@/components/table";
 import { Box, Button, Container } from "@mui/material";
-import COLORS from "@/constants/colors";
-import Typography from '@mui/material/Typography';
 import { getProducts } from "@/requests/products";
-import { Product } from "../types";
+import { Product } from "@/utils/types";
 import HeaderItem from "@/components/headerItem";
 import ProductGridRow from "@/components/productGridRow";
 
