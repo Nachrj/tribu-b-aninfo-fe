@@ -3,6 +3,8 @@ import TableResources from "@/components/tableResources";
 import ModalResources from "@/components/modalResources";
 import ModalResourcesEdit from "@/components/modalResourcesEdit";
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
+import { Button, Typography } from "@mui/material";
+import COLORS from "@/constants/colors";
 export default function Resources() {
 
     const recursoId = 3;
@@ -153,8 +155,20 @@ export default function Resources() {
             <h2 className="text-3xl font-bold decoration-gray-400">{recursoName}</h2>
             <br />
             <br />
-            <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                    onClick={() => setModalOpen(true)}>+ Agregar registro</button>
+            <div className="flex justify-between">
+              <Typography variant="h4" component="h4">
+                Registros de horas
+              </Typography>
+              <Button 
+                type="submit"
+                fullWidth
+                style={{backgroundColor: COLORS.button, height: '50px', marginRight: "2%"}}
+                variant="contained"
+                sx={{ mt: 3, mb: 2, width: '10%' }} 
+                onClick={() => setModalOpen(true)}>
+                Crear
+              </Button>
+            </div>
 
             <TableResources
               rows={horas}

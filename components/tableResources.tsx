@@ -50,13 +50,13 @@ export default function TableResources({rows, projects, editRow, deleteRow}:any)
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{row.fecha}</td>
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{row.horas}</td>
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                            <button onClick={() => deleteRow(idx)}>
-                                                <DeleteIcon></DeleteIcon>
+                                            <button onClick={() => editRow(idx)}>
+                                                <EditIcon></EditIcon>
                                             </button>
                                         </td>
                                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                            <button onClick={() => editRow(idx)}>
-                                                <EditIcon></EditIcon>
+                                            <button onClick={() => deleteRow(idx)}>
+                                                <DeleteIcon></DeleteIcon>
                                             </button>
                                         </td>
                                     </tr>
