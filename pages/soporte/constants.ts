@@ -1,8 +1,12 @@
 // esto se deberia configurar con variables de entorno, pero fue
-// export const SUPPORT_BASE_URL = "http://localhost:5001";
-export const SUPPORT_BASE_URL = "https://psa-soporte.onrender.com";
+export const SUPPORT_BASE_URL = "http://localhost:5001";
+// export const SUPPORT_BASE_URL = "https://psa-soporte.onrender.com";
 
-export const TICKET_STATE = {
+type TicketOptionsInterface = {
+    [key: number]: string
+}
+
+export const TICKET_STATE: TicketOptionsInterface = {
     1: "NEW",
     2: "OPEN",
     3: "IN PROGRES",
@@ -66,25 +70,3 @@ export const PRIORITY_OPTIONS = [
         label: "BAJA"
     }
 ];
-// export const TICKET_PRIORITY = [
-//     {
-//         key: 0,
-//         label: 'select priority'
-//     },
-//     {
-//         key: 1,
-//         label: 'ALTA'
-//     },
-//     {
-//         key: 2,
-//         label: "MEDIA"
-//     },
-//     {
-//         key: 3,
-//         label: "BAJA"
-//     },
-//     {
-//         key: 4,
-//         label: "4"
-//     }
-// ];

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -9,29 +8,22 @@ import Grid from '@mui/material/Grid';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import COLORS from '@/constants/colors';
-import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
+import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { InputLabel, MenuItem } from '@mui/material';
 import { createTicket } from '@/requests/ticket';
 import { useResourceData } from '@/services/resources';
 import { useClientData } from '@/services/clients';
-import { useProductsData } from '@/services/products';
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
-import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
-
-
+import { PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
 
 export default function CreateTicket() {
     const { register, handleSubmit } = useForm();
     const [nameError, setNameError] = useState("");
     const [descError, setDescError] = useState("");
     const [clientError, setClientError] = useState("");
-    const [productVersionError, setProductVersionError] = useState("");
     const [resource, setResource] = useState("");
     const [client, setClient] = useState("");
-    const [product, setProduct] = useState(0);
-    const [resourceError, setResourceError] = useState("");
-    const options = [1, 2, 3];
     const [priorityError, setPriorityError] = useState('');
     const [severityError, setSeverityError] = useState('');
     const [severity, setSeverity] = useState(0);
@@ -39,50 +31,41 @@ export default function CreateTicket() {
 
     const resources = useResourceData();
     const clients = useClientData();
-    const products = useProductsData();
 
     const router = useRouter();
     const { product_version, product_version_name, product_name } = router.query;
     
-    const handleChangePriority = (option) => {
+    const handleChangePriority = (option : any) => {
         setPriority(option);
         setPriorityError("");
     };
 
-    const handleChangeResource = (event) => {
+    const handleChangeResource = (event : any) => {
         setResource(event.target.value);
-        setResourceError("");
     };
     
-    const handleChangeProduct = (event) => {
-        setProduct(event.target.value);
-    };
-
-
-    const handleChangeClient = (event) => {
+    const handleChangeClient = (event : any) => {
         setClient(event.target.value);
     };
     
-    const handleChangeSeverity = (option) => {
+    const handleChangeSeverity = (option : any) => {
         setSeverity(option);
         setSeverityError("");
     };
     
     const validateForm = (formData: FieldValues) => {
-        setNameError(!formData.title ? FORM_ERRORS.noName : '');
-        setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
-        setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
-        setProductVersionError(!product_version ? FORM_ERRORS.noProductVersion : '');
-        setPriorityError(!formData.priority ? FORM_ERRORS.noPriority : '');
-        setSeverityError(!formData.severity ? FORM_ERRORS.noSeverity : '');
-        setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
+        setNameError(!formData.title ? FORMERRORS.noName : '');
+        setDescError(!formData.description ? FORMERRORS.noDescription : '');
+        setClientError(!formData.client_id ? FORMERRORS.noClient : '');
+        setPriorityError(!formData.priority ? FORMERRORS.noPriority : '');
+        setSeverityError(!formData.severity ? FORMERRORS.noSeverity : '');
         
         if (formData.title?.length > MAXLENGTHS.name) {
-            setNameError(FORM_ERRORS.maxNameLength);
+            setNameError(FORMERRORS.maxNameLength);
         }
         
         if (formData.description?.length > MAXLENGTHS.description) {
-            setDescError(FORM_ERRORS.maxDescriptionLength);
+            setDescError(FORMERRORS.maxDescriptionLength);
         }
 
         formData.product_version_id = Number(product_version);
@@ -93,17 +76,15 @@ export default function CreateTicket() {
             clientError == '' &&
             priorityError == '' &&
             severityError == '' &&
-            // resourceError == '' &&
             formData.title &&
             formData.description &&
             formData.client_id &&
             formData.priority &&
             formData.severity 
-            // formData.resource_name
             );
         };
         
-        const modifybody = (body) => {
+        const modifybody = (body : any) => {
             body["product_version_id"] = product_version;
         }
         
@@ -274,7 +255,6 @@ export default function CreateTicket() {
                                     </Box>
                                 </Box>
                             </Container>
-                        {/* </div> */}
                     </div>
                 </div>
             </div>

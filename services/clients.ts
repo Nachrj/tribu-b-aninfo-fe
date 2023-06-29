@@ -15,7 +15,7 @@ export function useClientData() {
       })
       .then((data) => {
         try {
-          const transformedData = data.map((item) => ({
+          const transformedData = data.map((item : any) => ({
             id: item.id,
             cuit: item.CUIT,
             social_reason: item["razon social"],

@@ -18,7 +18,6 @@ export default function Tickets() {
     const [deleteRow, setDeleteRow] = useState(false);
     const [ticketToDelete, setTicketToDelete] = useState(0);
 
-    const clients = useClientData();
     const router = useRouter();
     const { product_name, product_version, product_version_name } = router.query;
     
@@ -35,17 +34,17 @@ export default function Tickets() {
         router.push(`/soporte/ticket/create?product_version=${product_version}&product_version_name=${product_version_name}&product_name=${product_name}`);
     };
 
-    const handleDelete = (ticket_id) => {
+    const handleDelete = (ticketId : number) => {
         setDeleteRow(true);
-        setTicketToDelete(ticket_id);
+        setTicketToDelete(ticketId);
     };
 
     const handleClose = () => {
         setDeleteRow(false);
     }
 
-    const handleAccept = (ticket_id) => {
-        deleteTicket(ticket_id);
+    const handleAccept = (ticketId : number) => {
+        deleteTicket(ticketId);
         setDeleteRow(false);
         setRefresh(!refresh);
     };

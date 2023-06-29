@@ -7,13 +7,14 @@ import { getInfoTasks, getTicketTasks } from "@/requests/tasks";
 import { Button } from "@mui/material";
 import COLORS from "@/constants/colors";
 import { TicketTask } from "@/pages/types";
+import { Task } from "@/utils/types";
 
 export default function Tasks() {
 
     const router = useRouter();
     const {ticket_id, ticket_title} = router.query;
     const [ticketTasks, setTicketTasks] = useState<TicketTask>();
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
     useEffect(() => {
         if (router.isReady) {
             getTicketTasks(setTicketTasks, ticket_id);

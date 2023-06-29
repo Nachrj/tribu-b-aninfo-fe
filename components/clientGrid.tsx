@@ -1,5 +1,5 @@
 import { Client } from "@/pages/types";
-import HeaderItem from "./HeaderItem";
+import HeaderItem from "./headerItem";
 
 export default function ClientGrid({clients}: {clients: Client[]}) {
 

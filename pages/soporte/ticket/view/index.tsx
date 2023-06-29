@@ -11,13 +11,11 @@ import {Ticket} from "@/pages/types";
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
-import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS , TICKET_STATE} from "@/pages/soporte/constants";
+import { PRIORITY_OPTIONS, TICKET_STATE} from "@/pages/soporte/constants";
 import { useClientData } from '@/services/clients';
 
 export default function ViewTicket() {
     const [ticketData, setTicket] = useState<Ticket>();
-    // const [client, setClient] = useState<number>(0);
-    // setClient(ticketData?.client_id || 0);
 
     const client = useClientData();
 
@@ -35,8 +33,8 @@ export default function ViewTicket() {
     }, [router.isReady]);
 
     const selectedPriority = PRIORITY_OPTIONS.find(option => option.key === ticketData?.priority); 
-    const selectedState = TICKET_STATE[ticketData?.state];
-    const client_name = client.find((client) => client.id === ticketData?.client_id); 
+    const selectedState = TICKET_STATE[ticketData?.state!];
+    const clientName = client.find((client) => client.id === ticketData?.client_id); 
 
     return (
       <>
@@ -107,7 +105,7 @@ export default function ViewTicket() {
                                               id="client_id"
                                               autoFocus
                                               // value={ticketData?.client_id}
-                                              value={client_name  ? client_name.social_reason : ''}
+                                              value={clientName  ? clientName.social_reason : ''}
                                             />
                                        </Grid>
                                        

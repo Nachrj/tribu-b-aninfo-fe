@@ -6,7 +6,7 @@ import DeleteButton from './deleteButton';
 import EditButton from './editButton';
 import { useClientData } from '@/services/clients';
 
-export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
+export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket, onDelete(a: number): void}) {
 
   const router = useRouter();
 
@@ -16,12 +16,12 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
   const ticket_estado = ticket.state;
   const ticket_sla = ticket.SLA;
   const ticket_severidad = ticket.severity;
-  const handleEdit = (e) => { //ver que le vamos a pasar (si le pasamos algo)
+  const handleEdit = (e: any) => { 
     e.stopPropagation();
     router.push(`/soporte/ticket/edit?ticket_id=${ticket_id}&ticket_title=${ticket_titulo}&ticket_state=${ticket_estado}&ticket_sla=${ticket_sla}&ticket_severity=${ticket_severidad}`);
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = (e: any) => {
     e.stopPropagation();
     onDelete(ticket.id);
   }
@@ -34,7 +34,6 @@ export default function TicketGridRow({ticket, onDelete}: {ticket: Ticket}) {
   const handleClickRow = () => {
     router.push(`/soporte/ticket/view?ticket_id=${ticket_id}`);
   }
-
   return (
     <tr key={ticket.id} onClick={handleClickRow} className='cursor-pointer'>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

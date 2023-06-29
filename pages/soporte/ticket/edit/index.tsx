@@ -2,22 +2,19 @@ import { Ticket } from "@/pages/types";
 import { useEffect, useState } from "react";
 import React from 'react';
 import { useRouter } from 'next/router';
-import Input from "@/components/input";
-import DescriptionInput from "@/components/descriptionInput";
 import Select from '@mui/material/Select';
 import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
 import GoBack from '@/components/backButton';
 import PopUpError from "@/components/popUpError";
 import { editTicket, getTicket } from "@/requests/ticket";
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { FieldValues, useForm } from 'react-hook-form';
 import COLORS from '@/constants/colors';
-import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
+import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { InputLabel, MenuItem } from '@mui/material';
 import { useResourceData } from '@/services/resources';
 import { useClientData } from '@/services/clients';
@@ -70,17 +67,17 @@ export default function TicketModify() {
     setState(data.state);
   };
 
-  const handleChangePriority = (option) => {
+  const handleChangePriority = (option : any) => {
     setPriority(option);
     setPriorityError("");
   };
 
-  const handleChangeSeverity = (option) => {
+  const handleChangeSeverity = (option : any) => {
     setSeverity(option);
     setSeverityError("");
   };
 
-  const handleChangeState = (option) => {
+  const handleChangeState = (option : any) => {
     setState(option);
     setStateError("");
   };
@@ -88,15 +85,6 @@ export default function TicketModify() {
   const onBack = () => {
     router.back();
   };
-
-  const assertValues = (state) => {
-    let errors = [];
-
-    if (state === 1) {
-      errors.push("No se puede cambiar el estado a NEW.");
-    }
-    return errors;
-  }
 
   const handleClosePopUp = () => {
     setErrors([]);
@@ -115,10 +103,10 @@ export default function TicketModify() {
 
 
   // devuelve true si ambos datos son nulos
-  function allDataIsNull(data1, data2) {
-      if((!data1  && !data2)){
-        return true;
-      }
+  function allDataIsNull(data1 : any, data2 : any) {
+    if((!data1  && !data2)){
+      return true;
+    }
     return false;
   }
 
@@ -127,44 +115,38 @@ export default function TicketModify() {
     let noerror = true;
     
     if(allDataIsNull(formData.title, ticketData?.title)){
-      setNameError(!formData.title ? FORM_ERRORS.noName : '');
+      setNameError(!formData.title ? FORMERRORS.noName : '');
       noerror = false;
     }
     if(allDataIsNull(formData.description, ticketData?.description)){
-      setDescError(!formData.description ? FORM_ERRORS.noDescription : '');
+      setDescError(!formData.description ? FORMERRORS.noDescription : '');
       noerror = false;
     }
     if(allDataIsNull(formData.client_id, ticketData?.client_id)){
-      setClientError(!formData.client_id ? FORM_ERRORS.noClient : '');
+      setClientError(!formData.client_id ? FORMERRORS.noClient : '');
       noerror = false;
     }
     if(allDataIsNull(formData.resource_name, ticketData?.resource_name)){
       if((!formData.state && ticketData?.state !=1) || (formData.state && formData.state !=1)){	
-          setResourceError(!formData.resource_name ? FORM_ERRORS.noResource : '');
+          setResourceError(!formData.resource_name ? FORMERRORS.noResource : '');
           noerror = false;
       }
     }
-// -----------------------------------------
-// -----------------------------------------
 
     if (formData.title?.length > MAXLENGTHS.name) {
-        noerror = false;
-        setNameError(FORM_ERRORS.maxNameLength);
-      }
+      noerror = false;
+      setNameError(FORMERRORS.maxNameLength);
+    }
       
-      if (formData.description?.length > MAXLENGTHS.description) {
-        noerror = false;
-        setDescError(FORM_ERRORS.maxDescriptionLength);
-      }
-      // if (!formData.state && ticketData?.state == 1) {
-      //   noerror = false;
-      //   setStateError(FORM_ERRORS.InvalidState);
-      // }
+    if (formData.description?.length > MAXLENGTHS.description) {
+      noerror = false;
+      setDescError(FORMERRORS.maxDescriptionLength);
+    }
 
     return noerror;
   };
 
-  const modifybody = (body) => {
+  const modifybody = (body : any) => {
     body["ticket_id"] = ticketData?.id;
     body["product_version_id"] = ticketData?.product_version_id;
     
@@ -191,13 +173,13 @@ export default function TicketModify() {
     }
   }
 
-  const handleChangeResource = (option) => {
+  const handleChangeResource = (option : any) => {
     setResource(option);
     setResourceError("");
   };
 
 
-  const handleChangeClient = (option) => {
+  const handleChangeClient = (option : any) => {
     setClient(option);
     setClientError("");
   };

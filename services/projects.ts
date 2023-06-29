@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 
+interface Project {
+  id: number;
+  nombre: string;
+  estado: string;
+}
+
 export function useProjectsData() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     fetch("https://aninfo-backend-proyectos.onrender.com/projects")

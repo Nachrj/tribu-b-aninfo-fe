@@ -1,6 +1,6 @@
 import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 
-export const getTickets = (setTickets, body) => {
+export const getTickets = (setTickets : any, body : any) => {
 
     fetch(`${SUPPORT_BASE_URL}/v1/tickets`, {
         method: "POST",

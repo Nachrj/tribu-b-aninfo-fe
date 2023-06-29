@@ -1,8 +1,8 @@
 import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
 
-export const getTicketTasks = (setTasks, ticket_id) => {
+export const getTicketTasks = (setTasks : (a: any) => void, ticketId : any) => {
 
-    fetch(`${SUPPORT_BASE_URL}/v1/ticket/tasks?ticket_id=${ticket_id}`, {
+    fetch(`${SUPPORT_BASE_URL}/v1/ticket/tasks?ticket_id=${ticketId}`, {
         method: "GET",
     })
     .then(response => {
@@ -22,7 +22,7 @@ export const getTicketTasks = (setTasks, ticket_id) => {
     });
 }
 
-export const getInfoTasks = (setTasks, tasksIds) => {
+export const getInfoTasks = (setTasks : (a: any) => void, tasksIds : number[]) => {
     const ids = tasksIds.join(',');
     // url should be the constant of PROJECTS BASE URL
     const url = 'https://aninfo-backend-proyectos.onrender.com';

@@ -7,7 +7,7 @@ export interface Usuario {
 }
 
 export interface Client {
-  id: string
+  id: number
   social_reason: string
   cuit: number
 }
@@ -52,5 +52,9 @@ export interface ErrorInputProps {
 
 export interface TicketTask {
   ticket_id: number
-  task_ids: list.List
+  task_ids: number[]
+}
+
+export interface functionInterface {
+  (event: Event): void
 }

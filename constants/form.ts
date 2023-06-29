@@ -5,7 +5,7 @@ export const MAXLENGTHS = {
     name: MAXNAMELENGTH,
     description: MAXDESCRIPTIONLENGTH,
 }
-export const FORM_ERRORS = {
+export const FORMERRORS = {
     maxNameLength: `${MAXNAMELENGTH} caracteres máximo`,
     maxDescriptionLength: `${MAXDESCRIPTIONLENGTH} caracteres máximo`,
     noName: "Debe ingresar un título",

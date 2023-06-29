@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const PopUpError  = ({ title, items, show, onClick }) => {
+interface Props {
+    show: boolean;
+    items: string[];
+    title: string;
+    onClick: () => void;
+}
+  
+
+const PopUpError: FC<Props>  = ({ title, items, show, onClick }) => {
 
     if (!show) return null;
     return (

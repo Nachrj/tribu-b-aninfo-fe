@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
-const DescriptionInput = ({ label, value = '', modify = true, onChange }) => {
+type DescriptionInputProps = {
+  label: string;
+  value: string;
+  modify: boolean;
+  onChange: (a: string) => void;
+};
+
+
+const DescriptionInput: FC<DescriptionInputProps> = ({ label = '', value = '', modify = true, onChange }) => {
   const [inputValue, setInputValue] = useState(value);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
       setInputValue(event.target.value);
       onChange(event.target.value);
   };  

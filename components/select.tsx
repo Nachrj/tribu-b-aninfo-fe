@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
-const Select = ({label, options, value, onChange}) => {
+interface Props {
+  value: number;
+  options: any[];
+  label: string;
+  onChange: (a: any) => void;
+}
+
+const Select: FC<Props> = ({label, options, value, onChange}) => {
   
-  const [currentValue, setCurrentValue] = useState({value});
+  const [currentValue, setCurrentValue] = useState(value);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setCurrentValue(event.target.value);
     onChange(event.target.value);
   };

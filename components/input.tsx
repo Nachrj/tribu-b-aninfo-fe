@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
-const Input = ({ label, value = '' , modify = true, onChange}) => {
+type InputProps = {
+  label: string;
+  value: string;
+  modify: boolean;
+  onChange: (a: string) => void;
+};
+
+const Input: FC<InputProps> = ({ label, value = '' , modify = true, onChange}) => {
   const [inputValue, setInputValue] = useState('');
   
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     if(modify)
       setInputValue(event.target.value);
       onChange(event.target.value);

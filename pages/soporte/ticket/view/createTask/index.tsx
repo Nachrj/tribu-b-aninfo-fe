@@ -3,7 +3,7 @@ import { Container, Box, Button, TextField, Grid, Select, MenuItem, InputLabel }
 import { FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import COLORS from '@/constants/colors';
-import { MAXLENGTHS, FORM_ERRORS } from '@/constants/form';
+import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
 import { PROJECT_URL } from '@/pages/_app';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -28,14 +28,14 @@ export default function CreateTask() {
     const {ticket_id, ticket_title} = router.query;
 
     const validateForm = (formData: FieldValues) => {
-      setNameError(!formData.taskName ? FORM_ERRORS.noName : ' ');
-      setDescError(!formData.taskDescription ? FORM_ERRORS.noDescription : ' ');
+      setNameError(!formData.taskName ? FORMERRORS.noName : ' ');
+      setDescError(!formData.taskDescription ? FORMERRORS.noDescription : ' ');
       if (formData.taskName?.length > MAXLENGTHS.name) {
-        setNameError(FORM_ERRORS.maxNameLength);
+        setNameError(FORMERRORS.maxNameLength);
       }
 
       if (formData.taskDescription?.length > MAXLENGTHS.description) {
-        setDescError(FORM_ERRORS.maxDescriptionLength);
+        setDescError(FORMERRORS.maxDescriptionLength);
       }
 
       return (
@@ -77,7 +77,7 @@ export default function CreateTask() {
     const projects = useProjectsData();
     console.log(projects);
 
-    const handleChangeClient = (event) => {
+    const handleChangeClient = (event : any) => {
       setProject(event.target.value);
       setProjectError(" ");
     }

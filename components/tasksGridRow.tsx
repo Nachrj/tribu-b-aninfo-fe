@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Task } from '@/utils/types';
 
-export default function TasksGridRow({ task }) {
+interface Props {
+  task: Task
+}
+const TasksGridRow: FC<Props> = ({ task }) => {
   console.log(task);
   if (!task) return null;
   return (
@@ -23,3 +27,5 @@ export default function TasksGridRow({ task }) {
     </tr>
   );
 }
+
+export default TasksGridRow;

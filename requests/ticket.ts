@@ -1,9 +1,8 @@
 import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
-import { Ticket } from "@/pages/types";
 
-export const getTicket = (setTicket, ticket_id) => {
+export const getTicket = (setTicket : (a: any) => void, ticketId : any) => {
 
-    fetch(`${SUPPORT_BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
+    fetch(`${SUPPORT_BASE_URL}/v1/ticket?ticket_id=${ticketId}`, {
         method: "GET",
     })
     .then(response => {
@@ -25,8 +24,8 @@ export const getTicket = (setTicket, ticket_id) => {
     });
 }
 
-export const deleteTicket = (ticket_id) => {
-    fetch(`${SUPPORT_BASE_URL}/v1/ticket?ticket_id=${ticket_id}`, {
+export const deleteTicket = (ticketId : any) => {
+    fetch(`${SUPPORT_BASE_URL}/v1/ticket?ticket_id=${ticketId}`, {
         method: "DELETE",
     })
     .then(response => {
@@ -44,7 +43,7 @@ export const deleteTicket = (ticket_id) => {
     });
 }
 
-export const editTicket = (setTicket, body) => {
+export const editTicket = (setTicket : any, body : any) => {
     fetch(`${SUPPORT_BASE_URL}/v1/ticket`, {
         method: "PUT",
         headers: {
@@ -66,7 +65,7 @@ export const editTicket = (setTicket, body) => {
     });
 }
 
-export const createTicket = (body) => {
+export const createTicket = (body : any) => {
     fetch(`${SUPPORT_BASE_URL}/v1/ticket`, {
         method: "POST",
         headers: {
