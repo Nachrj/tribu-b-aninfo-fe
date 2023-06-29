@@ -1,4 +1,4 @@
-export default function UserGridRow({ usuario }) {
+export default function UserGridRow({ usuario }: any) {
   return (
     <tr key={`${usuario.Nombre}-${usuario.Apellido}`}>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

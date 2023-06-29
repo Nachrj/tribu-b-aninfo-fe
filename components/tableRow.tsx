@@ -1,7 +1,7 @@
     import { useRouter } from 'next/router'
 
     type TableRowProps<T> = {
-        item: T,
+        item: any,
         items: string[],
         linkTo?: string,
     }

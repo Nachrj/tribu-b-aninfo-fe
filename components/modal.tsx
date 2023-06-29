@@ -1,4 +1,3 @@
-import { Usuario } from "@/pages/types"
 import { ModalProps } from "./types"
 
 export default function Modal({ modalOpen, setModalOpen, list }: ModalProps) {

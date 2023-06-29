@@ -1,4 +1,4 @@
-export default function ClientGridRow({ cliente }) {
+export default function ClientGridRow({ cliente }: any) {
 
     return (
         <tr key={`${cliente['razon social']}`}>
