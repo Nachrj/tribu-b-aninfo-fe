@@ -15,10 +15,11 @@ export default function ProjectsTasks() {
     const [tasks, setTasks] = useState([])
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [taskIdToDelete, setTaskIdToDelete] = useState<number | undefined>(undefined);
+    const [localStorageId, setId] = useState<string | undefined>(undefined);
     const router = useRouter()
     const id = router.query.id
 
-    const getProject = () => {
+    const getProject = (id: string) => {
         fetch(`${PROJECT_URL}/projects/${id}`, {
             method: "GET",
             headers: {
@@ -35,7 +36,7 @@ export default function ProjectsTasks() {
         })
     }
 
-    const getTasks = () => {
+    const getTasks = (id: string | undefined) => {
         fetch(`${PROJECT_URL}/projects/${id}/tasks`, {
             method: "GET",
             headers: {
@@ -70,18 +71,20 @@ export default function ProjectsTasks() {
             console.log("res", res)
         })
         .then(() => {
-            getTasks()
+            getTasks(localStorageId)
         })
         setShowConfirmDelete(false);
         setTaskIdToDelete(undefined);
     };
 
     useEffect(() => {
-        if(id) {
-            getProject()
-            getTasks()
+        const storedId = localStorage.getItem('projectId');
+        if (storedId) {
+            setId(storedId);
+            getProject(storedId);
+            getTasks(storedId);
         }
-      }, [])
+    }, []);
   
 
     return (
