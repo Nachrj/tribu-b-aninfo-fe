@@ -7,10 +7,10 @@ type TicketOptionsInterface = {
 }
 
 export const TICKET_STATE: TicketOptionsInterface = {
-    1: "NEW",
-    2: "OPEN",
-    3: "IN PROGRES",
-    4: "CLOSED",
+    1: "NUEVO",
+    2: "ABIERTO",
+    3: "EN PROGRESO",
+    4: "CERRADO",
 };
 
 export const TICKET_PRIORITY = {
@@ -22,19 +22,19 @@ export const TICKET_PRIORITY = {
 export const STATES_OPTIONS = [
     {
         key: 1,
-        label: 'NEW'
+        label: 'NUEVO'
     },
     {
         key: 2,
-        label: "OPEN"
+        label: "ABIERTO"
     },
     {
         key: 3,
-        label: "IN PROGRESS"
+        label: "EN PROGRESO"
     },
     {
         key: 4,
-        label: "CLOSED"
+        label: "CERRADO"
     }
 ];
 

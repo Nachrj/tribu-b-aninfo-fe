@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
-import { Task } from '@/utils/types';
+import { Task, statusMap, prioritiesMap } from '@/utils/types';
 
 interface Props {
   task: Task
 }
+
+
 const TasksGridRow: FC<Props> = ({ task }) => {
   console.log(task);
   if (!task) return null;
@@ -17,11 +19,11 @@ const TasksGridRow: FC<Props> = ({ task }) => {
       </td>
 
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="text-sm leading-5 text-gray-900">{task['state']}</div>
+        <div className="text-sm leading-5 text-gray-900">{statusMap.get(task['state'])}</div>
       </td>
       
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        <div className="text-sm leading-5 text-gray-900">{task['priority']}</div>
+        <div className="text-sm leading-5 text-gray-900">{prioritiesMap.get(task['priority'])}</div>
       </td>
       
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
