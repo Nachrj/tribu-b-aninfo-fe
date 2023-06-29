@@ -34,7 +34,7 @@
     text-align: center;
 }
 
-.table tbody tr:hover {
+.tr:hover {
     background-color: #eee;
 }
 
