@@ -117,8 +117,8 @@ export default function ModalResources({proyectos, closeModal, onSubmit, default
         {errors && <div className={styles.error}>{`Debe ingresar: ${errors}.`}</div>}
       </form>
       <div className={styles.modalbuttons}>
-        <button type="submit" className={styles.btn_aceptar} onClick={handleSubmit}>Aceptar</button>
-        <button className={styles.btn_cancelar} onClick={closeModal}>Cancelar</button>
+        <button type="submit" className="mt-4 mx-2 px-4 py-2 bg-green-500 text-white rounded" onClick={handleSubmit}>Confirmar</button>
+        <button className="mt-4 mx-2 px-4 py-2 bg-red-500 text-white rounded" onClick={closeModal}>Cancelar</button>
       </div>
       {/* <div>Proyecto: {projectIdx}</div>
       <div>Tarea: {tareaIdx}</div> */}

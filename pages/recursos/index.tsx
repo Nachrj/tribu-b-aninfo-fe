@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import TableResources from "@/components/tableResources";
 import ModalResources from "@/components/modalResources";
 import ModalResourcesEdit from "@/components/modalResourcesEdit";
+import PopUpConfirmAction from "@/components/popUpConfirmAction";
 export default function Resources() {
 
     const recursoId = 3;
@@ -32,12 +33,23 @@ export default function Resources() {
 
     const [modalEditOpen, setModalEditOpen] = useState(false);
 
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
+    const [rowToDelete, setRowToDelete] = useState(null);
+
     const [rowToEdit, setRowToEdit] = useState(null);
 
     const handleDeleteRow = (targetIndex: any) => {
       let id = horas[targetIndex].id;
       setHoras(horas.filter((_, idx) => idx !== targetIndex))
       deleteRegister(id);
+      setShowConfirmDelete(false);
+      setRowToDelete(null);
+    }
+
+    const handleRowToDelete = (idx: any) => {
+      setRowToDelete(idx);
+      setShowConfirmDelete(true);
     }
 
     const handleEditRow = (idx: any) => {
@@ -148,7 +160,7 @@ export default function Resources() {
               rows={horas}
               projects={projects}
               editRow={handleEditRow}
-              deleteRow={handleDeleteRow}
+              deleteRow={handleRowToDelete}
             />
 
             {modalOpen && <ModalResources
@@ -166,7 +178,13 @@ export default function Resources() {
                             defaultValue={rowToEdit !== null && horas[rowToEdit]}
                           />
             }
-            {/* <div>{rowToEdit}</div> */}
+            <PopUpConfirmAction
+                    show={showConfirmDelete}
+                    title="Confirmar eliminación"
+                    message="¿Está seguro de que deseas eliminar este registro?"
+                    onClickAcept={() => handleDeleteRow(rowToDelete !== null && rowToDelete)}
+                    onClickClose={() => setShowConfirmDelete(false)}
+            />
         </>
     )
 }

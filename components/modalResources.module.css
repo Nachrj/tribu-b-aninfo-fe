@@ -20,6 +20,7 @@
 
 .modalbuttons {
     display: flex;
+    justify-content: space-around;
 }
 
 .btn_aceptar, .btn_cancelar {
