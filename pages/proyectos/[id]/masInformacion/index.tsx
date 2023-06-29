@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { Box, Container, Divider } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import { Project, Resource, statusMap } from '@/utils/types';
-import { PROJECT_URL } from '@/pages/_app';
 
 export default function MoreProjectInfo() {
     const [info, setInfo] = useState<Map<string, string>>(new Map<string, string>())
@@ -13,29 +12,50 @@ export default function MoreProjectInfo() {
     const project = typeof projectParam === 'string' ? JSON.parse(projectParam) as Project : null;
 
     useEffect(() => {
-        if (project) {
-          console.log('Use effect de recursos');
-          fetch("https://recursos-squad12.onrender.com/recursos", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
+      if(project) {
+        fetch(`https://cargahoras-squad12.onrender.com/horas/proyecto/${project.id}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              }, 
+            })
             .then((res) => res.json())
-            .then((data) => {
-              console.log("Got data from resources: ", data);
-              const leader = data.find((resource: Resource) => Number(resource.legajo) === project.leaderId);
-              setInfo(
-                new Map<string, string>([
-                  ['Líder de proyecto', `${leader!.Nombre} ${leader!.Apellido}`],
-                  ['Horas insumidas', `${consumedHours}`],
-                  ['Fecha de inicio', `${new Date(project.startDate).toLocaleDateString()}`],
-                  ['Fecha de finalización', `${new Date(project.endDate).toLocaleDateString()}`],
-                ])
-              );
+            .then((hours) => {
+                console.log("Got hours from project: ", hours);
+                setConsumedHours(hours);
             });
-        }
-      }, []);
+      }
+    }, [])
+
+    useEffect(() => {
+      if (project) {
+        fetch("https://recursos-squad12.onrender.com/recursos", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Got data from resources: ", data);
+            let leader = data.find((resource: Resource) => Number(resource.legajo) === project.leaderId);
+            if (leader) {
+              leader = `${leader.Nombre} ${leader.Apellido}`;
+            } else {
+              leader = "No hay líder asignado";
+            }
+            setInfo(
+              new Map([
+                ['Líder de proyecto', leader],
+                ['Horas insumidas', consumedHours.toString()],
+                ['Fecha de inicio', `${new Date(project.startDate).toLocaleDateString()}`],
+                ['Fecha de finalización', `${new Date(project.endDate).toLocaleDateString()}`],
+              ])
+            );
+          });
+      }
+    }, [consumedHours]);
+    
 
     if(!project) {
         return <div>Loading...</div>

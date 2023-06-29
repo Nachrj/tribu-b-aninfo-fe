@@ -8,8 +8,7 @@ export const PROJECT = {
     tasks: [],
     leaderId: 0,
     startDate: new Date(),
-    endDate: new Date(),
-    consumedHours: 0,
+    endDate: new Date()
 }
 
 export const TASK = {

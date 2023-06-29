@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { PROJECT_URL } from '@/pages/_app';
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
 import { statusMap } from "@/utils/types";
+import { get } from "http";
 
 export default function Projects() {
     const [projects, setProjects] = useState([])
@@ -13,22 +14,26 @@ export default function Projects() {
     const [projectIdToDelete, setProjectIdToDelete] = useState<number | undefined>(undefined);
 
     useEffect(() => {
-        fetch(`${PROJECT_URL}/projects`)
-            .then((res) => {
-                console.log("res", res)
-                return res.json()
-            })
-            .then((data) => {
-                console.log("Got projects: ", data)
-                setProjects(data.map((project: any) => {
-                    return {
-                        id: project.id,
-                        nombre: project.name,
-                        estado: statusMap.get(project.state),
-                    }
-                }))
-            })
+      getProjects()
     }, [])
+
+    const getProjects = () => {
+      fetch(`${PROJECT_URL}/projects`)
+        .then((res) => {
+          console.log("res", res)
+          return res.json()
+        })
+        .then((data) => {
+          console.log("Got projects: ", data)
+          setProjects(data.map((project: any) => {
+              return {
+                  id: project.id,
+                  nombre: project.name,
+                  estado: statusMap.get(project.state),
+              }
+          }))
+      })
+    }
 
     const handleDeleteConfirm = () => {
       fetch(`${PROJECT_URL}/projects/${projectIdToDelete}`, {
@@ -39,7 +44,7 @@ export default function Projects() {
       })
       .then((res) => {
           console.log("res", res)
-          // return res.json()
+          getProjects();
       })
       setShowConfirmDelete(false);
       setProjectIdToDelete(undefined);

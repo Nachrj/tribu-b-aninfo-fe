@@ -35,7 +35,6 @@ export type Project = {
     leaderId: number,
     startDate: Date,
     endDate: Date,
-    consumedHours: number,
     state: ProjectState,
 }
 
