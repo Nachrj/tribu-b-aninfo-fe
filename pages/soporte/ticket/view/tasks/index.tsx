@@ -39,7 +39,7 @@ export default function Tasks() {
             <div className="mb-4">
                 <GoBack/>
                 <div className="flex justify-between">
-                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tasks</h1>
+                    <h1 className="text-black text-3xl font-bold decoration-gray-400">Tareas</h1>
                     <Button 
                         style={{backgroundColor: COLORS.button, height: '50px'}}
                         variant="contained"
