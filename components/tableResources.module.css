@@ -1,0 +1,48 @@
+.tablewrapper {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.table {
+    
+    overflow: hidden;
+    table-layout: auto;
+    border-collapse: collapse;
+    box-shadow: 0px 10px 10px #ccc;
+    border-radius: 10px;
+    white-space: nowrap;
+    
+    width: 100%;
+    margin: auto;
+    overflow-x: auto;
+
+}
+
+.table thead {
+    background-color: #ccc;
+    color: #222;
+}
+
+.table th, .table td {
+    padding: 0.8rem;
+}
+
+.table td {
+    border-top: 0.5 px solid #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.tr:hover {
+    background-color: #eee;
+}
+
+.expand {
+    width: 100%;
+}
+
+.delete {
+    color: #e10d05;
+    margin-right: 1rem;
+}
