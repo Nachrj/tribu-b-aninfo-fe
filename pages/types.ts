@@ -1,5 +1,3 @@
-import { list } from "postcss"
-
 export interface Usuario {
   nombre: string
   apellido: string
@@ -53,8 +51,4 @@ export interface ErrorInputProps {
 export interface TicketTask {
   ticket_id: number
   task_ids: number[]
-}
-
-export interface functionInterface {
-  (event: Event): void
 }

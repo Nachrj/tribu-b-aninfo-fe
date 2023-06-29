@@ -11,7 +11,7 @@ import {Ticket} from "@/pages/types";
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
 import { getTicket } from "@/requests/ticket";
-import { PRIORITY_OPTIONS, TICKET_STATE} from "@/pages/soporte/constants";
+import { PRIORITY_OPTIONS, TICKET_STATE} from "@/constants/support";
 import { useClientData } from '@/services/clients';
 
 export default function ViewTicket() {

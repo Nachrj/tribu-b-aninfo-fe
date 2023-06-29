@@ -1,4 +1,4 @@
-import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/constants/support";
 
 export const getTicketTasks = (setTasks : (a: any) => void, ticketId : any) => {
 

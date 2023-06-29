@@ -1,4 +1,4 @@
-import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/constants/support";
 
 export const getProducts = (setProducts : any) => {
     fetch(`${SUPPORT_BASE_URL}/v1/products`)

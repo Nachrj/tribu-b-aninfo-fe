@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import React from 'react';
 import { useRouter } from 'next/router';
 import Select from '@mui/material/Select';
-import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
+import { STATES_OPTIONS, PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/constants/support";
 import GoBack from '@/components/backButton';
 import PopUpError from "@/components/popUpError";
 import { editTicket, getTicket } from "@/requests/ticket";

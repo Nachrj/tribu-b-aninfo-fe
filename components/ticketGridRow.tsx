@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Ticket } from '@/pages/types';
-import { TICKET_STATE } from '@/pages/soporte/constants';
+import { TICKET_STATE } from '@/constants/support';
 import DeleteButton from './deleteButton';
 import EditButton from './editButton';
 import { useClientData } from '@/services/clients';

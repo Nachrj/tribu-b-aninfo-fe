@@ -15,7 +15,7 @@ import { useResourceData } from '@/services/resources';
 import { useClientData } from '@/services/clients';
 import { useRouter } from 'next/router';
 import GoBack from '@/components/backButton';
-import { PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/pages/soporte/constants";
+import { PRIORITY_OPTIONS, SEVERITY_OPTIONS } from "@/constants/support";
 
 export default function CreateTicket() {
     const { register, handleSubmit } = useForm();

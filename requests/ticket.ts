@@ -1,4 +1,4 @@
-import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/constants/support";
 
 export const getTicket = (setTicket : (a: any) => void, ticketId : any) => {
 

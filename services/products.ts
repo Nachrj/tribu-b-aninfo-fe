@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SUPPORT_BASE_URL } from "@/pages/soporte/constants";
+import { SUPPORT_BASE_URL } from "@/constants/support";
 import { Product } from "@/pages/types";
 
 export function useProductsData() {
