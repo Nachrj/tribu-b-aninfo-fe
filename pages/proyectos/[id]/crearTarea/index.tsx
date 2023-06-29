@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Container, Typography, Box, Button, TextField, Grid, Select, MenuItem } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import COLORS from '@/constants/colors';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
 import { PROJECT_URL } from '@/pages/_app';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { prioritiesMap, statusMap } from '@/utils/types';
+import { Resource, prioritiesMap, statusMap } from '@/utils/types';
 
 export default function CreateTask() {
     const {register, handleSubmit} = useForm();
@@ -17,6 +17,8 @@ export default function CreateTask() {
     const [clientError, setClientError] = useState(" ");
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const [priority, setPriority] = useState<string | undefined>(" ");
+    const [selectedResourceId, setSelectedResourceId] = useState<string | undefined>(" ");
+    const [resources, setResources] = useState<Resource[]>([]);
     const [state, setState] = useState<string | undefined>(" ");
 
     const router = useRouter()
@@ -67,6 +69,23 @@ export default function CreateTask() {
       })
       }
     }
+
+    useEffect(() => {
+      fetch("https://recursos-squad12.onrender.com/recursos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+          .then((res) => {
+              console.log("res", res)
+              return res.json()
+          })
+          .then((data) => {
+              console.log("Got data from resources: ", data)
+              setResources(data)
+          })
+    }, [])
 
     return (
         <Container component="main">
@@ -145,7 +164,7 @@ export default function CreateTask() {
                     ))}
                     </TextField>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                 <LocalizationProvider 
                   dateAdapter={AdapterDateFns}>
                   <DatePicker
@@ -157,7 +176,29 @@ export default function CreateTask() {
                     }}
                   />
                 </LocalizationProvider>
-              </Grid>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField 
+                      fullWidth
+                      id="recurso"
+                      label="Recurso"
+                      autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      select
+                      value={selectedResourceId}
+                      onChange={(event: any) => {
+                        setSelectedResourceId(event.target.value);
+                      }}
+                    >
+                      {resources.map((resource) => (
+                      <MenuItem key={resource.legajo} value={resource.legajo}>
+                        {resource.Nombre} {resource.Apellido}
+                      </MenuItem>
+                    ))}
+                    </TextField>
+                </Grid>
               </Grid>
               <Button 
                 type="submit"

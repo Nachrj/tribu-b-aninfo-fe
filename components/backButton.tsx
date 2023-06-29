@@ -9,7 +9,7 @@ const GoBackIcon = () => {
   }; 
   return (
     <button style={{ backgroundColor: "purple"}} className="flex items-center text-white bg-black px-4 py-2 rounded cursor-pointer" onClick={onClickBackArrorw} >
-      <MdOutlineArrowBackIos className="w-full text-2xl" />
+      <MdOutlineArrowBackIos className="w-full text-xl" />
     </button>
   );
 };

@@ -8,16 +8,18 @@ import { prioritiesMap, statusMap } from '@/utils/types';
 import { PROJECT } from '@/utils/dump';
 import { PROJECT_URL } from '@/pages/_app';
 import PopUpConfirmAction from '@/components/popUpConfirmAction';
+import GoBackIcon from '@/components/backButton';
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
     const [tasks, setTasks] = useState([])
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const [taskIdToDelete, setTaskIdToDelete] = useState<number | undefined>(undefined);
+    const [localStorageId, setId] = useState<string | undefined>(undefined);
     const router = useRouter()
     const id = router.query.id
 
-    const getProject = () => {
+    const getProject = (id: string) => {
         fetch(`${PROJECT_URL}/projects/${id}`, {
             method: "GET",
             headers: {
@@ -34,7 +36,7 @@ export default function ProjectsTasks() {
         })
     }
 
-    const getTasks = () => {
+    const getTasks = (id: string | undefined) => {
         fetch(`${PROJECT_URL}/projects/${id}/tasks`, {
             method: "GET",
             headers: {
@@ -69,23 +71,26 @@ export default function ProjectsTasks() {
             console.log("res", res)
         })
         .then(() => {
-            getTasks()
+            getTasks(localStorageId)
         })
         setShowConfirmDelete(false);
         setTaskIdToDelete(undefined);
     };
 
     useEffect(() => {
-        if(id) {
-            getProject()
-            getTasks()
+        const storedId = localStorage.getItem('projectId');
+        if (storedId) {
+            setId(storedId);
+            getProject(storedId);
+            getTasks(storedId);
         }
-      }, [])
+    }, []);
   
 
     return (
         <Container component="main">
             <Box sx={{ mt: 4 }}>
+                <GoBackIcon/>
                 <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
                     <Typography variant="h3" component="h1">
                     {project.name}

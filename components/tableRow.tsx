@@ -12,8 +12,14 @@ type TableRowProps = {
     onDelete?: (itemId: number) => void,
 }
 
+
 export default function TableRow({ item, items, linkTo, onEdit, onDelete }: TableRowProps) {
     const router = useRouter()
+
+    const handleClick = () => {
+        localStorage.setItem('projectId', item.id.toString());
+        router.push(`${linkTo}/${item["id"]}`)
+    }
 
     // item is the current row you're mapping, items is the list of columns so it can be generic.
     return (
@@ -23,7 +29,7 @@ export default function TableRow({ item, items, linkTo, onEdit, onDelete }: Tabl
                     <td key={index} className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <div className="flex items-center">
                             { linkTo ? (
-                            <Button onClick={() => router.push(`${linkTo}/${item["id"]}`)} color='secondary' style={{textTransform: 'none'}}>
+                            <Button onClick={() => handleClick()} color='secondary' style={{textTransform: 'none'}}>
                                 {item[column]}
                             </Button>
                             ) : (item[column])}

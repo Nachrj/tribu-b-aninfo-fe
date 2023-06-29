@@ -1,51 +1,79 @@
 import * as React from 'react';
-import { Container, Typography, Box, Button, TextField, Grid } from '@mui/material';
+import { Container, Typography, Box, Button, TextField, Grid, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import COLORS from '@/constants/colors';
 import { MAXLENGTHS, FORMERRORS } from '@/constants/form';
 import { useRouter } from 'next/router'
 import { PROJECT } from '@/utils/dump';
-import { Project } from '@/utils/types';
+import { Project, Resource, statusMap } from '@/utils/types';
 import { PROJECT_URL } from '@/pages/_app';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 export default function CreateTask() {
-    const {register, handleSubmit} = useForm();
+    const {register, handleSubmit, reset} = useForm();
     const [nameError, setNameError] = useState(" ");
     const [descError, setDescError] = useState(" ");
-    const [hoursError, setHoursError] = useState(" ");
     const [currentProject, setCurrentProject] = useState<Project>(PROJECT);
+    const [resources, setResources] = useState<Resource[]>([]);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const [selectedResourceId, setSelectedResourceId] = useState<string | undefined>(" ");
+    const [state, setState] = useState<string | undefined>(" ");
     const router = useRouter()
     const id = router.query.id
 
-    const getProject = () => {
-        fetch(`${PROJECT_URL}/projects/${id}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+    useEffect(() => {
+      fetch("https://recursos-squad12.onrender.com/recursos", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+          .then((res) => {
+              console.log("res", res)
+              return res.json()
           })
-              .then((res) => {
-                  console.log("res", res)
-                  return res.json()
-              })
-              .then((data) => {
-                  console.log("Got data from projects id: ", data)
-                  setCurrentProject(data)
-              })
-    }
+          .then((data) => {
+              console.log("Got data from resources: ", data)
+              setResources(data)
+          })
+    }, [])
 
     useEffect(() => {
-        if(id) {
-            getProject()
-        }
-      }, [id])
+      fetch(`${PROJECT_URL}/projects/${id}`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+          console.log("res", res)
+          return res.json()
+      })
+      .then((project) => {
+          console.log("Got project: ", project)
+          if (project) {
+            setCurrentProject(project)
+            reset({
+              projectName: project.name,
+              projectDescription: project.description,
+              projectLeader: project.leaderId,
+              projectState: project.state,
+              projectEndDate: project.endDate,
+
+            })
+            setSelectedDate(project.endDate)
+            setState(project.state)
+            setSelectedResourceId(project.leaderId);
+          }
+      })
+    }, [resources])
 
     const validateForm = (formData: FieldValues) => {
       console.log('formData: ', formData)
       setNameError(!formData.projectName ? FORMERRORS.noName : ' ');
       setDescError(!formData.projectDesc ? FORMERRORS.noDescription : ' ');
-      setHoursError(!formData.projectHours ? FORMERRORS.noHours : ' ');
 
       console.log('nameError: ', nameError)
       console.log('descError: ', descError)
@@ -60,20 +88,14 @@ export default function CreateTask() {
       return (
         nameError == ' ' &&
         descError == ' ' &&
-        hoursError == ' ' &&
         formData.projectName &&
-        formData.projectDescription &&
-        formData.projectHours
+        formData.projectDescription
         );
     };
     
     const handleFormSubmit = (formData: FieldValues) => {
         if (validateForm(formData)) { 
-          const { name, description, consumedHours, ...rest} = currentProject
-          console.log('current Project name', name)
-          console.log('current Project description', description)
-          console.log('current consumedHours', consumedHours)
-          console.log('res: ', rest)
+          console.log('Project updated: ', formData)
           fetch(`${PROJECT_URL}/projects/${id}`, {
             method: 'PUT',
             headers: {
@@ -82,20 +104,21 @@ export default function CreateTask() {
             body: JSON.stringify({
               name: formData.projectName,
               description: formData.projectDescription,
-              consumedHours: formData.projectHours,
-              ...rest,
+              endDate: selectedDate,
+              startDate: currentProject.startDate,
+              leaderId: selectedResourceId,
+              state: state,
             })
           })
           .then((res) => {
             console.log("res", res)
-            return res.json()
           })
-          .then((data) => {
-            console.log("Project edited: ", data)
+          .then(() => {
+            console.log("Project edited!")
             router.push(`../${id}`)
           })
         }
-      }
+    }
 
     return (
         <Container component="main">
@@ -120,6 +143,9 @@ export default function CreateTask() {
                         id="projectName"
                         label="Nombre"
                         autoFocus
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         defaultValue={currentProject.name}
                         {...register('projectName')}
                     />
@@ -131,23 +157,73 @@ export default function CreateTask() {
                         id="projectDescription"
                         label="Descripción"
                         autoFocus
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                         multiline
                         rows={4}
                         helperText={descError}
                         {...register('projectDescription')}
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        error={hoursError && hoursError != " " ? true : false}
-                        fullWidth
-                        id="projectHours"
-                        label="Horas insumidas"
-                        autoFocus
-                        type="number"
-                        helperText={hoursError}
-                        {...register('projectHours')}
+                <Grid item xs={6}>
+                  <TextField 
+                      fullWidth
+                      id="recurso"
+                      label="Recurso"
+                      autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      select
+                      value={selectedResourceId}
+                      onChange={(event: any) => {
+                        setSelectedResourceId(event.target.value);
+                      }}
+                    >
+                      {resources.map((resource) => (
+                      <MenuItem key={resource.legajo} value={resource.legajo}>
+                        {resource.Nombre} {resource.Apellido}
+                      </MenuItem>
+                    ))}
+                    </TextField>
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider 
+                    dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="Finalización"
+                      sx={{ width: '100%'}}
+                      value={selectedDate}
+                      onChange={(newValue: any) => {
+                        setSelectedDate(newValue);
+                        console.log('selected end date: ', newValue)
+                      }}
                     />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField 
+                      fullWidth
+                      id="state"
+                      label="Estado"
+                      autoFocus
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      select
+                      value={state}
+                      onChange={(event: any) => {
+                        setState(event.target.value);
+                        console.log('state: ', event.target.value)
+                      }}
+                    >
+                      {Array.from(statusMap.entries()).map(([key, value]) => (
+                      <MenuItem key={key} value={key}>
+                        {value}
+                      </MenuItem>
+                    ))}
+                    </TextField>
                 </Grid>
               </Grid>
               <Button 
@@ -173,3 +249,4 @@ export default function CreateTask() {
         </Container>
     )
 }
+
