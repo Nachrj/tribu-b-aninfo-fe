@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Box, Container, Divider } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import { Project, Resource, statusMap } from '@/utils/types';
+import GoBackIcon from '@/components/backButton';
 
 export default function MoreProjectInfo() {
     const [info, setInfo] = useState<Map<string, string>>(new Map<string, string>())
@@ -64,6 +65,7 @@ export default function MoreProjectInfo() {
     return (
         <Container component="main" sx={{flex: 1, height: '100%'}}>
             <Box sx={{ mt: 4, flex: 0.3 }}>
+                <GoBackIcon/>
                 <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
                     <Typography variant="h3" component="h1">
                     {project!.name}
@@ -77,7 +79,6 @@ export default function MoreProjectInfo() {
                     {project!.description}
                 </Typography>
             </Box>
-            
             <Box sx={{flex: 0.7, height: '80%', flexDirection: 'column', display: 'flex', alignItems: 'center', width: '70%', marginTop: '50px'}}>
                 {Array.from(info.entries()).map(([key, value]) => {
                     return (

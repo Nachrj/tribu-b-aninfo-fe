@@ -8,6 +8,7 @@ import { prioritiesMap, statusMap } from '@/utils/types';
 import { PROJECT } from '@/utils/dump';
 import { PROJECT_URL } from '@/pages/_app';
 import PopUpConfirmAction from '@/components/popUpConfirmAction';
+import GoBackIcon from '@/components/backButton';
 
 export default function ProjectsTasks() {
     const [project, setProject] = useState(PROJECT)
@@ -86,6 +87,7 @@ export default function ProjectsTasks() {
     return (
         <Container component="main">
             <Box sx={{ mt: 4 }}>
+                <GoBackIcon/>
                 <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}>
                     <Typography variant="h3" component="h1">
                     {project.name}

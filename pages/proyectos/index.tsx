@@ -7,6 +7,7 @@ import { PROJECT_URL } from '@/pages/_app';
 import PopUpConfirmAction from "@/components/popUpConfirmAction";
 import { statusMap } from "@/utils/types";
 import { get } from "http";
+import GoBackIcon from "@/components/backButton";
 
 export default function Projects() {
     const [projects, setProjects] = useState([])
