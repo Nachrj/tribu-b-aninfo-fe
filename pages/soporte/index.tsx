@@ -21,8 +21,8 @@ export default function Products() {
           <table className="min-w-full">
             <thead>
               <tr>
-                  <HeaderItem title="Name" />
-                  <HeaderItem title="Version" />
+                  <HeaderItem title="Nombre" />
+                  <HeaderItem title="Versión" />
               </tr>
             </thead>
 
