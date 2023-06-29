@@ -10,6 +10,9 @@ const TasksGridRow: FC<Props> = ({ task }) => {
   return (
     <tr key={`${task['id']}`} className='cursor-pointer'>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+        <div className="flex items-center">{task['id']}</div>
+      </td>
+      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex items-center">{task['name']}</div>
       </td>
 

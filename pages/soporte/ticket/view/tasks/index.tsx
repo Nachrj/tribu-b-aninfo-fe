@@ -60,6 +60,7 @@ export default function Tasks() {
                         <table className="min-w-full">
                             <thead>
                             <tr>
+                                <HeaderItem title="ID" />
                                 <HeaderItem title="Nombre" />
                                 <HeaderItem title="Estado" />
                                 <HeaderItem title="Prioridad" />
